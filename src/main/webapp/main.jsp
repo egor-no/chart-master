@@ -20,5 +20,23 @@
     </tr>
 </c:forEach>
 </table>
+
+<hr>
+<hr>
+<hr>
+
+<table>
+    <c:forEach items="${positions}" var="position">
+        <tr>
+            <td>${position.pk.chart.id}</td>
+            <td>${position.pk.chart.date}</td>
+            <td>${position.position}</td>
+            <td>${position.lastWeek}</td>
+            <td>${position.pk.song.name}</td>
+            <td>${position.pk.song.artists}</td>
+        </tr>
+    </c:forEach>
+</table>
+
 </body>
 </html>

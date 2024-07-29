@@ -1,6 +1,8 @@
 package com.chart.TopChart;
 
+import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
+import com.chart.TopChart.data.model.Position;
 import com.chart.TopChart.data.model.Song;
 
 import javax.servlet.ServletException;
@@ -18,8 +20,10 @@ public class MainServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Song> songs = SongDAOImpl.getAll();
+        List<Position> positions = PositionDAOImpl.getAll();
 
         request.setAttribute("songs", songs);
+        request.setAttribute("positions", positions);
         request.getRequestDispatcher("main.jsp").forward(request, response);
         response.flushBuffer();
     }

@@ -17,8 +17,8 @@
         <property name="hibernate.dbcp.maxIdle">10</property>
         <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
         <mapping class="com.chart.TopChart.data.model.Song" />
-<!--        <mapping class="app.models.Role" />-->
-<!--        <mapping class="app.models.DirectorySmena" />-->
-<!--        <mapping class="app.models.DirectorySmenaTime" />-->
+        <mapping class="com.chart.TopChart.data.model.Chart" />
+        <mapping class="com.chart.TopChart.data.model.Position" />
+
     </session-factory>
 </hibernate-configuration>
