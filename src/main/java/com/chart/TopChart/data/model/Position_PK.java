@@ -6,11 +6,11 @@ import java.io.Serializable;
 @Embeddable
 public class Position_PK implements Serializable {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Chart")
     private Chart chart;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idSong")
     private Song song;
 

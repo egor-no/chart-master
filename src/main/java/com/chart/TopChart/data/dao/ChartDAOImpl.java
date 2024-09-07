@@ -31,8 +31,9 @@ public class ChartDAOImpl {
     public static Chart getById(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Chart " +
-                "WHERE id = :id");
+        Query query = session.createQuery("FROM Chart c " +
+                "LEFT JOIN FETCH c.positions " +
+                "WHERE c.id = :id");
         query.setInteger("id", id);
         Chart result = (Chart) query.uniqueResult();
         session.getTransaction().commit();

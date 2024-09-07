@@ -1,6 +1,7 @@
 package com.chart.TopChart.data.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="song")
@@ -22,15 +23,19 @@ public class Song {
     @Column(name="Name")
     private String name;
 
+    @OneToMany(mappedBy = "pk.song", cascade = CascadeType.ALL)
+    private List<Position> positions;
+
     public Song() {
     }
 
-    public Song(int id, int weeks, int peak, String artists, String name) {
+    public Song(int id, int weeks, int peak, String artists, String name, List<Position> positions) {
         this.id = id;
         this.weeks = weeks;
         this.peak = peak;
         this.artists = artists;
         this.name = name;
+        this.positions = positions;
     }
 
     public int getId() {
@@ -71,6 +76,14 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
     }
 
     @Override

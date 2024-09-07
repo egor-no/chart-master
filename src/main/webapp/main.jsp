@@ -6,30 +6,13 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "TOP 40!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Here will be chart</a>
+<h1>TOP 40!</h1>
+<br/> CAHRT: ${chart.date}
 <table>
-<c:forEach items="${songs}" var="song">
-    <tr>
-        <td>${song.name}</td>
-        <td>${song.artists}</td>
-        <td>${song.peak}</td>
-        <td>${song.weeks}</td>
-    </tr>
-</c:forEach>
-</table>
-
-<hr>
-<hr>
-<hr>
-
-<table>
-    <c:forEach items="${positions}" var="position">
+    <c:forEach items="${chart.positions}" var="position">
         <tr>
-            <td>${position.pk.chart.id}</td>
-            <td>${position.pk.chart.date}</td>
+            <td>${chart.id}</td>
+            <td>${chart.date}</td>
             <td>${position.position}</td>
             <td>${position.lastWeek}</td>
             <td>${position.pk.song.name}</td>

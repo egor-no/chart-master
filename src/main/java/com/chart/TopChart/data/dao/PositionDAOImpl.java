@@ -22,26 +22,11 @@ public class PositionDAOImpl {
         session.beginTransaction();
         Query query = session.createQuery("FROM Position p " +
                 "LEFT JOIN FETCH p.pk.chart  " +
-                "LEFT JOIN FETCH p.pk.song  " +
-                "ORDER BY p.id ");
+                "LEFT JOIN FETCH p.pk.song");
         List<Position> list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
-    }
-
-    public static Position getById(int id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("FROM Position p " +
-                "LEFT JOIN FETCH p.pk.chart  " +
-                "LEFT JOIN FETCH p.pk.song  " +
-                "WHERE p.id = :id");
-        query.setInteger("id", id);
-        Position result = (Position) query.uniqueResult();
-        session.getTransaction().commit();
-        session.close();
-        return result;
     }
 
     public static void update(Position result) {

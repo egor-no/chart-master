@@ -32,8 +32,9 @@ public class SongDAOImpl {
     public static Song getById(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Song " +
-                "WHERE id = :id");
+        Query query = session.createQuery("FROM Song s " +
+                "LEFT JOIN FETCH s.positions " +
+                "WHERE s.id = :id");
         query.setInteger("id", id);
         Song result = (Song) query.uniqueResult();
         session.getTransaction().commit();
