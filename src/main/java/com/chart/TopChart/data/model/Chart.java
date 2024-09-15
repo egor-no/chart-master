@@ -9,7 +9,7 @@ public class Chart {
 
     @Id
     @Column(name="idChart")
-    private int id;
+    private long id;
 
     @Column(name="Date")
     private String date;
@@ -20,17 +20,17 @@ public class Chart {
     public Chart() {
     }
 
-    public Chart(int id, String date, List<Position> positions) {
+    public Chart(long id, String date, List<Position> positions) {
         this.id = id;
         this.date = date;
         this.positions = positions;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

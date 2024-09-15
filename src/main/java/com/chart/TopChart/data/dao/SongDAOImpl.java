@@ -10,12 +10,13 @@ import java.util.List;
 
 public class SongDAOImpl {
 
-    public static void save(Song result) {
+    public static long save(Song result) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(result);
+        long id = (Long) session.save(result);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     public static List<Song> getAll() {

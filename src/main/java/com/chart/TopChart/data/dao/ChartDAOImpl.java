@@ -9,12 +9,13 @@ import java.util.List;
 
 public class ChartDAOImpl {
 
-    public static void save(Chart result) {
+    public static long save(Chart result) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(result);
+        long id = (Long)session.save(result);
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     public static List<Chart> getAll() {
@@ -28,14 +29,25 @@ public class ChartDAOImpl {
         return list;
     }
 
-    public static Chart getById(int id) {
+    public static Chart getById(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Chart c " +
                 "LEFT JOIN FETCH c.positions " +
                 "WHERE c.id = :id");
-        query.setInteger("id", id);
+        query.setLong("id", id);
         Chart result = (Chart) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    public static long getLastId() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT MAX(id) " +
+                "FROM Chart c ");
+        long result = (Long)query.uniqueResult();
         session.getTransaction().commit();
         session.close();
         return result;
@@ -49,12 +61,12 @@ public class ChartDAOImpl {
         session.close();
     }
 
-    public static void delete(int id){
+    public static void delete(long id){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query=session.createQuery("FROM Chart " +
                 "WHERE id = :id");
-        query.setInteger("id",id);
+        query.setLong("id",id);
         Chart result = (Chart) query.uniqueResult();
         session.delete(result);
         session.getTransaction().commit();

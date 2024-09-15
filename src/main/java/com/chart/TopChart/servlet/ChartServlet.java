@@ -16,11 +16,18 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "chart", value = "/")
-public class Positions extends HttpServlet {
+public class ChartServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Chart chart = ChartDAOImpl.getById(1);
+        Chart chart;
+        String chartNumberStr = request.getParameter("chart");
+        try {
+            long chartNumber = Long.parseLong(chartNumberStr);
+            chart = ChartDAOImpl.getById(chartNumber);
+        } catch (Exception ex) {
+            chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
+        }
 
         request.setAttribute("chart", chart);
         request.getRequestDispatcher("main.jsp").forward(request, response);

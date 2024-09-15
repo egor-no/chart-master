@@ -9,7 +9,7 @@ public class Song {
 
     @Id
     @Column(name="idSong")
-    private int id;
+    private long id;
 
     @Column(name="Weeks")
     private int weeks;
@@ -29,7 +29,7 @@ public class Song {
     public Song() {
     }
 
-    public Song(int id, int weeks, int peak, String artists, String name, List<Position> positions) {
+    public Song(long id, int weeks, int peak, String artists, String name, List<Position> positions) {
         this.id = id;
         this.weeks = weeks;
         this.peak = peak;
@@ -38,11 +38,11 @@ public class Song {
         this.positions = positions;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
