@@ -6,6 +6,7 @@ import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.data.model.Position;
 import com.chart.TopChart.data.model.Song;
+import com.chart.TopChart.service.PositionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +31,7 @@ public class ChartServlet extends HttpServlet {
         }
 
         request.setAttribute("chart", chart);
+        request.setAttribute("woc", PositionService.getWOCforChart(chart));
         request.getRequestDispatcher("main.jsp").forward(request, response);
         response.flushBuffer();
     }

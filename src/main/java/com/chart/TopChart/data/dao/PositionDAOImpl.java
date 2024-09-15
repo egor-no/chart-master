@@ -29,6 +29,21 @@ public class PositionDAOImpl {
         return list;
     }
 
+    public static long getWocByChart(long idChart, long idSong) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT COUNT(*) " +
+                "FROM Position p " +
+                "WHERE p.pk.chart.id <= :idChart " +
+                "AND p.pk.song.id = :idSong");
+        query.setParameter("idSong", idSong);
+        query.setParameter("idChart", idChart);
+        long result = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
     public static void update(Position result) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

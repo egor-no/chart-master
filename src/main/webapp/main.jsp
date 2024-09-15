@@ -16,14 +16,17 @@
                     mov = parseInt(lw) - parseInt(pos);
                     if (mov == 0) {
                         mov = '=';
+                    } else if (mov > 0) {
+                        mov = '+' + mov;
                     }
                 } else {
-                    mov = '';
-                    // if (parseInt(woc) > 1) {
-                    //     mov = 'RE';
-                    // } else {
-                    //     mov = 'NEW';
-                    // }
+                    if (parseInt(woc) > 1) {
+                        mov = 're';
+                        $(this).find('[name="mov"]').css('color', 'orange');
+                    } else {
+                        mov = 'new';
+                        $(this).find('[name="mov"]').css('color', 'red');
+                    }
                 }
                 $(this).find('[name="mov"]').text(mov);
             });
@@ -50,12 +53,12 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${chart.positions}" var="position">
+        <c:forEach items="${chart.positions}" var="position" varStatus="status">
             <tr>
                 <td name="pos" style="text-align: center">${position.position}</td>
                 <td name="lw" style="display:none;">${position.lastWeek}</td>
                 <td name="mov" style="text-align: center"></td>
-                <td name="woc" style="text-align: center">${position.pk.song.weeks}</td>
+                <td name="woc" style="text-align: center">${woc[status.index]}</td>
                 <td style="text-align: right">${position.pk.song.artists}</td>
                 <td style="text-align: center"> - </td>
                 <td>${position.pk.song.name}</td>
