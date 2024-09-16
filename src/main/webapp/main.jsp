@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <html>
 <head>
     <title>JSP - Hello World</title>
@@ -42,7 +43,8 @@
 <table id="chart-table">
     <thead>
         <tr>
-            <th colspan="8"><b></b>CHART: ${chart.date}</th>
+<%--            <th colspan="8"><b>CHART: <fmt:formatDate pattern="dd.MM.yyyy" value="${chart.date}" /> </b></th>--%>
+            <th style="text-align: left" colspan="8"><b>CHART: ${chart.date} </b></th>
         </tr>
         <tr>
             <th style="text-align: center">Mov</th>
