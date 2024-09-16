@@ -12,7 +12,7 @@
                 var pos = $(this).find('[name="pos"]').text();
                 var woc = $(this).find('[name="woc"]').text();
                 var mov;
-                if (lw != '') {
+                if (lw != '' && lw != '0') {
                     mov = parseInt(lw) - parseInt(pos);
                     if (mov == 0) {
                         mov = '=';
@@ -39,29 +39,33 @@
     <label for="chartSearch">Поиск по номеру чарта:</label>
     <input name="chart" id="chartSearch" type="text" /> <input type="submit" value="Искать" />
 </form>
-<br/>CHART: ${chart.date}
 <table id="chart-table">
     <thead>
         <tr>
+            <th colspan="8"><b></b>CHART: ${chart.date}</th>
+        </tr>
+        <tr>
+            <th style="text-align: center">Mov</th>
             <th style="text-align: center">Pos</th>
             <th style="display:none;">LW</th>
-            <th style="text-align: center">Mov</th>
-            <th style="text-align: center">WoC</th>
             <th style="text-align: center">Artists</th>
             <th style="width:30px;"></th>
             <th style="text-align: center">Title</th>
+            <th style="text-align: center">Peak</th>
+            <th style="text-align: center">WoC</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach items="${chart.positions}" var="position" varStatus="status">
             <tr>
+                <td name="mov" style="text-align: center"></td>
                 <td name="pos" style="text-align: center">${position.position}</td>
                 <td name="lw" style="display:none;">${position.lastWeek}</td>
-                <td name="mov" style="text-align: center"></td>
-                <td name="woc" style="text-align: center">${woc[status.index]}</td>
                 <td style="text-align: right">${position.pk.song.artists}</td>
                 <td style="text-align: center"> - </td>
                 <td>${position.pk.song.name}</td>
+                <td name="peak" style="text-align: center">${peaks[status.index]}</td>
+                <td name="woc" style="text-align: center">${woc[status.index]}</td>
             </tr>
         </c:forEach>
     </tbody>

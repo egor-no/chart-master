@@ -32,6 +32,7 @@ public class ChartServlet extends HttpServlet {
 
         request.setAttribute("chart", chart);
         request.setAttribute("woc", PositionService.getWOCforChart(chart));
+        request.setAttribute("peaks", PositionService.getPeaksForChart(chart));
         request.getRequestDispatcher("main.jsp").forward(request, response);
         response.flushBuffer();
     }
