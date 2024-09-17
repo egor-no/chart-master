@@ -3,6 +3,7 @@ package com.chart.TopChart.servlet;
 import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.model.Chart;
+import com.chart.TopChart.service.ChartService;
 
 
 import javax.servlet.ServletException;
@@ -26,9 +27,7 @@ public class ChartServlet extends HttpServlet {
             chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
         }
 
-        request.setAttribute("chart", chart);
-        request.setAttribute("woc", PositionDAOImpl.getWOCforChart(chart));
-        request.setAttribute("peaks", PositionDAOImpl.getPeaksForChart(chart));
+        request.setAttribute("chart", ChartService.getChartFull(chart));
         request.getRequestDispatcher("main.jsp").forward(request, response);
         response.flushBuffer();
     }

@@ -58,18 +58,18 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${chart.positions}" var="position" varStatus="status">
-            <tr>
-                <td name="mov" style="text-align: center"></td>
-                <td name="pos" style="text-align: center">${position.position}</td>
-                <td name="lw" style="display:none;">${position.lastWeek}</td>
-                <td style="text-align: right">${position.pk.song.artists}</td>
-                <td style="text-align: center"> - </td>
-                <td>${position.pk.song.name}</td>
-                <td name="peak" style="text-align: center">${peaks[status.index]}</td>
-                <td name="woc" style="text-align: center">${woc[status.index]}</td>
-            </tr>
-        </c:forEach>
+    <c:forEach items="${chart.positions}" var="position" varStatus="status">
+        <tr>
+            <td name="mov" style="text-align: center"></td>
+            <td name="pos" style="text-align: center">${position.position}</td>
+            <td name="lw" style="display:none;">${position.lastWeek}</td>
+            <td style="text-align: right">${position.pk.song.artists}</td>
+            <td style="text-align: center"> - </td>
+            <td>${position.pk.song.name}</td>
+            <td name="peak" style="text-align: center">${chart.peaks[status.index]}</td>
+            <td name="woc" style="text-align: center">${chart.woc[status.index]}</td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 
