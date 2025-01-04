@@ -1,13 +1,16 @@
 package com.chart.TopChart.service;
 
+import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
+import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.dto.ChartFull;
 import com.chart.TopChart.data.model.Chart;
+import com.chart.TopChart.data.model.Position;
+import com.chart.TopChart.data.model.Position_PK;
+import com.chart.TopChart.data.model.Song;
+import util.DateUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChartService {
 
@@ -40,5 +43,62 @@ public class ChartService {
         chartFull.setWoc(woc);
 
         return chartFull;
+    }
+
+    public static String getNewChartDate() {
+        String lastSDate = ChartDAOImpl.getById(ChartDAOImpl.getLastId()).getDate();
+        Date lastDate = DateUtil.parseStringToSqlDate(lastSDate);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(lastDate);
+        cal.add(Calendar.DAY_OF_MONTH, 7);
+        return DateUtil.formatDateForSQL(cal.getTime());
+    }
+
+    public static void formChart(String ids[], String name[], String artists[]) {
+        long lastChartId = ChartDAOImpl.getLastId();
+
+        Chart chart = new Chart();
+        chart.setDate(ChartService.getNewChartDate());
+        chart.setId(lastChartId+1);
+        ChartDAOImpl.save(chart);
+
+        Position position;
+        Position_PK position_pk;
+        Song song;
+        for (int i = 0; i < ids.length; i++) {
+            int pos = i + 1;
+            song = new Song();
+            try {
+                Long id = Long.parseLong(ids[i]);
+                song = SongDAOImpl.getById(id);
+                song.setWeeks(song.getWeeks() + 1);
+                if (song.getPeak() > pos) {
+                    song.setPeak(pos);
+                }
+                SongDAOImpl.update(song);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                song.setArtists(artists[i]);
+                song.setName(name[i]);
+                song.setWeeks(1);
+                song.setPeak(pos);
+                song.setId(SongDAOImpl.getLastId()+1);
+                SongDAOImpl.save(song);
+            }
+
+            position_pk = new Position_PK();
+            position_pk.setChart(chart);
+            position_pk.setSong(song);
+
+            position = new Position();
+            position.setPosition(i+1);
+            position.setPk(position_pk);
+            Position prevSongPosition = PositionDAOImpl.getPositionForSong(song.getId(), lastChartId);
+            if (prevSongPosition != null) {
+                position.setLastWeek(prevSongPosition.getPosition());
+            }
+
+            PositionDAOImpl.save(position);
+        }
     }
 }

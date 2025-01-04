@@ -51,6 +51,24 @@ public class PositionDAOImpl {
         session.close();
     }
 
+    public static Position getPositionForSong(long idSong, long idChart) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Position p " +
+                "WHERE p.pk.song.id = :idSong " +
+                "AND p.pk.chart.id = :idChart ");
+        query.setParameter("idSong", idSong);
+        query.setParameter("idChart", idChart);
+        List<Position> results = query.list();
+        session.getTransaction().commit();
+        session.close();
+        if (results.size() > 0 ) {
+            return results.get(0);
+        } else {
+            return null;
+        }
+    }
+
     public static List getWOCforChart(long idChart, List<Long> songIds) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -82,42 +100,4 @@ public class PositionDAOImpl {
         session.close();
         return results;
     }
-
-//    public static List<Long> getWOCforChart(Chart chart) {
-//        List<Long> woc = new ArrayList<>();
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        session.beginTransaction();
-//        for (int i = 0; i < chart.getPositions().size(); i++) {
-//            Query query = session.createQuery("SELECT COUNT(*) " +
-//                    "FROM Position p " +
-//                    "WHERE p.pk.chart.id <= :idChart " +
-//                    "AND p.pk.song.id = :idSong");
-//            query.setParameter("idSong", chart.getPositions().get(i).getPk().getSong().getId());
-//            query.setParameter("idChart", chart.getId());
-//            long result = (Long) query.uniqueResult();
-//            woc.add(result);
-//        }
-//        session.getTransaction().commit();
-//        session.close();
-//        return woc;
-//    }
-//
-//    public static List<Integer> getPeaksForChart(Chart chart) {
-//        List<Integer> peaks = new ArrayList<>();
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        session.beginTransaction();
-//        for (int i = 0; i < chart.getPositions().size(); i++) {
-//            Query query = session.createQuery("SELECT MIN(p.position) " +
-//                    "FROM Position p " +
-//                    "WHERE p.pk.chart.id <= :idChart " +
-//                    "AND p.pk.song.id = :idSong");
-//            query.setParameter("idSong", chart.getPositions().get(i).getPk().getSong().getId());
-//            query.setParameter("idChart", chart.getId());
-//            int result = (Integer) query.uniqueResult();
-//            peaks.add(result);
-//        }
-//        session.getTransaction().commit();
-//        session.close();
-//        return peaks;
-//    }
 }

@@ -36,9 +36,15 @@
 </head>
 <body>
 <h1>TOP 40!</h1>
+
+<div name="menu">
+    <a href="/chartadd">Добавить чарт</a>
+</div>
+
 <form method="GET" action="/">
     <label for="chartSearch">Поиск по дате чарта:</label>
-    <input name="date" id="chartSearch" type="text" /> <input type="submit" value="Искать" />
+    <input name="date" id="chartSearch" type="date" /><input type="submit" value="Искать" />
+
 </form>
 <table id="chart-table">
     <thead>

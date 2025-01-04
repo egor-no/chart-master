@@ -23,21 +23,31 @@ public class SongDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Song " +
-                "ORDER BY id ");
+                "ORDER BY id DESC");
         List<Song> list = query.list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    public static Song getById(int id) {
+    public static Song getById(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Song s " +
-                "LEFT JOIN FETCH s.positions " +
                 "WHERE s.id = :id");
-        query.setInteger("id", id);
+        query.setLong("id", id);
         Song result = (Song) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    public static long getLastId() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT MAX(id) " +
+                "FROM Song c ");
+        long result = (Long)query.uniqueResult();
         session.getTransaction().commit();
         session.close();
         return result;

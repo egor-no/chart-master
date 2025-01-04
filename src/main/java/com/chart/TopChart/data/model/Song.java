@@ -24,7 +24,7 @@ public class Song {
     private String name;
 
     @OneToMany(mappedBy = "pk.song", cascade = CascadeType.ALL)
-    private List<Position> positions;
+    private transient List<Position> positions;
 
     public Song() {
     }
