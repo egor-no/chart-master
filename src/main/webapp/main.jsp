@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>TOP40 - Music Chart</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type = "text/javascript" >
         $(document).ready(function() {
@@ -37,8 +37,8 @@
 <body>
 <h1>TOP 40!</h1>
 <form method="GET" action="/">
-    <label for="chartSearch">Поиск по номеру чарта:</label>
-    <input name="chart" id="chartSearch" type="text" /> <input type="submit" value="Искать" />
+    <label for="chartSearch">Поиск по дате чарта:</label>
+    <input name="date" id="chartSearch" type="text" /> <input type="submit" value="Искать" />
 </form>
 <table id="chart-table">
     <thead>

@@ -19,10 +19,14 @@ public class ChartServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Chart chart;
-        String chartNumberStr = request.getParameter("chart");
+
+        String chartDate = request.getParameter("date");
         try {
-            long chartNumber = Long.parseLong(chartNumberStr);
+            long chartNumber = ChartDAOImpl.getLastByDate(chartDate);
             chart = ChartDAOImpl.getById(chartNumber);
+            if (chart == null) {
+                throw new Exception();
+            }
         } catch (Exception ex) {
             chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
         }

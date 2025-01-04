@@ -1,4 +1,4 @@
-package com.chart.TopChart.service;
+package com.chart.TopChart.data.dto;
 
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.data.model.Position;

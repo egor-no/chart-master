@@ -42,6 +42,19 @@ public class ChartDAOImpl {
         return result;
     }
 
+    public static long getLastByDate(String sDate) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT MAX(id) " +
+                "FROM Chart c " +
+                "WHERE c.date <= :date");
+        query.setParameter("date", sDate);
+        long result = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
     public static long getLastId() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
