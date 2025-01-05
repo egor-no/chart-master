@@ -42,6 +42,54 @@ public class SongDAOImpl {
         return result;
     }
 
+    public static List<Song> getBySearchPhrase(String searchPhrase) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Song s " +
+                "WHERE s.name LIKE :searchPhrase ");
+        query.setParameter("searchPhrase", "%" + searchPhrase + "%");
+        List<Song> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static List<Song> getByArtist(String artist) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Song s " +
+                "WHERE s.artists LIKE :artist ");
+        query.setParameter("artist", "%" + artist + "%");
+        List<Song> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static List<String> getArtistsBySearch(String searchPhrase) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT DISTINCT s.artists " +
+                "FROM Song s " +
+                "WHERE s.artists LIKE :searchPhrase ");
+        query.setParameter("searchPhrase", "%" + searchPhrase + "%");
+        List<String> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static List<String> getArtists() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT DISTINCT s.artists " +
+                "FROM Song s ");
+        List<String> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
     public static long getLastId() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

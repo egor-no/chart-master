@@ -35,10 +35,16 @@
     </script>
 </head>
 <body>
-<h1>TOP 40!</h1>
+<h1>TOP40!</h1>
 
-<div name="menu">
+<div name="menu" style="margin-bottom:5px;">
+    <b>Главная</b>
+    |
     <a href="/chartadd">Добавить чарт</a>
+    |
+    <a href="/artists">Артисты</a>
+    |
+    <a href="/songs">Песни</a>
 </div>
 
 <form method="GET" action="/">

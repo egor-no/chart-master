@@ -77,7 +77,6 @@ public class ChartService {
                 }
                 SongDAOImpl.update(song);
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
                 song.setArtists(artists[i]);
                 song.setName(name[i]);
                 song.setWeeks(1);

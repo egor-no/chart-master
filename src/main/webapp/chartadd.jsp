@@ -59,31 +59,44 @@
     </script>
 </head>
 <body>
-<h1>Добавление нового чарта</h1>
-<form method="POST" action="/chartadd">
-    <table id="chart-table">
-        <thead>
-        <tr>
-            <th style="display:none;">id</th>
-            <th style="text-align: center">Mov</th>
-            <th style="text-align: center">Artists</th>
-            <th style="width:30px;"></th>
-            <th style="text-align: center">Title</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach begin="1" end="40" var="val">
-            <tr name="position">
-                <td style="display:none;"><input name="idSong[]" type="text" /></td>
-                <td style="text-align: center"><c:out value="${val}"/></td>
-                <td style="text-align: center"><input name="artists[]" type="text" /></td>
-                <td style="text-align: center"> - </td>
-                <td style="text-align: center"><input name="name[]" type="text" /></td>
+<div style="width:600px;">
+    <h1>Добавление нового чарта</h1>
+    <div name="menu" style="margin-bottom:5px;">
+        <a href="/">Главная</a>
+        |
+        <b>Добавить чарт</b>
+        |
+        <a href="/artists">Артисты</a>
+        |
+        <a href="/songs">Песни</a>
+    </div>
+    <form method="POST" action="/chartadd">
+        <table id="chart-table" style="width:600px;">
+            <thead>
+            <tr>
+                <th style="display:none;">id</th>
+                <th style="text-align: center">Mov</th>
+                <th style="text-align: center">Artists</th>
+                <th style="width:30px;"></th>
+                <th style="text-align: center">Title</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <input type="submit" value="Сохранить" />
-</form>
+            </thead>
+            <tbody>
+            <c:forEach begin="1" end="40" var="val">
+                <tr name="position">
+                    <td style="display:none;"><input name="idSong[]" type="text" /></td>
+                    <td style="text-align: center"><c:out value="${val}"/></td>
+                    <td><input style="width:100%;" name="artists[]" type="text" /></td>
+                    <td style="text-align: center"> - </td>
+                    <td><input style="width:100%;" name="name[]" type="text" /></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <div style="text-align: center;">
+            <input style="margin-top:10px;" type="submit" value="Сохранить" />
+        </div>
+    </form>
+</div>
 </body>
 </html>
