@@ -8,10 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type = "text/javascript" >
         $(document).ready(function() {
-            if ($('[name="searchPhrase"]').val() == '') {
-                $('#searchPhraseInfo').css('display', 'none');
-                $('#songs-list').css('display', 'none');
-            }
+
         });
     </script>
 </head>
@@ -25,16 +22,23 @@
     |
     <a href="/artists">Артисты</a>
     |
-    <b>Песни</b>
+    <a href="/songs">Песни</a>
 </div>
 
-<form method="GET" action="/songs">
-    <label for="songSearch">Поиск по песням:</label>
-    <input name="search" id="songSearch" type="text" /><input type="submit" value="Искать" />
-    <input name="searchPhrase" style="display:none;" type="text" value="${search}" />
-</form>
-<div id="searchPhraseInfo">
-    <h2>Поиск по <i>${search}</i></h2>
+<h2>${artist}</h2>
+<div id="artist-stats" style="width: 600px; display: flex; justify-content: space-evenly; flex-flow: row nowrap; border: 1px black solid;">
+    <div id="stats-position-no1s" style="display: flex; flex-flow: column; align-items:center;">
+        <h3 style="margin-top:15px; margin-bottom:15px;">${stats[0]}</h3>
+        <p style="margin-top:0px; margin-bottom:15px;">No 1s</p>
+    </div>
+    <div id="stats-position-top10s" style="display: flex; flex-flow: column; align-items:center;">
+        <h3 style="margin-top:15px; margin-bottom:15px;">${stats[1]}</h3>
+        <p style="margin-top:0px; margin-bottom:15px;">Top 10s</p>
+    </div>
+    <div id="stats-position-top40s" style="display: flex; flex-flow: column; align-items:center;">
+        <h3 style="margin-top:15px; margin-bottom:15px;">${stats[2]}</h3>
+        <p style="margin-top:0px; margin-bottom:15px;">Top 40s</p>
+    </div>
 </div>
 <div id="songs-list" style="width:600px; display: flex;  flex-flow: column;">
     <div style="display: flex; flex-flow: row nowrap;">

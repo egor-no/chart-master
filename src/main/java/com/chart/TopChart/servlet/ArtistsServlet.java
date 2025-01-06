@@ -24,6 +24,7 @@ public class ArtistsServlet extends HttpServlet {
         }
 
         request.setAttribute("artists", artists);
+        request.setAttribute("search", searchPhrase);
         request.getRequestDispatcher("artists.jsp").forward(request, response);
         response.flushBuffer();
     }

@@ -79,11 +79,27 @@ public class SongDAOImpl {
         return list;
     }
 
+    public static long getArtistTopStat(String artist, int top) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT COUNT(*)" +
+                "FROM Song s " +
+                "WHERE s.artists LIKE :artist " +
+                "AND s.peak <= :top ");
+        query.setParameter("artist", "%" + artist + "%");
+        query.setParameter("top", top);
+        Long count = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return count;
+    }
+
     public static List<String> getArtists() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("SELECT DISTINCT s.artists " +
-                "FROM Song s ");
+                "FROM Song s " +
+                "ORDER BY s.artists ");
         List<String> list = query.list();
         session.getTransaction().commit();
         session.close();
