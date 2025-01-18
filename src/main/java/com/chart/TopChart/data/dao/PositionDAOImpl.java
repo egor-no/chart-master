@@ -69,6 +69,19 @@ public class PositionDAOImpl {
         }
     }
 
+    public static List<Position> getPositionsForSong(long idSong) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Position p " +
+                "WHERE p.pk.song.id = :idSong "
+                "ORDER BY p.pk.chart.id ASC ");
+        query.setParameter("idSong", idSong);
+        List<Position> results = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return results;
+    }
+
     public static List getWOCforChart(long idChart, List<Long> songIds) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

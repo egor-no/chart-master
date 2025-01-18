@@ -59,10 +59,7 @@
             <div style="display: flex; flex: 4;">
                 <p>${song.artists}</p>
             </div>
-            <div style="display: flex; flex: 1; justify-content: center;">
-                <p> - </p>
-            </div>
-            <div style="display: flex; flex: 4;">
+            <div style="display: flex; flex: 5;">
                 <p>${song.name}</p>
             </div>
             <div style="display: flex; flex: 1; justify-content: end;">

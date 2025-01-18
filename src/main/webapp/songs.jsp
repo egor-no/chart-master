@@ -46,23 +46,30 @@
         <div style="display: flex; justify-content: end;">
             <p style="margin-bottom:0px;"><b>WOC</b></p>
         </div>
+        <div style="display: flex; flex: 1;">
+        </div>
     </div>
     <c:forEach items="${songs}" var="song">
-        <div style="display: flex; flex-flow: row nowrap;">
-            <div style="display: flex; flex: 1;">
-                <p>${song.peak}</p>
+        <div name="song" style="display: flex; flex-flow: column;">
+            <div style="display: flex; flex-flow: row nowrap;">
+                <div style="display: flex; flex: 1;">
+                    <p>${song.peak}</p>
+                </div>
+                <div style="display: flex; flex: 4;">
+                    <p>${song.artists}</p>
+                </div>
+                <div style="display: flex; flex: 5;">
+                    <p>${song.name}</p>
+                </div>
+                <div style="display: flex; flex: 1; justify-content: end;">
+                    <p> ${song.weeks}</p>
+                </div>
+                <div style="display: flex; flex: 1;">
+                    <a name="history-link" href="#">?</a>
+                </div>
             </div>
-            <div style="display: flex; flex: 4;">
-                <p>${song.artists}</p>
-            </div>
-            <div style="display: flex; flex: 1; justify-content: center;">
-                <p> - </p>
-            </div>
-            <div style="display: flex; flex: 4;">
-                <p>${song.name}</p>
-            </div>
-            <div style="display: flex; flex: 1; justify-content: end;">
-                <p> ${song.weeks}</p>
+            <div style="display:none;" name="song-history">
+
             </div>
         </div>
     </c:forEach>
