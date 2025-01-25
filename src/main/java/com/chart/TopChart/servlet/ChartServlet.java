@@ -28,7 +28,12 @@ public class ChartServlet extends HttpServlet {
                 throw new Exception();
             }
         } catch (Exception ex) {
-            chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
+            try {
+                long chartNumber = Long.parseLong(request.getParameter("chartNumber"));
+                chart = ChartDAOImpl.getById(chartNumber);
+            } catch (Exception ex2) {
+                chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
+            }
         }
 
         request.setAttribute("chart", ChartService.getChartFull(chart));

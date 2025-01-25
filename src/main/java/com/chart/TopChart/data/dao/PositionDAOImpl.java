@@ -73,7 +73,7 @@ public class PositionDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Position p " +
-                "WHERE p.pk.song.id = :idSong "
+                "WHERE p.pk.song.id = :idSong " +
                 "ORDER BY p.pk.chart.id ASC ");
         query.setParameter("idSong", idSong);
         List<Position> results = query.list();

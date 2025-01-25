@@ -1,46 +1,43 @@
 package com.chart.TopChart.data.dto;
 
-import com.chart.TopChart.data.model.Chart;
-import com.chart.TopChart.data.model.Position;
-
 import java.util.List;
 
 public class ChartRun {
 
-    private List<Position> positions;
-    private Chart firstChart;
-    private Chart lastChart;
+    private List<Integer> positions;
+    private ChartBasic firstChart;
+    private ChartBasic lastChart;
 
     public ChartRun() {
     }
 
-    public ChartRun(List<Position> positions, Chart firstChart, Chart lastChart) {
+    public ChartRun(List<Integer> positions, ChartBasic firstChart, ChartBasic lastChart) {
         this.positions = positions;
         this.firstChart = firstChart;
         this.lastChart = lastChart;
     }
 
-    public List<Position> getPositions() {
+    public List<Integer> getPositions() {
         return positions;
     }
 
-    public void setPositions(List<Position> positions) {
+    public void setPositions(List<Integer> positions) {
         this.positions = positions;
     }
 
-    public Chart getFirstChart() {
+    public ChartBasic getFirstChart() {
         return firstChart;
     }
 
-    public void setFirstChart(Chart firstChart) {
+    public void setFirstChart(ChartBasic firstChart) {
         this.firstChart = firstChart;
     }
 
-    public Chart getLastChart() {
+    public ChartBasic getLastChart() {
         return lastChart;
     }
 
-    public void setLastChart(Chart lastChart) {
+    public void setLastChart(ChartBasic lastChart) {
         this.lastChart = lastChart;
     }
 }

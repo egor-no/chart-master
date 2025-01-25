@@ -8,7 +8,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/top40_app?allowPublicKeyRetrieval=true&useSSL=false</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/top40_app?useSSL=false</property>
         <!--<property name="connection.url">jdbc:jtds:sqlserver://192.168.1.157:1433/asupp</property>-->
         <property name="connection.username">root</property>
         <property name="connection.password">root</property>
