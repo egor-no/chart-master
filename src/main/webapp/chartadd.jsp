@@ -24,7 +24,7 @@
                         if (name.toUpperCase().indexOf(request.term.toUpperCase()) != -1) {
                             return {
                                 label: obj.artists + " - " + obj.name, // Label for Display
-                                value: obj.id // Value
+                                value: obj // Value
                             }
                         } else {
                             return null;
@@ -34,16 +34,9 @@
 
                 select: function(event, ui) {
                     event.preventDefault();
-                    var idSong = ui.item.value;
-
-                    var songName = '', artists = '';
-                    $.each(songs, function (i, elem) {
-                        if (elem.id == idSong) {
-                            songName = elem.name;
-                            artists = elem.artists;
-                            return false;
-                        }
-                    });
+                    var idSong = ui.item.value.id;
+                    var songName = ui.item.value.name
+                    var artists = ui.item.value.artists;
 
                     $(this).closest('[name="position"]').find('[name="idSong[]"]').val(idSong);
                     $(this).closest('[name="position"]').find('[name="artists[]"]').val(artists);

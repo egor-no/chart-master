@@ -66,7 +66,7 @@ public class ChartService {
         Position_PK position_pk;
         Song song;
         for (int i = 0; i < ids.length; i++) {
-            int pos = i + 1;
+            final int pos = i + 1;
             song = new Song();
             try {
                 Long id = Long.parseLong(ids[i]);
@@ -90,7 +90,7 @@ public class ChartService {
             position_pk.setSong(song);
 
             position = new Position();
-            position.setPosition(i+1);
+            position.setPosition(pos);
             position.setPk(position_pk);
             Position prevSongPosition = PositionDAOImpl.getPositionForSong(song.getId(), lastChartId);
             if (prevSongPosition != null) {

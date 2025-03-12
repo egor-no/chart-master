@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <head>
@@ -52,10 +53,11 @@
     <input name="date" id="chartSearch" type="date" /><input type="submit" value="Искать" />
 
 </form>
+<h1>CHART</h1>
+
 <table id="chart-table">
     <thead>
         <tr>
-<%--            <th colspan="8"><b>CHART: <fmt:formatDate pattern="dd.MM.yyyy" value="${chart.date}" /> </b></th>--%>
             <th style="text-align: left" colspan="8"><b>CHART: ${chart.date} </b></th>
         </tr>
         <tr>
