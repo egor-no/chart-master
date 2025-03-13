@@ -20,9 +20,9 @@ public class SongHistoryServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Long idSong = Long.parseLong(request.getParameter("idSong"));
         Long currentChart;
-        if (request.getParameter("chartNumber") != null) {
+        try {
             currentChart = Long.parseLong(request.getParameter("chartNumber"));
-        } else {
+        } catch (Exception ex) {
             currentChart = ChartDAOImpl.getLastId();
         }
         SongHistory songHistory  = SongHistoryService.getSongHistory(idSong);

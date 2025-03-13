@@ -9,28 +9,62 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type = "text/javascript" >
         $(document).ready(function() {
-            $('#chart-table tbody tr').each(function () {
-                var lw = $(this).find('[name="lw"]').text();
-                var pos = $(this).find('[name="pos"]').text();
-                var woc = $(this).find('[name="woc"]').text();
-                var mov;
-                if (lw != '' && lw != '0') {
-                    mov = parseInt(lw) - parseInt(pos);
-                    if (mov == 0) {
-                        mov = '=';
-                    } else if (mov > 0) {
-                        mov = '+' + mov;
+            $('[name="history-link"]').on('click', function () {
+                event.preventDefault();
+                var songDiv =  $(this).closest('[name="song"]')
+                if (songDiv.find('[name="position"]').length) {
+                    if (songDiv.find('[name="song-history"]').is(":visible")) {
+                        songDiv.find('[name="song-history"]').slideUp(500);
+                    } else {
+                        songDiv.find('[name="song-history"]').slideDown(500);
                     }
                 } else {
-                    if (parseInt(woc) > 1) {
-                        mov = 're';
-                        $(this).find('[name="mov"]').css('color', 'orange');
-                    } else {
-                        mov = 'new';
-                        $(this).find('[name="mov"]').css('color', 'red');
-                    }
+                    var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
+                    var idChart = $(document).find('[name="chart-number"]').text();
+                    $.get("songhistory?idSong=" + idSong + "&chartNumber=" + idChart, function(songhistory) {
+                        var peak = songhistory.peak;
+                        var currentChart = songhistory.currentChart;
+                        $.each(songhistory.chartRuns, function (index, chartRun) {
+                            var chartRunDiv = $(document).find('[name="chart-run-template"]').clone();
+                            chartRunDiv.attr('name', 'chart-run');
+
+                            if (chartRun.firstChart.date != chartRun.lastChart.date) {
+                                chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date + " - " + chartRun.lastChart.date);
+                            } else {
+                                chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date);
+                            }
+
+                            var chartId = chartRun.firstChart.id;
+                            $.each(chartRun.positions, function(i, position) {
+
+                                chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').html(position);
+
+                                if (position == peak) {
+                                    chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').css('font-weight', 'bold');
+                                } else {
+                                    chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').css('font-weight', 'normal');
+                                }
+
+                                if (chartId == currentChart) {
+                                    chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').css('font-style', 'italic');
+                                } else {
+                                    chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').css('font-style', 'normal');
+                                }
+
+                                chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
+                                chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'Посмотреть чарт №' + chartId);
+                                var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
+                                chartRunDiv.find('[name="positions"]').append(positionDiv);
+                                chartId++;
+                            });
+                            chartRunDiv.find('[name="position"]:last').remove();
+
+                            songDiv.find('[name="song-history"]').append(chartRunDiv);
+                            chartRunDiv.css('display', 'block');
+                            songDiv.find('[name="song-history"]').slideDown(500);
+                        });
+                    });
                 }
-                $(this).find('[name="mov"]').text(mov);
             });
         });
     </script>
@@ -51,39 +85,9 @@
 <form method="GET" action="/">
     <label for="chartSearch">Поиск по дате чарта:</label>
     <input name="date" id="chartSearch" type="date" /><input type="submit" value="Искать" />
-
 </form>
-<table id="chart-table">
-    <thead>
-        <tr>
-            <th style="text-align: left" colspan="8"><b>CHART: ${chart.date} </b></th>
-        </tr>
-        <tr>
-            <th style="text-align: center">Mov</th>
-            <th style="text-align: center">Pos</th>
-            <th style="display:none;">LW</th>
-            <th style="text-align: center">Artists</th>
-            <th style="width:30px;"></th>
-            <th style="text-align: center">Title</th>
-            <th style="text-align: center">Peak</th>
-            <th style="text-align: center">WoC</th>
-        </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${chart.positions}" var="position" varStatus="status">
-        <tr>
-            <td name="mov" style="text-align: center"></td>
-            <td name="pos" style="text-align: center">${position.position}</td>
-            <td name="lw" style="display:none;">${position.lastWeek}</td>
-            <td style="text-align: right">${position.pk.song.artists}</td>
-            <td style="text-align: center"> - </td>
-            <td>${position.pk.song.name}</td>
-            <td name="peak" style="text-align: center">${chart.peaks[status.index]}</td>
-            <td name="woc" style="text-align: center">${chart.woc[status.index]}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+
+<%@include file="components/chart-table.jsp"%>
 
 </body>
 </html>

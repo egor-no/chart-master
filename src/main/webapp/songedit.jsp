@@ -7,7 +7,12 @@
         $(document).ready(function() {
             $('[name="cancel"]').on('click', function () {
                 var search = $('[name="search"]').val();
-                window.location.href= "/songs?search=" + search;
+                var artist = $('[name="artist"]').val();
+                if (search != "") {
+                    window.location.href= "/songs?search=" + search;
+                } else {
+                    window.location.href= "/artist?artist=" + artist;
+                }
             });
         });
     </script>
@@ -28,6 +33,7 @@
 <form method="POST" action="/songedit">
     <div id="song-info" style="width:600px; display: flex;  flex-flow: column;">
         <input name="search" type="text" style="display:none;" value="${search}" />
+        <input name="artist" type="text" style="display:none;" value="${artist}" />
         <input name="id" type="text" style="display:none;" value="${song.id}" />
         <div style="display: flex; flex-flow: row nowrap; justify-content: space-between;">
             <label for="artists">Исполнители:</label>

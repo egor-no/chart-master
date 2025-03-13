@@ -21,6 +21,7 @@
             });
         });
 
+
         $(document).ready(function() {
             $('[name="history-link"]').on('click', function () {
                 event.preventDefault();
@@ -33,7 +34,8 @@
                     }
                 } else {
                     var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
-                    $.get("songhistory?idSong=" + idSong, function(songhistory) {
+                    var idChart = $(document).find('[name="chart-number"]').text();
+                    $.get("songhistory?idSong=" + idSong + "&chartNumber=" + idChart, function(songhistory) {
                         var peak = songhistory.peak;
                         var currentChart = songhistory.currentChart;
                         $.each(songhistory.chartRuns, function (index, chartRun) {
@@ -81,6 +83,7 @@
     </script>
 </head>
 <body>
+
 <h1>Список песен</h1>
 
 <div name="menu" style="margin-bottom:5px;">

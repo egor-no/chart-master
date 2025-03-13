@@ -22,6 +22,7 @@ public class SongEditServlet extends HttpServlet {
 
         request.setAttribute("song", SongDAOImpl.getById(idSong));
         request.setAttribute("search", request.getParameter("search"));
+        request.setAttribute("artist", request.getParameter("artist"));
         request.getRequestDispatcher("songedit.jsp").forward(request, response);
         response.flushBuffer();
     }
@@ -37,6 +38,11 @@ public class SongEditServlet extends HttpServlet {
         song.setArtists(artists);
         SongDAOImpl.update(song);
 
-        response.sendRedirect("/songs?search=" + request.getParameter("search"));
+        String search =  request.getParameter("search");
+        if (search.isEmpty()) {
+            response.sendRedirect("/artist?artist=" + request.getParameter("artist"));
+        } else {
+            response.sendRedirect("/songs?search=" + request.getParameter("search"));
+        }
     }
 }
