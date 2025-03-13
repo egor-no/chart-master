@@ -53,8 +53,6 @@
     <input name="date" id="chartSearch" type="date" /><input type="submit" value="Искать" />
 
 </form>
-<h1>CHART</h1>
-
 <table id="chart-table">
     <thead>
         <tr>

@@ -31,7 +31,12 @@
                             var chartRunDiv = $(document).find('[name="chart-run-template"]').clone();
                             chartRunDiv.attr('name', 'chart-run');
 
-                            chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date + " - " + chartRun.lastChart.date);
+                            if (chartRun.firstChart.date != chartRun.lastChart.date) {
+                                chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date + " - " + chartRun.lastChart.date);
+                            } else {
+                                chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date);
+                            }
+
                             var chartId = chartRun.firstChart.id;
                             $.each(chartRun.positions, function(i, position) {
                                 chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').html(position);
@@ -49,6 +54,7 @@
                                 }
 
                                 chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
+                                chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'Посмотреть чарт №' + chartId);
                                 var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
                                 chartRunDiv.find('[name="positions"]').append(positionDiv);
                                 chartId++;
@@ -61,6 +67,12 @@
                         });
                     });
                 }
+            });
+
+            $('[name="edit-link"]').on('click', function () {
+                var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
+
+                $(this).attr("href", "/songedit?id=" + idSong + "&search=" + '${search}');
             });
         });
     </script>
@@ -75,66 +87,19 @@
     |
     <a href="/artists">Артисты</a>
     |
-    <b>Песни</b>
+    <a href="/songs">Песни</a>
 </div>
 
 <form method="GET" action="/songs">
     <label for="songSearch">Поиск по песням:</label>
     <input name="search" id="songSearch" type="text" /><input type="submit" value="Искать" />
-    <input name="searchPhrase" style="display:none;" type="text" value="${search}" />
 </form>
+
+<input name="searchPhrase" style="display:none;" type="text" value="${search}" />
 <div id="searchPhraseInfo">
     <h2>Поиск по <i>${search}</i></h2>
 </div>
-<div id="songs-list" style="width:600px; display: flex;  flex-flow: column;">
-    <div style="display: flex; flex-flow: row nowrap;">
-        <div style="display: flex; flex: 1;">
-            <p style="margin-bottom:0px;"><b>Peak</b></p>
-        </div>
-        <div style="display: flex; flex: 8;">
-        </div>
-        <div style="display: flex; justify-content: end;">
-            <p style="margin-bottom:0px;"><b>WOC</b></p>
-        </div>
-        <div style="display: flex; flex: 1;">
-        </div>
-    </div>
-    <c:forEach items="${songs}" var="song">
-        <div name="song" style="display: flex; flex-flow: column; border-bottom: 1px solid grey;">
-            <div style="display: flex; flex-flow: row nowrap;">
-                <input name="song-id" style="display:none;" type="text" value="${song.id}" />
 
-                <div style="display: flex; flex: 1;">
-                    <p>${song.peak}</p>
-                </div>
-                <div style="display: flex; flex: 4;">
-                    <p>${song.artists}</p>
-                </div>
-                <div style="display: flex; flex: 5;">
-                    <p>${song.name}</p>
-                </div>
-                <div style="display: flex; flex: 1; justify-content: end;">
-                    <p> ${song.weeks}</p>
-                </div>
-                <div style="display: flex; flex: 1;">
-                    <a name="history-link" href="#">?</a>
-                </div>
-            </div>
-            <div style="display:none;" name="song-history">
-
-            </div>
-        </div>
-    </c:forEach>
-</div>
-
-<div style="display:none;" name="chart-run-template">
-    <p name="chart-run-header"></p>
-    <div name="positions" style="display: flex; flex-flow: row wrap;">
-        <div style="width:30px;" name="position">
-            <a href="#" target="_blank" alt="Посмотреть чарт" name="chartLink"></a>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>
