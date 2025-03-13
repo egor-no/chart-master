@@ -6,6 +6,7 @@
 <head>
     <title>TOP40 - Songs</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<%--    <script src="/components/song-history.js" type="text/javascript"></script>--%>
     <script type = "text/javascript" >
         $(document).ready(function() {
             if ($('[name="searchPhrase"]').val() == '') {
@@ -13,6 +14,14 @@
                 $('#songs-list').css('display', 'none');
             }
 
+            $('[name="edit-link"]').on('click', function () {
+                var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
+
+                $(this).attr("href", "/songedit?id=" + idSong + "&search=" + '${search}');
+            });
+        });
+
+        $(document).ready(function() {
             $('[name="history-link"]').on('click', function () {
                 event.preventDefault();
                 var songDiv =  $(this).closest('[name="song"]')
@@ -68,12 +77,6 @@
                     });
                 }
             });
-
-            $('[name="edit-link"]').on('click', function () {
-                var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
-
-                $(this).attr("href", "/songedit?id=" + idSong + "&search=" + '${search}');
-            });
         });
     </script>
 </head>
@@ -87,7 +90,7 @@
     |
     <a href="/artists">Артисты</a>
     |
-    <a href="/songs">Песни</a>
+    <b>Песни</b>
 </div>
 
 <form method="GET" action="/songs">
@@ -100,6 +103,7 @@
     <h2>Поиск по <i>${search}</i></h2>
 </div>
 
+<%@include file="components/song-list-search.jsp"%>
 
 </body>
 </html>
