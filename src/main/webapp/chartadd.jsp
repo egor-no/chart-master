@@ -39,14 +39,14 @@
                     var songName = ui.item.value.name
                     var artists = ui.item.value.artists;
 
-                    $(this).closest('[name="position"]').find('[name="idSong[]"]').val(idSong);
-                    $(this).closest('[name="position"]').find('[name="artists[]"]').val(artists);
-                    $(this).closest('[name="position"]').find('[name="name[]"]').val(songName);
+                    $(this).closest('.song-row').find('[name="idSong[]"]').val(idSong);
+                    $(this).closest('.song-row').find('[name="artists[]"]').val(artists);
+                    $(this).closest('.song-row').find('[name="name[]"]').val(songName);
                 }
             });
 
             $('[name="artists[]"], [name="song[]"]').on('input', function () {
-                $(this).closest('[name="position"]').find('[name="idSong[]"]').val('');
+                $(this).closest('.song-row').find('[name="idSong[]"]').val('');
             });
 
         });
@@ -67,30 +67,33 @@
         </div>
     </div>
     <form method="POST" action="/chartadd">
-        <table id="chart-table" style="width:600px;">
-            <thead>
-            <tr>
-                <th style="display:none;">id</th>
-                <th style="text-align: center">Mov</th>
-                <th style="text-align: center">Artists</th>
-                <th style="width:30px;"></th>
-                <th style="text-align: center">Title</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div id="chart-create">
+            <div class="song-row">
+                <div class="flex1 title">
+                    No
+                </div>
+                <div class="flex9 title">
+                    Artists
+                </div>
+                <div style="text-align:center; width: 30px;">
+                </div>
+                <div class="flex9 title">
+                    Title
+                </div>
+            </div>
             <c:forEach begin="1" end="40" var="val">
-                <tr name="position">
-                    <td style="display:none;"><input name="idSong[]" type="text" /></td>
-                    <td style="text-align: center"><c:out value="${val}"/></td>
-                    <td><input style="width:100%;" name="artists[]" type="text" /></td>
-                    <td style="text-align: center"> - </td>
-                    <td><input style="width:100%;" name="name[]" type="text" /></td>
-                </tr>
+                <div class="song-row">
+                    <div style="display:none;"><input name="idSong[]" type="text" /></div>
+                    <div class="flex1" ><c:out value="${val}"/></div>
+                    <div class="flex9"><input style="width:100%;" name="artists[]" type="text" /></div>
+                    <div style="text-align:center; width: 30px;"> - </div>
+                    <div class="flex9"><input style="width:100%;" name="name[]" type="text" /></div>
+                </div>
             </c:forEach>
-            </tbody>
-        </table>
-        <div style="text-align: center;">
-            <input style="margin-top:10px;" type="submit" value="Сохранить" />
+
+            <div style="text-align: center;">
+                <input style="margin-top:10px;" type="submit" value="Сохранить" />
+            </div>
         </div>
     </form>
 </div>

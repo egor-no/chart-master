@@ -116,6 +116,12 @@ h1 {
     flex-flow: column;
 }
 
+#chart-create {
+    width: 600px;
+    display: flex;
+    flex-flow: column;
+}
+
 .history-open {
     background: #fcfbdd;
     border-right: 1px #e8f7f0 solid;
