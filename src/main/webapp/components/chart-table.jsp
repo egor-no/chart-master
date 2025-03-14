@@ -3,38 +3,14 @@
     <div class="song-row">
         <b>CHART: ${chart.date} </b>
     </div>
-    <div class="song-row">
-        <div class="flex1 title">
-            Mov
-        </div>
-        <div class="flex1 title">
-            Pos
-        </div>
-        <div class="no-display">
-            LW
-        </div>
-        <div class="flex4 title">
-            Artists
-        </div>
-        <div class="flex5 title">
-            Title
-        </div>
-        <div class="flex1 title">
-            Peak
-        </div>
-        <div class="flex1 title">
-            WoC
-        </div>
-        <div class="flex1">
-        </div>
-    </div>
     <c:forEach items="${chart.positions}" var="position" varStatus="status">
         <div name="song">
             <div class="song-row">
                 <input name="song-id" style="display:none;" type="text" value="${position.pk.song.id}" />
 
-                <div class="flex1 data-start">
-                    <p name="mov"></p>
+                <div name="mov-info" class="flex-mov data-start">
+                    <div name="mov"></div>
+                    <div name="mov-val"></div>
                 </div>
                 <div class="flex1">
                     <p name="pos" >${position.position}</p>
@@ -78,20 +54,30 @@
             if (lw != '' && lw != '0') {
                 mov = parseInt(lw) - parseInt(pos);
                 if (mov == 0) {
-                    $(this).find('[name="mov"]').append("<img src='/icons/equal.png'/>");
+                    // $(this).find('#img').attr("src", "/icons/equal.png");
+                    $(this).find('[name="mov-info"]').addClass('equal');
+                    $(this).find('[name="mov"]').html("&#x2BC0;");
                 } else if (mov > 0) {
-                    $(this).find('[name="mov"]').append("<img src='/icons/up.png'/>");
-                    $(this).find('[name="mov"]').append(mov);
+                    // $(this).find('#img').attr("src", "/icons/up.png");
+                    $(this).find('[name="mov-info"]').addClass('up');
+                    $(this).find('[name="mov"]').html("&#9650;");
+                    $(this).find('[name="mov-val"]').html(mov);
                 } else {
                     mov = mov * -1;
-                    $(this).find('[name="mov"]').append("<img src='/icons/down.png'/>");
-                    $(this).find('[name="mov"]').append(mov);
+                    // $(this).find('#img').attr("src", "/icons/down.png");
+                    $(this).find('[name="mov-info"]').addClass('down');
+                    $(this).find('[name="mov"]').html("&#9660;");
+                    $(this).find('[name="mov-val"]').html(mov);
                 }
             } else {
                 if (parseInt(woc) > 1) {
-                    $(this).find('[name="mov"]').append("<img src='/icons/re.png'/>");
+                    $(this).find('[name="mov-info"]').addClass('re');
+                    $(this).find('[name="mov"]').html("&#11095;");
+                    // $(this).find('#img').attr("src", "/icons/re.png");
                 } else {
-                    $(this).find('[name="mov"]').append("<img src='/icons/new.png'/>");
+                    $(this).find('[name="mov-info"]').addClass('new');
+                    $(this).find('[name="mov"]').html("&#x25C9;");
+                    // $(this).find('#img').attr("src", "/icons/re.png");
                 }
             }
         });

@@ -189,3 +189,46 @@ h1 {
     color: #ffffff;
     font-weight: bold;
 }
+
+[name="mov"] {
+    margin-block-start: 12px;
+    margin-block-end: 16px;
+    font-size: 18px;
+    text-align: center;
+}
+
+[name="mov-val"] {
+    margin-block-start: 20px;
+    margin-block-end: 16px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.flex-mov {
+    display: flex;
+    flex: 1;
+}
+
+.equal {
+    color: #fdff12;
+}
+
+.down {
+    color: #d80000;
+}
+
+.up {
+    color: #30a83c;
+}
+
+.new {
+    color: #ff05fa;
+}
+
+.re {
+    color: #ab47aa;
+}
+
+.history-mov {
+    color: #282929;
+}
