@@ -1,64 +1,64 @@
-<div id="chart-table" style="width:800px; display: flex;  flex-flow: column;">
-    <div style="display: none;" name="chart-number">${chart.id}</div>
-    <div style="display: flex; flex-flow: row nowrap; margin-bottom: 5px;">
+<div id="chart-table">
+    <div class="no-display" name="chart-number">${chart.id}</div>
+    <div class="song-row">
         <b>CHART: ${chart.date} </b>
     </div>
-    <div style="display: flex; flex-flow: row nowrap;">
-        <div style="display: flex; flex: 1;">
-            <b>Mov</b>
+    <div class="song-row">
+        <div class="flex1 title">
+            Mov
         </div>
-        <div style="display: flex; flex: 1;">
-            <b>Pos</b>
+        <div class="flex1 title">
+            Pos
         </div>
-        <div style="display: none;">
-            <b>LW</b>
+        <div class="no-display">
+            LW
         </div>
-        <div style="display: flex; flex: 4;">
-            <b>Artists</b>
+        <div class="flex4 title">
+            Artists
         </div>
-        <div style="display: flex; flex: 5;">
-            <b>Title</b>
+        <div class="flex5 title">
+            Title
         </div>
-        <div style="display: flex; flex: 1;">
-            <b>Peak</b>
+        <div class="flex1 title">
+            Peak
         </div>
-        <div style="display: flex; flex: 1;">
-            <b>WoC</b>
+        <div class="flex1 title">
+            WoC
         </div>
-        <div style="display: flex; flex: 1;">
+        <div class="flex1">
         </div>
     </div>
     <c:forEach items="${chart.positions}" var="position" varStatus="status">
-        <div name="song" style="display: flex; flex-flow: column; border-bottom: 1px solid grey;">
-            <div style="display: flex; flex-flow: row nowrap;">
+        <div name="song">
+            <div class="song-row">
                 <input name="song-id" style="display:none;" type="text" value="${position.pk.song.id}" />
 
-                <div style="display: flex; flex: 1;">
+                <div class="flex1 data-start">
                     <p name="mov"></p>
                 </div>
-                <div style="display: flex; flex: 1;">
+                <div class="flex1">
                     <p name="pos" >${position.position}</p>
                 </div>
-                <div style="display: none;">
-                    <p  name="lw">${position.lastWeek}</p>
+                <div class="flex1 no-display">
+                    <p name="lw">${position.lastWeek}</p>
                 </div>
-                <div style="display: flex; flex: 4;">
+                <div class="flex4">
                     <p>${position.pk.song.artists}</p>
                 </div>
-                <div style="display: flex; flex: 5;">
+                <div class="flex5">
                     <p>${position.pk.song.name}</p>
                 </div>
-                <div name="peak" style="display: flex; flex: 1;">
+                <div name="peak" class="flex1">
                     <p>${chart.peaks[status.index]}</p>
                 </div>
-                <div style="display: flex; flex: 1;">
+                <div class="flex1">
                     <p name="woc" >${chart.woc[status.index]}</p>
                 </div>
-                <div style="display: flex; flex: 1;">
+                <div class="flex1">
                     <a name="history-link" href="#">?</a>
                 </div>
             </div>
-            <div style="display:none;" name="song-history">
+            <div class="no-display" name="song-history">
 
             </div>
         </div>
@@ -78,20 +78,22 @@
             if (lw != '' && lw != '0') {
                 mov = parseInt(lw) - parseInt(pos);
                 if (mov == 0) {
-                    mov = '=';
+                    $(this).find('[name="mov"]').append("<img src='/icons/equal.png'/>");
                 } else if (mov > 0) {
-                    mov = '+' + mov;
+                    $(this).find('[name="mov"]').append("<img src='/icons/up.png'/>");
+                    $(this).find('[name="mov"]').append(mov);
+                } else {
+                    mov = mov * -1;
+                    $(this).find('[name="mov"]').append("<img src='/icons/down.png'/>");
+                    $(this).find('[name="mov"]').append(mov);
                 }
             } else {
                 if (parseInt(woc) > 1) {
-                    mov = 're';
-                    $(this).find('[name="mov"]').css('color', 'orange');
+                    $(this).find('[name="mov"]').append("<img src='/icons/re.png'/>");
                 } else {
-                    mov = 'new';
-                    $(this).find('[name="mov"]').css('color', 'red');
+                    $(this).find('[name="mov"]').append("<img src='/icons/new.png'/>");
                 }
             }
-            $(this).find('[name="mov"]').text(mov);
         });
     });
 </script>

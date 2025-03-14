@@ -1,15 +1,15 @@
 
-<div id="songs-list" style="width:600px; display: flex;  flex-flow: column;">
-    <div style="display: flex; flex-flow: row nowrap;">
-        <div style="display: flex; flex: 1;">
+<div id="song-list">
+    <div class="song-row">
+        <div class="flex1">
             <p style="margin-bottom:0px;"><b>Peak</b></p>
         </div>
-        <div style="display: flex; flex: 8;">
+        <div class="flex9">
         </div>
-        <div style="display: flex; justify-content: end;">
+        <div class="flex-end">
             <p style="margin-bottom:0px;"><b>WOC</b></p>
         </div>
-        <div style="display: flex; flex: 1;">
+        <div class="flex1">
         </div>
     </div>
     <c:forEach items="${songs}" var="song">

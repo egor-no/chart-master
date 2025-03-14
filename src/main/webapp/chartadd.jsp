@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style><%@include file="/css/style.css"%></style>
     <script type = "text/javascript" >
         $(document).ready(function() {
 
@@ -52,16 +53,18 @@
     </script>
 </head>
 <body>
-<div style="width:600px;">
+<div class="container">
     <h1>Добавление нового чарта</h1>
-    <div name="menu" style="margin-bottom:5px;">
-        <a href="/">Главная</a>
-        |
-        <b>Добавить чарт</b>
-        |
-        <a href="/artists">Артисты</a>
-        |
-        <a href="/songs">Песни</a>
+    <div class="nav">
+        <div name="menu" style="margin-bottom:5px;">
+            <a href="/">Главная</a>
+            |
+            <b>Добавить чарт</b>
+            |
+            <a href="/artists">Артисты</a>
+            |
+            <a href="/songs">Песни</a>
+        </div>
     </div>
     <form method="POST" action="/chartadd">
         <table id="chart-table" style="width:600px;">

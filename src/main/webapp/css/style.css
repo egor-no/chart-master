@@ -1,0 +1,191 @@
+body {
+    background-color: #58a8a9;
+    color: #000;
+}
+
+.container {
+    width: 825px;
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    background-color: #dce0e2;
+    border-left: 1px #e8f7f0 solid;
+    border-top: 1px #e8f7f0 solid;
+    border-bottom: 1px #192428 solid;
+    border-right: 1px #192428 solid;
+    padding: 5px 10px 15px 15px;
+}
+
+[name="menu"] {
+    margin-bottom: 5px;
+}
+
+[name="menu"]  a {
+    color: #0000a8;
+    text-decoration: none;
+}
+
+[name="menu"]  a:hover {
+    color: #0000a8;
+    text-decoration: underline;
+}
+
+[name="menu"] a:active, [name="menu"] a:visited {
+    color: #76367a;
+    text-decoration: none;
+}
+
+.nav {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+h1 {
+    color: #ffffff;
+    background-color: #000676;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 0px;
+    padding-left: 2px;
+}
+
+.flex1 {
+    display: flex;
+    flex: 1;
+}
+
+.data-start {
+    margin-left: 7px;
+}
+
+.data-end {
+    margin-right: 10px;
+}
+
+.flex4 {
+    display: flex;
+    flex: 4;
+}
+
+.flex5 {
+    display: flex;
+    flex: 5;
+}
+
+.flex9 {
+    display: flex;
+    flex: 9;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: end;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.no-display {
+    display: none;
+}
+
+[name="song"] {
+    display: flex;
+    flex-flow: column;
+    border-bottom: 1px solid grey;
+}
+
+.song-row {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom:5px;
+}
+
+#song-list {
+    width: 600px;
+    display: flex;
+    flex-flow: column;
+}
+
+#chart-table {
+    width: 800px;
+    display: flex;
+    flex-flow: column;
+}
+
+.history-open {
+    background: #fcfbdd;
+    border-right: 1px #e8f7f0 solid;
+    border-bottom: 1px #e8f7f0 solid;
+    border-top: 1px #192428 solid;
+    border-left: 1px #192428 solid;
+    margin-bottom: 10px;
+}
+
+[name="song-history"] {
+    margin-left: 10px;
+    margin-bottom: 16px;
+}
+
+[name="song-history"] .chartRunOne {
+    border-bottom: 1px solid grey;
+    width: 140px;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+[name="song-history"] .chartRunTwo {
+    border-bottom: 1px solid grey;
+    width: 220px;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+#artists-list {
+    columns: 4;
+    -webkit-columns: 4;
+    -moz-columns: 4;
+}
+
+[name="positions"] {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+[name="position"] {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+}
+
+[name="position"] a {
+    color: #76367a;
+    text-decoration: none;
+}
+
+.peak {
+    border: 1px solid #0000a8;
+    outline: 2px solid #0000a8;
+    outline-offset: -2px;
+}
+
+.peak a {
+    font-weight: bold;
+    color: #0000a8;
+}
+
+.current {
+    background: #aa54ab;
+}
+
+.current a {
+    color: #ffffff;
+    font-weight: bold;
+}
