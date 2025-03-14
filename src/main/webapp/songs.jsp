@@ -12,8 +12,13 @@
         $(document).ready(function() {
             if ($('[name="searchPhrase"]').val() == '') {
                 $('#searchPhraseInfo').css('display', 'none');
-                $('#songs-list').css('display', 'none');
+                $('#song-list').css('display', 'none');
             }
+
+             if ($('[name="length"]').val() == '0') {
+                 $('#song-list').css('display', 'none');
+                 $('[name="not-found"]').removeClass('no-display');
+             }
 
             $('[name="edit-link"]').on('click', function () {
                 var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
@@ -43,8 +48,13 @@
         </form>
     </div>
     <input name="searchPhrase" style="display:none;" type="text" value="${search}" />
+    <input name="length" style="display:none;" type="text" value="${songs == null ? 0 : songs.size()}" />
     <div id="searchPhraseInfo">
         <h2>Поиск по <i>${search}</i></h2>
+    </div>
+
+    <div class="no-display" name="not-found">
+        <i>Ничего не найдено</i>
     </div>
 
     <%@include file="components/song-list-search.jsp"%>

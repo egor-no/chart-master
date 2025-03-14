@@ -12,6 +12,10 @@
             if ($('[name="searchPhrase"]').val() == '') {
                 $('#searchPhraseInfo').css('display', 'none');
             }
+
+            if ($('[name="length"]').val() == '0') {
+                $('[name="not-found"]').removeClass('no-display');
+            }
         });
     </script>
 </head>
@@ -35,6 +39,7 @@
             <input name="searchPhrase" style="display:none;" type="text" value="${search}" />
         </form>
     </div>
+    <input name="length" style="display:none;" type="text" value="${artists == null ? 0 : artists.size()}" />
     <div id="searchPhraseInfo">
         <h2>Поиск по <i>${search}</i></h2>
     </div>
@@ -42,6 +47,9 @@
         <c:forEach items="${artists}" var="artist">
             <a href="/artist?artist=${artist}">${artist}</a><br/>
         </c:forEach>
+    </div>
+    <div class="no-display" name="not-found">
+        <i>Никого не найдено</i>
     </div>
 </div>
 </body>
