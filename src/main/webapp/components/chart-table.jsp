@@ -24,14 +24,11 @@
                 <div class="flex5">
                     <p>${position.pk.song.name}</p>
                 </div>
-                <div name="peak" class="flex1">
+                <div name="peak" class="flex1" title="peak">
                     <p>${chart.peaks[status.index]}</p>
                 </div>
-                <div class="flex1">
+                <div class="flex1" title="weeks on chart">
                     <p name="woc" >${chart.woc[status.index]}</p>
-                </div>
-                <div class="flex1">
-                    <a name="history-link" href="#">?</a>
                 </div>
             </div>
             <div class="no-display" name="song-history">

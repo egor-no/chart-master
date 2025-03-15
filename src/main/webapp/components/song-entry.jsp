@@ -15,8 +15,7 @@
             <p> ${song.weeks}</p>
         </div>
         <div class="flex1">
-            <a name="history-link" href="#">?</a>
-            <a name="edit-link" href="#">+</a>
+            <a name="edit-link" href="#">&#10000;</a>
         </div>
     </div>
     <div class="no-display" name="song-history">

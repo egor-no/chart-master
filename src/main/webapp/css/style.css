@@ -104,7 +104,7 @@ h1 {
     margin-bottom:5px;
 }
 
-#song-list {
+#song-list, #song-info {
     width: 600px;
     display: flex;
     flex-flow: column;
@@ -237,4 +237,11 @@ h1 {
 
 .history-mov {
     color: #282929;
+}
+
+.edit-fields {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }

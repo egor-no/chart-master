@@ -1,6 +1,14 @@
+
 $(document).ready(function() {
-    $('[name="history-link"]').on('click', function () {
+    $('[name="edit-link"]').on('click', function () {
+        var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
+        $(this).attr("href", "/songedit?id=" + idSong + "&search=" + '${search}');
+        event.stopPropagation();
+    });
+
+    $('[name="song"]').on('click', function() {
         event.preventDefault();
+
         var songDiv =  $(this).closest('[name="song"]')
         if (songDiv.find('[name="position"]').length) {
             if (songDiv.find('[name="song-history"]').is(":visible")) {
@@ -47,7 +55,7 @@ $(document).ready(function() {
                         }
 
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'Посмотреть чарт №' + chartId);
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + chartId);
                         var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
                         chartRunDiv.find('[name="positions"]').append(positionDiv);
                         chartId++;
@@ -63,4 +71,5 @@ $(document).ready(function() {
             });
         }
     });
+
 });

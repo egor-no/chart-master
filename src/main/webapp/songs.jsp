@@ -13,18 +13,10 @@
             if ($('[name="searchPhrase"]').val() == '') {
                 $('#searchPhraseInfo').css('display', 'none');
                 $('#song-list').css('display', 'none');
-            }
-
-             if ($('[name="length"]').val() == '0') {
+            } else if ($('[name="length"]').val() == '0') {
                  $('#song-list').css('display', 'none');
                  $('[name="not-found"]').removeClass('no-display');
              }
-
-            $('[name="edit-link"]').on('click', function () {
-                var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
-
-                $(this).attr("href", "/songedit?id=" + idSong + "&search=" + '${search}');
-            });
         });
     </script>
 </head>

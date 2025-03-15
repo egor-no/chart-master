@@ -33,24 +33,24 @@
         </div>
     </div>
     <form method="POST" action="/songedit">
-        <div id="song-info" style="width:600px; display: flex;  flex-flow: column;">
+        <div id="song-info">
             <input name="search" type="text" style="display:none;" value="${search}" />
             <input name="artist" type="text" style="display:none;" value="${artist}" />
             <input name="id" type="text" style="display:none;" value="${song.id}" />
-            <div style="display: flex; flex-flow: row nowrap; justify-content: space-between;">
+            <div class="edit-fields">
                 <label for="artists">Исполнители:</label>
                 <input name="artists" id="artists" type="text" value="${song.artists}" />
             </div>
-            <div style="display: flex; flex-flow: row nowrap; justify-content: space-between; ">
+            <div class="edit-fields">
                 <label for="name">Название:</label>
                 <input name="name" id="name" type="text" value="${song.name}" />
             </div>
-                <div style="display: flex; flex-flow: row nowrap; justify-content: space-between;">
-                <label for="weeks">Поиск по песням:</label>
+                <div class="edit-fields">
+                <label for="weeks">Недель в чарте:</label>
                 <input name="weeks" id="weeks" type="text" value="${song.weeks}" disabled />
             </div>
-            <div style="display: flex; flex-flow: row nowrap; justify-content: space-between;">
-                <label for="peak">Поиск по песням:</label>
+            <div class="edit-fields">
+                <label for="peak">Пиковая позиция:</label>
                 <input name="peak" id="peak" type="text" value="${song.peak}" disabled />
             </div>
             <div style="text-align: center;">
