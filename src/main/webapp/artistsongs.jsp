@@ -39,18 +39,20 @@
     </div>
 
     <h2>${artist}</h2>
-    <div id="artist-stats" style="width: 600px; display: flex; justify-content: space-evenly; flex-flow: row nowrap; border: 1px black solid;">
-        <div id="stats-position-no1s" style="display: flex; flex-flow: column; align-items:center;">
-            <h3 style="margin-top:15px; margin-bottom:15px;">${stats[0]}</h3>
-            <p style="margin-top:0px; margin-bottom:15px;">No 1s</p>
-        </div>
-        <div id="stats-position-top10s" style="display: flex; flex-flow: column; align-items:center;">
-            <h3 style="margin-top:15px; margin-bottom:15px;">${stats[1]}</h3>
-            <p style="margin-top:0px; margin-bottom:15px;">Top 10s</p>
-        </div>
-        <div id="stats-position-top40s" style="display: flex; flex-flow: column; align-items:center;">
-            <h3 style="margin-top:15px; margin-bottom:15px;">${stats[2]}</h3>
-            <p style="margin-top:0px; margin-bottom:15px;">Top 40s</p>
+    <div id="artist-stats-border">
+        <div id="artist-stats">
+            <div id="stats-position-no1s" class="artist-stat">
+                <h3>${stats[0]}</h3>
+                <p>No 1s</p>
+            </div>
+            <div id="stats-position-top10s" class="artist-stat">
+                <h3>${stats[1]}</h3>
+                <p>Top 10s</p>
+            </div>
+            <div id="stats-position-top40s" class="artist-stat">
+                <h3>${stats[2]}</h3>
+                <p>Top 40s</p>
+            </div>
         </div>
     </div>
 

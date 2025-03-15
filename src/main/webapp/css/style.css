@@ -245,3 +245,61 @@ h1 {
     justify-content: space-between;
     margin-bottom: 10px;
 }
+
+#artist-stats {
+    width: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row nowrap;
+    background: #f6f6ff;
+    border-top: 4px #bfc7c9 solid;
+    border-left: 4px #c1c7c3 solid;
+    border-bottom: 4px #c1c9cc solid;
+    border-right: 4px #bdc6cb solid;
+}
+
+#artist-stats-border {
+    width: 610px;
+    border-top: 2px #fefdff solid;
+    border-left: 2px #fff9ff solid;
+    border-bottom: 2px #fcfffd solid;
+    border-right: 2px #fefef4 solid;
+}
+
+#artist-stats h3 {
+    margin-top:15px;
+    margin-bottom:15px;
+    font-size: 2em;
+    color: #aa54ab;
+    font-weight: bold;
+    height: 40px;
+}
+
+#artist-stats p {
+    margin-top:0px;
+    margin-bottom:15px;
+}
+
+.artist-stat {
+    display: flex;
+    flex-flow: column;
+    align-items:center;
+}
+
+#stats-position-no1s:hover h3 {
+    font-size: 3em;
+    color: #d86dd9;
+    font-weight: bolder;
+}
+
+#stats-position-top10s:hover h3 {
+     font-size: 2.8em;
+     color: #76367a;
+     font-weight: bolder;
+ }
+
+#stats-position-top40s:hover h3 {
+    font-size: 2.5em;
+    color: #000676;
+    font-weight: bolder;
+}
