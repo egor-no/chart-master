@@ -64,6 +64,8 @@
             <a href="/artists">Артисты</a>
             |
             <a href="/songs">Песни</a>
+            |
+            <a href="/reports">Отчёты</a>
         </div>
     </div>
     <form method="POST" action="/chartadd">

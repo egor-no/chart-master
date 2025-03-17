@@ -30,14 +30,15 @@ $(document).ready(function() {
                 var peak = songhistory.peak;
                 var currentChart = songhistory.currentChart;
                 $.each(songhistory.chartRuns, function (index, chartRun) {
+                    var chartRunSize = chartRun.positions.length;
                     var chartRunDiv = $(document).find('[name="chart-run-template"]').clone();
                     chartRunDiv.attr('name', 'chart-run');
 
                     if (chartRun.firstChart.date != chartRun.lastChart.date) {
-                        chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date + " - " + chartRun.lastChart.date);
+                        chartRunDiv.find('[name="chart-run-header"]').html(chartRunSize + " weeks: " + chartRun.firstChart.date + " - " + chartRun.lastChart.date);
                         chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunTwo');
                     } else {
-                        chartRunDiv.find('[name="chart-run-header"]').html(chartRun.firstChart.date);
+                        chartRunDiv.find('[name="chart-run-header"]').html(chartRunSize + " week: " +  chartRun.firstChart.date);
                         chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunOne');
                     }
 

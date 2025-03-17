@@ -30,6 +30,8 @@
             <a href="/artists">Артисты</a>
             |
             <b>Песни</b>
+            |
+            <a href="/reports">Отчёты</a>
         </div>
     </div>
     <form method="POST" action="/songedit">

@@ -32,6 +32,8 @@
             <a href="/artists">Артисты</a>
             |
             <b>Песни</b>
+            |
+            <a href="/reports">Отчёты</a>
         </div>
 
         <form method="GET" action="/songs">
