@@ -39,9 +39,12 @@ public class ChartServlet extends HttpServlet {
             } catch (Exception ex2) {
                 chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
             }
+
         }
+        boolean isLastChart = chart.getId() == ChartDAOImpl.getLastId();
 
         request.setAttribute("chart", ChartService.getChartFull(chart));
+        request.setAttribute("isLastChart", isLastChart);
         request.getRequestDispatcher("main.jsp").forward(request, response);
         response.flushBuffer();
     }

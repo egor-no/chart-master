@@ -54,6 +54,10 @@ $(document).ready(function() {
                             chartRunDiv.find('[name="position"]:last').removeClass('current');
                         }
 
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function () {
+                            $(this).attr('href', '/?chartNumber=' + chartId);
+                            event.stopPropagation();
+                        });
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + chartId);
                         var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
