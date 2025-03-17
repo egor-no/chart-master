@@ -29,9 +29,7 @@
                     <p name="woc" >${chart.woc[status.index]}</p>
                 </div>
             </div>
-            <div class="no-display" name="song-history">
-
-            </div>
+            <%@include file="song-history.jsp"%>
         </div>
     </c:forEach>
     </tbody>

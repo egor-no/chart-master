@@ -8,6 +8,9 @@ $(document).ready(function() {
 
     $('[name="song"]').on('click', function() {
         event.preventDefault();
+        var no1 = 0,
+            top10 = 0,
+            top20 = 0;
 
         var songDiv =  $(this).closest('[name="song"]')
         if (songDiv.find('[name="position"]').length) {
@@ -48,6 +51,17 @@ $(document).ready(function() {
                             chartRunDiv.find('[name="position"]:last').removeClass('peak');
                         }
 
+                        if (position == 1) {
+                            no1++;
+                        }
+                        if (position <= 10) {
+                            top10++;
+                        }
+
+                        if (position <= 20) {
+                            top20++;
+                        }
+
                         if (chartId == currentChart) {
                             chartRunDiv.find('[name="position"]:last').addClass('current');
                         } else {
@@ -55,7 +69,6 @@ $(document).ready(function() {
                         }
 
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function () {
-                            $(this).attr('href', '/?chartNumber=' + chartId);
                             event.stopPropagation();
                         });
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
@@ -70,6 +83,10 @@ $(document).ready(function() {
                     chartRunDiv.css('display', 'block');
                     songDiv.find('[name="song-history"]').slideDown(500);
                     songDiv.find('[name="mov-info"]').addClass('history-mov')
+
+                    songDiv.find('#stats-weeks-no1s').html(no1);
+                    songDiv.find('#stats-weeks-top10s').html(top10);
+                    songDiv.find('#stats-weeks-top20s').html(top20);
                     songDiv.addClass('history-open');
                 });
             });

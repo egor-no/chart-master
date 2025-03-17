@@ -1,10 +1,10 @@
 <div id="chartNav" class="song-row">
     <input class="no-display" name="chart-id" type="text" value="${chart.id}"/>
     <input class="no-display" name="is-last" value="${isLastChart}" />
-    <a href="#" name="prevChart"><</a>
+    <a href="#" title="GOTO Previous chart" name="prevChart"><</a>
     <b>CHART: ${chart.date} </b>
-    <a href="#" name="nextChart">></a>
-    <a href="#" name="curChart">>></a>
+    <a href="#" title="GOTO Next chart" name="nextChart">></a>
+    <a href="#" title="GOTO Latest chart" name="curChart">>></a>
 </div>
 
 <script type = "text/javascript" >
