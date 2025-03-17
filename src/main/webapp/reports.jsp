@@ -4,6 +4,16 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style><%@include file="/css/style.css"%></style>
+    <script type = "text/javascript" >
+        $(document).ready(function() {
+            $('#longest-songs').on('click', function () {
+                window.location.replace("/reports?report=longestSongs");
+            });
+            $('#no1-songs').on('click', function () {
+                window.location.replace("/reports?report=no1Songs");
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">

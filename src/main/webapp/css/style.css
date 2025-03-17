@@ -5,15 +5,35 @@ body {
 
 .container {
     width: 825px;
-    margin-top: 5px;
-    margin-left: 20px;
-    margin-bottom: 20px;
     background-color: #dce0e2;
     border-left: 1px #e8f7f0 solid;
     border-top: 1px #e8f7f0 solid;
     border-bottom: 1px #192428 solid;
     border-right: 1px #192428 solid;
     padding: 5px 10px 15px 15px;
+}
+
+.report {
+    width: 825px;
+    border-left: 1px #e8f7f0 solid;
+    border-top: 1px #e8f7f0 solid;
+    border-bottom: 1px #192428 solid;
+    border-right: 1px #192428 solid;
+}
+
+#report-cap {
+    background-color: #dce0e2;
+    padding: 5px 10px 10px 15px;
+}
+
+#report-body {
+    background-color: #ffffff;
+    padding: 5px 10px 15px 15px;
+}
+
+#report-body h2 {
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 [name="menu"] {
@@ -129,6 +149,12 @@ h1 {
     flex-flow: column;
 }
 
+#report-list {
+    width: 620px;
+    display: flex;
+    flex-flow: column;
+}
+
 #chart-table {
     width: 800px;
     display: flex;
@@ -149,6 +175,12 @@ h1 {
     border-left: 1px #192428 solid;
     margin-bottom: 10px;
 }
+
+#report-body .history-open {
+     background: #f6f6ff;
+    border-top: 1px #76367a solid;
+    border-left: 1px #76367a solid;
+ }
 
 [name="song-history"] {
     width: 600px;
@@ -382,6 +414,7 @@ h1 {
 .report-card {
     width: 300px;
     height: 150px;
+    background: #ffffff;
     border-top: 4px #bfc7c9 solid;
     border-left: 4px #c1c7c3 solid;
     border-bottom: 4px #c1c9cc solid;

@@ -1,6 +1,7 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.ChartDAOImpl;
+import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ChartService;
 
@@ -20,8 +21,10 @@ public class ReportsServlet extends HttpServlet  {
         if (report == null || report.isEmpty()) {
             request.getRequestDispatcher("reports.jsp").forward(request, response);
         } else if (report.equalsIgnoreCase("longestSongs")) {
+            request.setAttribute("songs", SongDAOImpl.getLongestSongs());
             request.getRequestDispatcher("reports/longest-songs.jsp").forward(request, response);
         } else if (report.equalsIgnoreCase("no1Songs")) {
+            request.setAttribute("songs", SongDAOImpl.getLongestNo1Songs());
             request.getRequestDispatcher("reports/no1-songs.jsp").forward(request, response);
         } else if (report.equalsIgnoreCase("topSongs")) {
             request.getRequestDispatcher("reports/top-songs.jsp").forward(request, response);

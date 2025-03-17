@@ -54,6 +54,36 @@ public class SongDAOImpl {
         return list;
     }
 
+    public static List<Song> getLongestSongs() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Song " +
+                "ORDER BY weeks DESC ");
+        query.setMaxResults(50);
+        List<Song> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static List getLongestNo1Songs() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT count(p.position) as cnt, " +
+                "s.id, s.peak, s.weeks, s.artists, s.name " +
+                "FROM Song s " +
+                "LEFT JOIN Position p ON p.pk.song.id = s.id " +
+                "WHERE s.peak = 1 " +
+                "AND p.position = 1 " +
+                "GROUP BY s.id, s.peak, s.weeks, s.artists, s.name " +
+                "ORDER BY cnt DESC");
+        query.setMaxResults(30);
+        List list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
     public static List<Song> getByArtist(String artist) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
