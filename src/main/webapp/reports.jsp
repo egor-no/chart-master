@@ -7,10 +7,16 @@
     <script type = "text/javascript" >
         $(document).ready(function() {
             $('#longest-songs').on('click', function () {
-                window.location.replace("/reports?report=longestSongs");
+                top.location.href = "/reports?report=longestSongs";
             });
             $('#no1-songs').on('click', function () {
-                window.location.replace("/reports?report=no1Songs");
+                top.location.href = "/reports?report=no1Songs";
+            });
+            $('#top-songs').on('click', function () {
+                top.location.href = "/reports?report=topSongs";
+            });
+            $('#top-artists').on('click', function () {
+                top.location.href = "/reports?report=topArtists";
             });
         });
     </script>

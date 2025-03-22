@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongDAOImpl {
@@ -58,7 +59,7 @@ public class SongDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Song " +
-                "ORDER BY weeks DESC ");
+                "ORDER BY weeks DESC, peak DESC");
         query.setMaxResults(50);
         List<Song> list = query.list();
         session.getTransaction().commit();
@@ -76,8 +77,24 @@ public class SongDAOImpl {
                 "WHERE s.peak = 1 " +
                 "AND p.position = 1 " +
                 "GROUP BY s.id, s.peak, s.weeks, s.artists, s.name " +
-                "ORDER BY cnt DESC");
+                "ORDER BY cnt DESC, s.weeks DESC");
         query.setMaxResults(30);
+        List list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static List getBiggestScoreSongs() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT SUM(41 - p.position) as sumpos, " +
+                "s.id, s.peak, s.weeks, s.artists, s.name " +
+                "FROM Song s " +
+                "LEFT JOIN Position p ON p.pk.song.id = s.id " +
+                "GROUP BY s.id, s.peak, s.weeks, s.artists, s.name " +
+                "ORDER BY sumpos DESC");
+        query.setMaxResults(50);
         List list = query.list();
         session.getTransaction().commit();
         session.close();

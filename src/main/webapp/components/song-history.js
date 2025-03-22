@@ -16,11 +16,13 @@ $(document).ready(function() {
         if (songDiv.find('[name="position"]').length) {
             if (songDiv.find('[name="song-history"]').is(":visible")) {
                 songDiv.find('[name="song-history"]').slideUp(500);
-                songDiv.find('[name="mov-info"]').removeClass('history-mov')
+                songDiv.find('[name="mov-info"]').removeClass('history-mov');
+                songDiv.find('[name="i-report"]').removeClass('i-highlight');
                 songDiv.removeClass('history-open');
             } else {
                 songDiv.find('[name="song-history"]').slideDown(500);
-                songDiv.find('[name="mov-info"]').addClass('history-mov')
+                songDiv.find('[name="mov-info"]').addClass('history-mov');
+                songDiv.find('[name="i-report"]').addClass('i-highlight');
                 songDiv.addClass('history-open');
             }
         } else {
@@ -84,6 +86,7 @@ $(document).ready(function() {
                     chartRunDiv.css('display', 'block');
                     songDiv.find('[name="song-history"]').slideDown(500);
                     songDiv.find('[name="mov-info"]').addClass('history-mov')
+                    songDiv.find('[name="i-report"]').addClass('i-highlight');
 
                     songDiv.find('#stats-weeks-no1s').html(no1);
                     songDiv.find('#stats-weeks-top10s').html(top10);

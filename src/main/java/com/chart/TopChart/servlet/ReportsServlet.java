@@ -3,6 +3,7 @@ package com.chart.TopChart.servlet;
 import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.model.Chart;
+import com.chart.TopChart.service.ArtistSongService;
 import com.chart.TopChart.service.ChartService;
 
 import javax.servlet.ServletException;
@@ -27,8 +28,10 @@ public class ReportsServlet extends HttpServlet  {
             request.setAttribute("songs", SongDAOImpl.getLongestNo1Songs());
             request.getRequestDispatcher("reports/no1-songs.jsp").forward(request, response);
         } else if (report.equalsIgnoreCase("topSongs")) {
+            request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongs());
             request.getRequestDispatcher("reports/top-songs.jsp").forward(request, response);
         } else if(report.equalsIgnoreCase("topArtists")) {
+            request.setAttribute("artists", ArtistSongService.getTopArtistsBySongs());
             request.getRequestDispatcher("reports/top-artists.jsp").forward(request, response);
         }
         response.flushBuffer();
