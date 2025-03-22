@@ -59,7 +59,7 @@ public class SongDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Song " +
-                "ORDER BY weeks DESC, peak DESC");
+                "ORDER BY weeks DESC, peak ASC");
         query.setMaxResults(50);
         List<Song> list = query.list();
         session.getTransaction().commit();

@@ -23,6 +23,7 @@ public class ArtistSongService {
         return topStats;
     }
 
+
     public static List getTopArtistsBySongs() {
         List<String> artists = SongDAOImpl.getArtists();
         List<List<String>> artistStats = new ArrayList();
@@ -47,16 +48,6 @@ public class ArtistSongService {
             int stat2A = Integer.parseInt(a.get(3));
             int stat2B = Integer.parseInt(b.get(3));
             return stat2B - stat2A;
-        });
-
-        artistStats.removeIf(entry -> {
-            String artistNameInStats = entry.get(0);
-            for (String originalName : artistNames) {
-                if (!originalName.equals(artistNameInStats) && artistNameInStats.contains(originalName)) {
-                    return true;
-                }
-            }
-            return false;
         });
 
         artistStats.subList(50, artistStats.size()).clear();

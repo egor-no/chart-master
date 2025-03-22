@@ -13,6 +13,15 @@ body {
     padding: 5px 10px 15px 15px;
 }
 
+.container-no-background {
+    width: 825px;
+    border-left: 1px #e8f7f0 solid;
+    border-top: 1px #e8f7f0 solid;
+    border-bottom: 1px #192428 solid;
+    border-right: 1px #192428 solid;
+    padding: 5px 10px 15px 15px;
+}
+
 .report {
     width: 825px;
     border-left: 1px #e8f7f0 solid;
@@ -135,6 +144,10 @@ h1 {
     border: 1px solid #ab47aa;
     background: #ab47aa;
     color: #ffffff;
+}
+
+.wp-icon:hover {
+    color: #ab47aa;
 }
 
 #chartNav a {
@@ -451,4 +464,21 @@ h1 {
     margin-bottom: 20px;
     margin-left: 4px;
     text-align: justify;
+}
+
+[name="wp-code"] {
+    font-family: monospace;
+    border-top: 1px #192428 solid;
+    border-left: 1px #192428 solid;
+    padding: 15px 5px 5px 15px;
+    width: 600px;
+}
+
+[name="wp-code-border"] {
+    width: 610px;
+    background-color: #dce0e2;
+    border-top: 2px #fefdff solid;
+    border-left: 2px #fff9ff solid;
+    border-bottom: 2px #fcfffd solid;
+    border-right: 2px #fefef4 solid;
 }
