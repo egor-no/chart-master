@@ -10,11 +10,20 @@
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style><%@include file="/css/style.css"%></style>
     <script type = "text/javascript" >
+
+        function updateNum() {
+            var num = 1;
+            $(document).find('#songs').find('.song-row').each(function() {
+                $(this).find('[name="num"]').html(num);
+                num++;
+            })
+        }
+
         $(document).ready(function() {
 
             var songs = ${songs};
 
-            $('[name="artists[]"], [name="song[]"]').autocomplete({
+            $('[name="artists[]"], [name="name[]"]').autocomplete({
 
                 minLength: 2,
                 source: function (request, response) {
@@ -42,13 +51,19 @@
                     $(this).closest('.song-row').find('[name="idSong[]"]').val(idSong);
                     $(this).closest('.song-row').find('[name="artists[]"]').val(artists);
                     $(this).closest('.song-row').find('[name="name[]"]').val(songName);
+                    $(this).closest('.song-row').find('[name="num"]').removeClass('new-song');
                 }
             });
 
-            $('[name="artists[]"], [name="song[]"]').on('input', function () {
+            $('[name="artists[]"], [name="name[]"]').on('input', function () {
                 $(this).closest('.song-row').find('[name="idSong[]"]').val('');
+                $(this).closest('.song-row').find('[name="num"]').addClass('new-song');
             });
 
+            $('#songs').sortable({
+                update: updateNum
+            });
+            $('#songs').disableSelection();
         });
     </script>
 </head>
@@ -83,15 +98,17 @@
                     Title
                 </div>
             </div>
-            <c:forEach begin="1" end="40" var="val">
-                <div class="song-row">
-                    <div style="display:none;"><input name="idSong[]" type="text" /></div>
-                    <div class="flex1" ><c:out value="${val}"/></div>
-                    <div class="flex9"><input style="width:100%;" name="artists[]" type="text" /></div>
-                    <div style="text-align:center; width: 30px;"> - </div>
-                    <div class="flex9"><input style="width:100%;" name="name[]" type="text" /></div>
-                </div>
-            </c:forEach>
+            <div id="songs">
+                <c:forEach begin="1" end="40" var="val">
+                    <div id="song-row-draggable" class="song-row">
+                        <div style="display:none;"><input name="idSong[]" type="text" /></div>
+                        <div class="flex1" name="num"><c:out value="${val}"/></div>
+                        <div class="flex9"><input style="width:100%;" name="artists[]" type="text" /></div>
+                        <div style="text-align:center; width: 30px;"> - </div>
+                        <div class="flex9"><input style="width:100%;" name="name[]" type="text" /></div>
+                    </div>
+                </c:forEach>
+            </div>
 
             <div style="text-align: center;">
                 <input style="margin-top:10px;" type="submit" value="Сохранить" />

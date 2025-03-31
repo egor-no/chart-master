@@ -138,6 +138,14 @@ h1 {
     text-decoration: none;
 }
 
+.new-song {
+    background: #fcfbdd;
+}
+
+#song-row-draggable {
+    cursor: move;
+}
+
 .i-highlight {
     width: 30px;
     height: 30px;
