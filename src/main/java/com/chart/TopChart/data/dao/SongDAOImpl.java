@@ -101,6 +101,21 @@ public class SongDAOImpl {
         return list;
     }
 
+    public static long getArtistScore(String artist) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT SUM(41 - p.position) as sumpos " +
+                "FROM Song s " +
+                "LEFT JOIN Position p ON p.pk.song.id = s.id " +
+                "WHERE s.artists LIKE :artist " +
+                "ORDER BY sumpos DESC");
+        query.setParameter("artist", "%" + artist + "%");
+        long result = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
     public static List<Song> getByArtist(String artist) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

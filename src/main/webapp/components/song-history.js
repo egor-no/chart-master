@@ -45,6 +45,9 @@ $(document).ready(function() {
                     }
 
                     var chartId = chartRun.firstChart.id;
+                    var chartDateStr = chartRun.firstChart.date;
+                    let chartDate = new Date(chartDateStr);
+
                     $.each(chartRun.positions, function(i, position) {
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').html(position);
 
@@ -75,10 +78,12 @@ $(document).ready(function() {
                             event.stopPropagation();
                         });
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + chartId);
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + chartId + " | " +  formatDate(chartDate));
                         var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
                         chartRunDiv.find('[name="positions"]').append(positionDiv);
+
                         chartId++;
+                        chartDate.setDate(chartDate.getDate() + 7);
                     });
                     chartRunDiv.find('[name="position"]:last').remove();
 
@@ -98,3 +103,11 @@ $(document).ready(function() {
     });
 
 });
+
+function formatDate(date) {
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+    let day = date.getDate().toString().padStart(2, '0');
+
+    return year + "-" + month + "-" + day;
+}

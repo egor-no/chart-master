@@ -15,6 +15,9 @@
             $('#top-songs').on('click', function () {
                 top.location.href = "/reports?report=topSongs";
             });
+            $('#effective-artists').on('click', function () {
+                top.location.href = "/reports?report=effectiveArtists";
+            });
             $('#top-artists').on('click', function () {
                 top.location.href = "/reports?report=topArtists";
             });
@@ -60,9 +63,13 @@
             <h2>Top songs</h2>
             <p>Самые топовые песни по взвешенному расчёту. Учитывается длительность пребывания и позиции в чарте.</p>
         </div>
-        <div class="report-card" id="top-artists">
+        <div class="report-card" id="effective-artists">
+            <h2>Effective artists</h2>
+            <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
+        </div>
+        <div class="report-card" id="top-artists" >
             <h2>Top artists</h2>
-            <p>Топовые артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
+            <p>Топовые артисты по взвешенному расчёту по позициям в чарте для всех их песен.</p>
         </div>
     </div>
 </div>

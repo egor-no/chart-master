@@ -30,8 +30,11 @@ public class ReportsServlet extends HttpServlet  {
         } else if (report.equalsIgnoreCase("topSongs")) {
             request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongs());
             request.getRequestDispatcher("reports/top-songs.jsp").forward(request, response);
-        } else if(report.equalsIgnoreCase("topArtists")) {
+        } else if(report.equalsIgnoreCase("effectiveArtists")) {
             request.setAttribute("artists", ArtistSongService.getTopArtistsBySongs());
+            request.getRequestDispatcher("reports/effective-artists.jsp").forward(request, response);
+        } else if(report.equalsIgnoreCase("topArtists")) {
+            request.setAttribute("artists", ArtistSongService.getTopArtists());
             request.getRequestDispatcher("reports/top-artists.jsp").forward(request, response);
         }
         response.flushBuffer();

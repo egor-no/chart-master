@@ -113,4 +113,19 @@ public class PositionDAOImpl {
         session.close();
         return results;
     }
+
+    public static long getArtistTopLength(String artist, int top) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT COUNT(*)" +
+                "FROM Position p " +
+                "WHERE p.pk.song.artists LIKE :artist " +
+                "AND p.position <= :top ");
+        query.setParameter("artist", "%" + artist + "%");
+        query.setParameter("top", top);
+        Long count = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return count;
+    }
 }
