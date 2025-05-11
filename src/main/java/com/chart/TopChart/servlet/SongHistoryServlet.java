@@ -25,7 +25,16 @@ public class SongHistoryServlet extends HttpServlet {
         } catch (Exception ex) {
             currentChart = ChartDAOImpl.getLastId();
         }
-        SongHistory songHistory  = SongHistoryService.getSongHistory(idSong);
+        Boolean dateSearch = Boolean.parseBoolean(request.getParameter("dateSearch"));
+
+        SongHistory songHistory;
+        if (dateSearch) {
+            String sDate1 = request.getParameter("date1");
+            String sDate2 = request.getParameter("date2");
+            songHistory  = SongHistoryService.getSongHistory(idSong, sDate1, sDate2);
+        } else {
+            songHistory  = SongHistoryService.getSongHistory(idSong, null, null);
+        }
         songHistory.setCurrentChart(currentChart);
 
         String json = new Gson().toJson(songHistory);

@@ -15,6 +15,9 @@
             $('#top-songs').on('click', function () {
                 top.location.href = "/reports?report=topSongs";
             });
+            $('#top-songs-date').on('click', function () {
+                top.location.href = "/reports?report=topSongsDate";
+            });
             $('#effective-artists').on('click', function () {
                 top.location.href = "/reports?report=effectiveArtists";
             });
@@ -61,7 +64,11 @@
         </div>
         <div class="report-card" id="top-songs">
             <h2>Top songs</h2>
-            <p>Самые топовые песни по взвешенному расчёту. Учитывается длительность пребывания и позиции в чарте.</p>
+            <p>Самые топовые песни по взвешенному расчёту за всё время. Учитывается длительность пребывания и позиции в чарте.</p>
+        </div>
+        <div class="report-card" id="top-songs-date">
+            <h2>Top songs (period)</h2>
+            <p>Топовые песни по взвешенному расчёту за выбранный период. Учитывается длительность пребывания и позиции в чарте.</p>
         </div>
         <div class="report-card" id="effective-artists">
             <h2>Effective artists</h2>

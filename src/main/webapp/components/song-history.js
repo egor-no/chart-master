@@ -28,7 +28,22 @@ $(document).ready(function() {
         } else {
             var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
             var idChart = $(document).find('[name="chart-number"]').text();
-            $.get("songhistory?idSong=" + idSong + "&chartNumber=" + idChart, function(songhistory) {
+            var dateSearch = false;
+            var date1 = '';
+            var date2 = '';
+            if ($(document).find('[name="date1-data"]').length
+                && $(document).find('[name="date1-data"]').val() != ''
+                && $(document).find('[name="date2-data"]').val() != '') {
+                dateSearch = true;
+                date1 = $(document).find('[name="date1-data"]').val();
+                date2 = $(document).find('[name="date2-data"]').val();
+            }
+
+            $.get("songhistory?idSong=" + idSong
+                + "&chartNumber=" + idChart
+                + "&dateSearch=" + dateSearch
+                + "&date1=" + date1
+                + "&date2=" + date2, function(songhistory) {
                 var peak = songhistory.peak;
                 var currentChart = songhistory.currentChart;
                 $.each(songhistory.chartRuns, function (index, chartRun) {

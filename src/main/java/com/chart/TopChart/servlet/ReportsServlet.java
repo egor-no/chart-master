@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "reports", value = "/reports")
 public class ReportsServlet extends HttpServlet  {
@@ -30,6 +31,20 @@ public class ReportsServlet extends HttpServlet  {
         } else if (report.equalsIgnoreCase("topSongs")) {
             request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongs());
             request.getRequestDispatcher("reports/top-songs.jsp").forward(request, response);
+        } else if (report.equalsIgnoreCase("topSongsDate")) {
+            String sDate1 = request.getParameter("date1");
+            String sDate2 = request.getParameter("date2");
+
+            if (sDate1 == null && sDate2 == null || sDate1.isEmpty()) {
+                request.setAttribute("isListLoaded", false);
+                request.setAttribute("songs", new ArrayList<>());
+            } else {
+                request.setAttribute("isListLoaded", true);
+                request.setAttribute("date1", sDate1);
+                request.setAttribute("date2", sDate2);
+                request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongsByDate(sDate1, sDate2));
+            }
+            request.getRequestDispatcher("reports/top-songs-date.jsp").forward(request, response);
         } else if(report.equalsIgnoreCase("effectiveArtists")) {
             request.setAttribute("artists", ArtistSongService.getTopArtistsBySongs());
             request.getRequestDispatcher("reports/effective-artists.jsp").forward(request, response);

@@ -101,6 +101,33 @@ public class SongDAOImpl {
         return list;
     }
 
+
+    public static List getBiggestScoreSongsByDate(String date1, String date2) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        String hql = "SELECT SUM(41 - p.position) as sumpos, " +
+                "s.id, s.peak, s.weeks, s.artists, s.name " +
+                "FROM Position p " +
+                "LEFT JOIN Song s ON p.pk.song.id = s.id " +
+                "LEFT JOIN Chart c ON c.id = p.pk.chart.id " +
+                "WHERE c.date >= :date1 ";
+        if (!date2.isEmpty()) {
+            hql += "AND c.date <= :date2 ";
+        }
+        hql += "GROUP BY s.id, s.peak, s.weeks, s.artists, s.name " +
+                "ORDER BY sumpos DESC";
+        Query query = session.createQuery(hql);
+        query.setMaxResults(50);
+        query.setParameter("date1", date1);
+        if (!date2.isEmpty()) {
+            query.setParameter("date2", date2);
+        }
+        List list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
     public static long getArtistScore(String artist) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
