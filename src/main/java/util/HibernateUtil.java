@@ -3,33 +3,38 @@ package util;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.net.URI;
+
 public class HibernateUtil {
     private static SessionFactory sessionFactory = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
-        try {
-            Configuration config = new Configuration().configure("sqlserverMain.cfg.xml");
+        private static SessionFactory sessionFactory = buildSessionFactory();
 
-            // Поддержка Railway
-            String rawUrl = System.getenv("DATABASE_URL");
-            String user = System.getenv("MYSQLUSER");
-            String password = System.getenv("MYSQLPASSWORD");
+        private static SessionFactory buildSessionFactory() {
+            try {
+                Configuration config = new Configuration().configure("sqlserverMain.cfg.xml");
 
-            if (rawUrl != null && rawUrl.startsWith("mysql://")) {
-                rawUrl = rawUrl.replace("mysql://", "jdbc:mysql://");
-            }
+                // Получаем переменную окружения DATABASE_URL
+                String rawUrl = System.getenv("DATABASE_URL");
 
-            if (rawUrl != null) {
-                config.setProperty("hibernate.connection.url", rawUrl);
-            }
-            if (user != null) {
-                config.setProperty("hibernate.connection.username", user);
-            }
-            if (password != null) {
-                config.setProperty("hibernate.connection.password", password);
-            }
+                if (rawUrl != null && rawUrl.startsWith("mysql://")) {
+                    // Преобразуем в jdbc-ссылку
+                    URI dbUri = new URI(rawUrl);
 
-            return config.buildSessionFactory();
+                    String userInfo = dbUri.getUserInfo(); // логин:пароль
+                    String[] userParts = userInfo.split(":");
+                    String username = userParts[0];
+                    String password = userParts[1];
+
+                    String jdbcUrl = "jdbc:mysql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
+
+                    config.setProperty("hibernate.connection.url", jdbcUrl);
+                    config.setProperty("hibernate.connection.username", username);
+                    config.setProperty("hibernate.connection.password", password);
+                }
+
+                return config.buildSessionFactory();
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
         }
