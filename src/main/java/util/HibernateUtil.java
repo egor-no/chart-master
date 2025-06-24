@@ -22,6 +22,11 @@ public class HibernateUtil {
                 String password = dbUri.getUserInfo().split(":")[1];
                 String jdbcUrl = "jdbc:mysql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath()
                         + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+                
+                System.out.println("⏳ Hibernate init started");
+                System.out.println("rawUrl = " + rawUrl);
+                System.out.println("user = " + username);
+                System.out.println("pass = " + password);
 
                 config.setProperty("hibernate.connection.url", jdbcUrl);
                 config.setProperty("hibernate.connection.username", username);
