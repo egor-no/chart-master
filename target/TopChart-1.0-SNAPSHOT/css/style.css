@@ -1,0 +1,492 @@
+body {
+    background-color: #58a8a9;
+    color: #000;
+}
+
+.container {
+    width: 825px;
+    background-color: #dce0e2;
+    border-left: 1px #e8f7f0 solid;
+    border-top: 1px #e8f7f0 solid;
+    border-bottom: 1px #192428 solid;
+    border-right: 1px #192428 solid;
+    padding: 5px 10px 15px 15px;
+}
+
+.container-no-background {
+    width: 825px;
+    border-left: 1px #e8f7f0 solid;
+    border-top: 1px #e8f7f0 solid;
+    border-bottom: 1px #192428 solid;
+    border-right: 1px #192428 solid;
+    padding: 5px 10px 15px 15px;
+}
+
+.report {
+    width: 825px;
+    border-left: 1px #e8f7f0 solid;
+    border-top: 1px #e8f7f0 solid;
+    border-bottom: 1px #192428 solid;
+    border-right: 1px #192428 solid;
+}
+
+#report-cap {
+    background-color: #dce0e2;
+    padding: 5px 10px 10px 15px;
+}
+
+#report-body {
+    background-color: #ffffff;
+    padding: 5px 10px 15px 15px;
+}
+
+#report-body h2 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+[name="menu"] {
+    margin-bottom: 5px;
+}
+
+[name="menu"]  a {
+    color: #0000a8;
+    text-decoration: none;
+}
+
+[name="menu"]  a:hover {
+    color: #0000a8;
+    text-decoration: underline;
+}
+
+[name="menu"] a:active, [name="menu"] a:visited {
+    color: #76367a;
+    text-decoration: none;
+}
+
+.nav {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+h1 {
+    color: #ffffff;
+    background-color: #000676;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 0px;
+    padding-left: 2px;
+}
+
+.flex1 {
+    display: flex;
+    flex: 1;
+}
+
+.data-start {
+    margin-left: 7px;
+}
+
+.data-end {
+    margin-right: 10px;
+}
+
+.flex4 {
+    display: flex;
+    flex: 4;
+}
+
+.flex5 {
+    display: flex;
+    flex: 5;
+}
+
+.flex9 {
+    display: flex;
+    flex: 9;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: end;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.no-display {
+    display: none;
+}
+
+[name="song"] {
+    display: flex;
+    flex-flow: column;
+    border-bottom: 1px solid grey;
+}
+
+.song-row {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom:5px;
+}
+
+.song-row a{
+    color: #000000;
+    text-decoration: none;
+}
+
+.new-song {
+    background: #fcfbdd;
+}
+
+#song-row-draggable {
+    cursor: move;
+}
+
+.i-highlight {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ab47aa;
+    background: #ab47aa;
+    color: #ffffff;
+}
+
+.wp-icon:hover {
+    color: #ab47aa;
+}
+
+#chartNav a {
+    color: #0000a8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+[name="prevChart"] {
+    margin-right: 10px;
+}
+
+[name="nextChart"], [name="curChart"] {
+    margin-left: 10px;
+}
+
+#song-list, #song-info {
+    width: 620px;
+    display: flex;
+    flex-flow: column;
+}
+
+#report-list {
+    width: 620px;
+    display: flex;
+    flex-flow: column;
+}
+
+#chart-table {
+    width: 800px;
+    display: flex;
+    flex-flow: column;
+}
+
+#chart-create {
+    width: 600px;
+    display: flex;
+    flex-flow: column;
+}
+
+.history-open {
+    background: #fcfbdd;
+    border-right: 1px #e8f7f0 solid;
+    border-bottom: 1px #e8f7f0 solid;
+    border-top: 1px #192428 solid;
+    border-left: 1px #192428 solid;
+    margin-bottom: 10px;
+}
+
+#report-body .history-open {
+     background: #f6f6ff;
+    border-top: 1px #76367a solid;
+    border-left: 1px #76367a solid;
+ }
+
+[name="song-history"] {
+    width: 600px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 16px;
+}
+
+[name="song-history"] .chartRunOne {
+    border-bottom: 1px solid grey;
+    width: 180px;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+[name="song-history"] .chartRunTwo {
+    border-bottom: 1px solid grey;
+    width: 260px;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+#artists-list {
+    columns: 4;
+    -webkit-columns: 4;
+    -moz-columns: 4;
+}
+
+[name="positions"] {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+[name="position"] {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+}
+
+[name="position"] a {
+    color: #76367a;
+    text-decoration: none;
+}
+
+.peak {
+    border: 1px solid #0000a8;
+    outline: 2px solid #0000a8;
+    outline-offset: -2px;
+}
+
+.peak a {
+    font-weight: bold;
+    color: #0000a8;
+}
+
+.current {
+    background: #aa54ab;
+}
+
+.current a {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+[name="mov"] {
+    margin-block-start: 12px;
+    margin-block-end: 16px;
+    font-size: 18px;
+    text-align: center;
+}
+
+[name="mov-val"] {
+    margin-block-start: 20px;
+    margin-block-end: 16px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.flex-mov {
+    display: flex;
+    flex: 1;
+}
+
+.equal {
+    color: #fdff12;
+}
+
+.down {
+    color: #d80000;
+}
+
+.up {
+    color: #30a83c;
+}
+
+.new {
+    color: #ff05fa;
+}
+
+.re {
+    color: #ab47aa;
+}
+
+.history-mov {
+    color: #282929;
+}
+
+.edit-fields {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#artist-stats {
+    width: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row nowrap;
+    background: #f6f6ff;
+    border-top: 4px #bfc7c9 solid;
+    border-left: 4px #c1c7c3 solid;
+    border-bottom: 4px #c1c9cc solid;
+    border-right: 4px #bdc6cb solid;
+}
+
+#song-stats {
+    width: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row nowrap;
+    margin-bottom: 20px;
+}
+
+#artist-stats-border {
+    width: 610px;
+    border-top: 2px #fefdff solid;
+    border-left: 2px #fff9ff solid;
+    border-bottom: 2px #fcfffd solid;
+    border-right: 2px #fefef4 solid;
+}
+
+#artist-stats h3 {
+    margin-top:15px;
+    margin-bottom:15px;
+    font-size: 2em;
+    color: #aa54ab;
+    font-weight: bold;
+    font-family: "Arial Black";
+    height: 40px;
+}
+
+
+#song-stats h3 {
+    font-size: 2em;
+    font-weight: bolder;
+    font-family: "Arial Black";
+    color: #d86dd9;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+#artist-stats p {
+    margin-top:0px;
+    margin-bottom:15px;
+}
+
+#song-stats p {
+    margin-top:0px;
+    margin-bottom:0px;
+    font-size: 0.8em;
+}
+
+.artist-stat {
+    display: flex;
+    flex-flow: column;
+    align-items:center;
+}
+
+.artist-stat {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.song-stat {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 60px;
+    border-right: 2px solid #d86dd9;
+    border-left: 2px solid #d86dd9;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#stats-position-no1s:hover h3 {
+    font-size: 2.5em;
+    color: #d86dd9;
+    font-weight: bolder;
+}
+
+#stats-position-top10s:hover h3 {
+     font-size: 2.5em;
+     color: #76367a;
+     font-weight: bolder;
+ }
+
+#stats-position-top40s:hover h3 {
+    font-size: 2.5em;
+    color: #000676;
+    font-weight: bolder;
+}
+
+[name="reports"] {
+    width: 700px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+[name="reports-title"] {
+    width: 700px;
+}
+
+.report-card {
+    width: 300px;
+    height: 150px;
+    background: #ffffff;
+    border-top: 4px #bfc7c9 solid;
+    border-left: 4px #c1c7c3 solid;
+    border-bottom: 4px #c1c9cc solid;
+    border-right: 4px #bdc6cb solid;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.report-card h2 {
+    border-bottom: 1px solid grey;
+    color: #76367a;
+    text-decoration: none;
+}
+
+.report-card p {
+    font-size: 0.9em;
+    text-align: justify;
+    margin-right: 30px;
+    text-decoration: none;
+}
+
+[name="reports-title"] p {
+    font-size: 1em;
+    margin-bottom: 20px;
+    margin-left: 4px;
+    text-align: justify;
+}
+
+[name="wp-code"] {
+    font-family: monospace;
+    border-top: 1px #192428 solid;
+    border-left: 1px #192428 solid;
+    padding: 15px 5px 5px 15px;
+    width: 600px;
+}
+
+[name="wp-code-border"] {
+    width: 610px;
+    background-color: #dce0e2;
+    border-top: 2px #fefdff solid;
+    border-left: 2px #fff9ff solid;
+    border-bottom: 2px #fcfffd solid;
+    border-right: 2px #fefef4 solid;
+}
