@@ -1,0 +1,16 @@
+{
+  build {
+    dockerfilePath Dockerfile
+  },
+  deploy {
+    startCommand catalina.sh run,
+    restartPolicyType ON_FAILURE
+  },
+  ports [
+    {
+      port 8080,
+      healthcheckPath ,
+      protocol HTTP
+    }
+  ]
+}
