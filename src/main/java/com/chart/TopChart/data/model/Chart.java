@@ -14,15 +14,20 @@ public class Chart {
     @Column(name="Date")
     private String date;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idinfo")
+    private ChartInfo info;
+
     @OneToMany(mappedBy = "pk.chart", cascade = CascadeType.ALL)
     private List<Position> positions;
 
     public Chart() {
     }
 
-    public Chart(long id, String date, List<Position> positions) {
+    public Chart(long id, String date, ChartInfo info, List<Position> positions) {
         this.id = id;
         this.date = date;
+        this.info = info;
         this.positions = positions;
     }
 
@@ -48,6 +53,14 @@ public class Chart {
 
     public void setPositions(List<Position> positions) {
         this.positions = positions;
+    }
+
+    public ChartInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(ChartInfo info) {
+        this.info = info;
     }
 
     @Override

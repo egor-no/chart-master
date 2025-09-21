@@ -34,6 +34,8 @@ public class ChartDAOImpl {
         session.beginTransaction();
         Query query = session.createQuery("FROM Chart c " +
                 "LEFT JOIN FETCH c.positions " +
+                "LEFT JOIN FETCH c.info ci " +
+                "LEFT JOIN FETCH ci.owner " +
                 "WHERE c.id = :id");
         query.setLong("id", id);
         Chart result = (Chart) query.uniqueResult();
@@ -47,6 +49,8 @@ public class ChartDAOImpl {
         session.beginTransaction();
         Query query = session.createQuery("SELECT MAX(id) " +
                 "FROM Chart c " +
+                "LEFT JOIN FETCH c.info ci " +
+                "LEFT JOIN FETCH ci.owner " +
                 "WHERE c.date <= :date");
         query.setParameter("date", sDate);
         long result = (Long)query.uniqueResult();

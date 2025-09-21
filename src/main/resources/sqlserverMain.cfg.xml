@@ -8,11 +8,15 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">
-            jdbc:mysql://mysql.railway.internal:3306/railway?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
-        </property>
+<!--        <property name="hibernate.connection.url">-->
+<!--            jdbc:mysql://mysql.railway.internal:3306/railway?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC-->
+<!--        </property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">bIaizjdGQwkimlRKMCDKDsRBBlLwbrCh</property>
+-->
+        <property name="connection.url">jdbc:mysql://localhost:3306/top40_dev?allowPublicKeyRetrieval=true&amp;useSSL=false</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
 
         <!-- Диалект и пул соединений -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
@@ -20,9 +24,11 @@
         <property name="hibernate.show_sql">true</property>
 
         <!-- Маппинги -->
-        <mapping class="com.chart.TopChart.data.model.Song" />
         <mapping class="com.chart.TopChart.data.model.Chart" />
+        <mapping class="com.chart.TopChart.data.model.ChartInfo" />
         <mapping class="com.chart.TopChart.data.model.Position" />
+        <mapping class="com.chart.TopChart.data.model.Song" />
+        <mapping class="com.chart.TopChart.data.model.User" />
 
 <!--        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>-->
 <!--&lt;!&ndash;        <property name="connection.url">jdbc:mysql://localhost:3306/top40_app?allowPublicKeyRetrieval=true&amp;useSSL=false</property>&ndash;&gt;-->
