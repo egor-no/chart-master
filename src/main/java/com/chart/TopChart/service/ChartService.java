@@ -54,6 +54,15 @@ public class ChartService {
         return DateUtil.formatDateForSQL(cal.getTime());
     }
 
+    public static boolean deleteChart(long chartId) {
+        try {
+            ChartDAOImpl.delete(chartId);
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+
     public static void formChart(String ids[], String name[], String artists[]) {
         long lastChartId = ChartDAOImpl.getLastId();
 

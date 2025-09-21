@@ -3,6 +3,7 @@ package com.chart.TopChart.data.dao;
 import com.chart.TopChart.data.model.Chart;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 import java.util.List;
@@ -78,16 +79,22 @@ public class ChartDAOImpl {
         session.close();
     }
 
-    public static void delete(long id){
+    public static void delete(long id) throws Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query=session.createQuery("FROM Chart " +
-                "WHERE id = :id");
-        query.setLong("id",id);
-        Chart result = (Chart) query.uniqueResult();
-        session.delete(result);
-        session.getTransaction().commit();
-        session.close();
+        Transaction tx = session.beginTransaction();
+        try {
+            Query query = session.createQuery("FROM Chart " +
+                    "WHERE id = :id");
+            query.setLong("id",id);
+            Chart result = (Chart) query.uniqueResult();
+            session.delete(result);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new Exception();
+        } finally {
+            session.close();
+        }
     }
 
 }

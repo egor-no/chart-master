@@ -101,7 +101,7 @@
             <div id="songs">
                 <c:forEach begin="1" end="40" var="val">
                     <div id="song-row-draggable" class="song-row">
-                        <div style="display:none;"><input name="idSong[]" type="text" /></div>
+                        <div style="display:none;"><input name="idSong[]" type="text"  /></div>
                         <div class="flex1" name="num"><c:out value="${val}"/></div>
                         <div class="flex9"><input style="width:100%;" name="artists[]" type="text" /></div>
                         <div style="text-align:center; width: 30px;"> - </div>

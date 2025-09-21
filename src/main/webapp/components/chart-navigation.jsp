@@ -4,6 +4,7 @@
         <input class="no-display" name="is-last" value="${isLastChart}" />
         <a href="#" title="GOTO Previous chart" name="prevChart"><</a>
         <b>CHART: ${chart.date} </b>
+        <a name="edit-chart-link" href="#">&#10000;</a>
         <a href="#" title="GOTO Next chart" name="nextChart">></a>
         <a href="#" title="GOTO Latest chart" name="curChart">>></a>
     </div>
@@ -15,13 +16,17 @@
 
 <script type = "text/javascript" >
     $(document).ready(function() {
+        $('[name="edit-chart-link"]').attr("href", "/chartedit?chartNumber=" + (Number($('[name="chart-id"]').val())));
+
         if ($('[name="is-last"]').val() == 'true') {
             $('[name="nextChart"]').addClass('no-display');
             $('[name="curChart"]').addClass('no-display');
+            $('[name="edit-chart-link"]').removeClass('no-display');
             $('[name="wp-export"]').removeClass('no-display');
             $('[name="wp-export"]').attr("href", "/wp-export?chartNumber=" + (Number($('[name="chart-id"]').val())));
         } else {
             $('[name="wp-export"]').addClass('no-display');
+            $('[name="edit-chart-link"]').addClass('no-display');
             $('[name="nextChart"]').attr("href", "/?chartNumber=" + (Number($('[name="chart-id"]').val()) + 1));
             $('[name="curChart"]').attr("href", "/");
         }
