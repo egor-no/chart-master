@@ -1,13 +1,11 @@
 package com.chart.TopChart.service;
 
 import com.chart.TopChart.data.dao.ChartDAOImpl;
+import com.chart.TopChart.data.dao.ChartInfoDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.dto.ChartFull;
-import com.chart.TopChart.data.model.Chart;
-import com.chart.TopChart.data.model.Position;
-import com.chart.TopChart.data.model.Position_PK;
-import com.chart.TopChart.data.model.Song;
+import com.chart.TopChart.data.model.*;
 import util.DateUtil;
 
 import java.util.*;
@@ -55,12 +53,43 @@ public class ChartService {
     }
 
     public static boolean deleteChart(long chartId) {
+        if (chartId != ChartDAOImpl.getLastId()) return false;
+
         try {
+            Chart chart = ChartDAOImpl.getById(chartId);
+            if (chart == null || chart.getPositions() == null) return false;
+
+            Set<Long> songIds = new HashSet<>();
+            for (Position p : chart.getPositions()) {
+                if (p != null && p.getPk() != null && p.getPk().getSong() != null) {
+                    songIds.add(p.getPk().getSong().getId());
+                }
+            }
+
             ChartDAOImpl.delete(chartId);
+
+            for (Long songId : songIds) {
+                List<Position> remaining = PositionDAOImpl.getPositionsForSong(songId);
+
+                Song song = SongDAOImpl.getById(songId);
+                if (song == null) continue;
+                song.setWeeks(remaining.size());
+                if (remaining.isEmpty()) {
+                    song.setPeak(41);
+                } else {
+                    int minPos = Integer.MAX_VALUE;
+                    for (Position rp : remaining) {
+                        if (rp.getPosition() < minPos) minPos = rp.getPosition();
+                    }
+                    song.setPeak(minPos);
+                }
+                SongDAOImpl.update(song);
+            }
+
+            return true;
         } catch (Exception ex) {
             return false;
         }
-        return true;
     }
 
     public static void formChart(String ids[], String name[], String artists[]) {
@@ -69,6 +98,8 @@ public class ChartService {
         Chart chart = new Chart();
         chart.setDate(ChartService.getNewChartDate());
         chart.setId(lastChartId+1);
+        ChartInfo info = ChartInfoDAOImpl.getById(1);
+        chart.setInfo(info);
         ChartDAOImpl.save(chart);
 
         Position position;
