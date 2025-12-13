@@ -18,11 +18,14 @@
             $('#top-songs-date').on('click', function () {
                 top.location.href = "/reports?report=topSongsDate";
             });
-            $('#effective-artists').on('click', function () {
-                top.location.href = "/reports?report=effectiveArtists";
-            });
             $('#top-artists').on('click', function () {
                 top.location.href = "/reports?report=topArtists";
+            });
+            $('#top-artists-date').on('click', function () {
+                top.location.href = "/reports?report=topArtistsDate";
+            });
+            $('#effective-artists').on('click', function () {
+                top.location.href = "/reports?report=effectiveArtists";
             });
         });
     </script>
@@ -70,14 +73,19 @@
             <h2>Top songs (period)</h2>
             <p>Топовые песни по взвешенному расчёту за выбранный период. Учитывается длительность пребывания и позиции в чарте.</p>
         </div>
-        <div class="report-card" id="effective-artists">
-            <h2>Effective artists</h2>
-            <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
-        </div>
         <div class="report-card" id="top-artists" >
             <h2>Top artists</h2>
             <p>Топовые артисты по взвешенному расчёту по позициям в чарте для всех их песен.</p>
         </div>
+        <div class="report-card" id="top-artists-date" >
+            <h2>Top artists (period)</h2>
+            <p>Топовые артисты по взвешенному расчёту по позициям в чарте для всех их песен за выбранный период.</p>
+        </div>
+        <div class="report-card" id="effective-artists">
+            <h2>Effective artists</h2>
+            <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
+        </div>
+
     </div>
 </div>
 </body>

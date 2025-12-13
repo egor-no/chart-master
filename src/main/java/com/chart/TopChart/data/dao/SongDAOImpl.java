@@ -143,6 +143,25 @@ public class SongDAOImpl {
         return result;
     }
 
+    public static long getArtistScoreByDate(String artist, String date1, String date2) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT SUM(41 - p.position) " +
+                "FROM Position p " +
+                "WHERE p.pk.song.artists LIKE :artist " +
+                "AND p.pk.chart.date >= :date1 " +
+                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
+        query.setParameter("artist", "%" + artist + "%");
+        query.setParameter("date1", date1);
+        if (date2 != null && !date2.isEmpty()) {
+            query.setParameter("date2", date2);
+        }
+        long result = (Long)query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
     public static List<Song> getByArtist(String artist) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

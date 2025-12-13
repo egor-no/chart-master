@@ -68,50 +68,63 @@ public class ArtistSongService {
         return lengthStats;
     }
 
+    public static List<Long> getArtistLengthByDate(String artist, String d1, String d2) {
+        List<Long> lengthStats = new ArrayList<>();
+        lengthStats.add(PositionDAOImpl.getArtistTopLengthByDate(artist, 1, d1, d2));
+        lengthStats.add(PositionDAOImpl.getArtistTopLengthByDate(artist, 10, d1, d2));
+        lengthStats.add(PositionDAOImpl.getArtistTopLengthByDate(artist, 40, d1, d2));
+        return lengthStats;
+    }
+
     public static List getTopArtists() {
-        List<String> artists = SongDAOImpl.getArtists();
+        return buildTopArtists(SongDAOImpl.getArtists(), null, null, false);
+    }
 
-        List<List<String>> artistStats = new ArrayList();
-        for (int i = 0; i < artists.size(); i++) {
-            long score = SongDAOImpl.getArtistScore(artists.get(i));
-            artistStats.add(new ArrayList<>());
-            artistStats.get(i).add(artists.get(i));
-            artistStats.get(i).add(String.valueOf(score));
+    public static List getTopArtistsByDate(String d1, String d2) {
+        return buildTopArtists(PositionDAOImpl.getArtistsByDate(d1, d2), d1, d2, true);
+    }
+
+    private static List<List<String>> buildTopArtists(List<String> artists, String d1, String d2, boolean byDate) {
+        List<List<String>> stats = new ArrayList<>();
+
+        for (String artist : artists) {
+            long score = byDate
+                    ? SongDAOImpl.getArtistScoreByDate(artist, d1, d2)
+                    : SongDAOImpl.getArtistScore(artist);
+
+            List<String> row = new ArrayList<>();
+            row.add(artist);
+            row.add(String.valueOf(score));
+            stats.add(row);
         }
 
-        artistStats.sort((a, b) -> {
-            int stat0A = Integer.parseInt(a.get(1));
-            int stat0B = Integer.parseInt(b.get(1));
-            return stat0B - stat0A;
-        });
+        stats.sort((a, b) -> Integer.parseInt(b.get(1)) - Integer.parseInt(a.get(1)));
+        if (stats.size() > 50) stats.subList(50, stats.size()).clear();
 
-        artistStats.subList(50, artistStats.size()).clear();
+        for (List<String> row : stats) {
+            List<Long> len = byDate
+                    ? getArtistLengthByDate(row.get(0), d1, d2)
+                    : getArtistLength(row.get(0));
 
-        for (int i = 0; i < artistStats.size(); i++) {
-            List<Long> stats = getArtistLength(artistStats.get(i).get(0));
-            artistStats.get(i).add(String.valueOf(stats.get(0)));
-            artistStats.get(i).add(String.valueOf(stats.get(1)));
-            artistStats.get(i).add(String.valueOf(stats.get(2)));
+            row.add(String.valueOf(len.get(0)));
+            row.add(String.valueOf(len.get(1)));
+            row.add(String.valueOf(len.get(2)));
         }
 
-        artistStats.sort((a, b) -> {
-            int stat0A = Integer.parseInt(a.get(1));
-            int stat0B = Integer.parseInt(b.get(1));
-            if (stat0B != stat0A) return stat0B - stat0A;
+        stats.sort((a, b) -> {
+            int sA = Integer.parseInt(a.get(1)), sB = Integer.parseInt(b.get(1));
+            if (sB != sA) return sB - sA;
 
-            int stat1A = Integer.parseInt(a.get(2));
-            int stat1B = Integer.parseInt(b.get(2));
-            if (stat1B != stat1A) return stat1B - stat1A;
+            int n1A = Integer.parseInt(a.get(2)), n1B = Integer.parseInt(b.get(2));
+            if (n1B != n1A) return n1B - n1A;
 
-            int stat2A = Integer.parseInt(a.get(3));
-            int stat2B = Integer.parseInt(b.get(3));
-            if (stat2B != stat2A) return stat2B - stat2A;
+            int t10A = Integer.parseInt(a.get(3)), t10B = Integer.parseInt(b.get(3));
+            if (t10B != t10A) return t10B - t10A;
 
-            int stat3A = Integer.parseInt(a.get(4));
-            int stat3B = Integer.parseInt(b.get(4));
-            return stat3B - stat3A;
+            int t40A = Integer.parseInt(a.get(4)), t40B = Integer.parseInt(b.get(4));
+            return t40B - t40A;
         });
 
-        return artistStats;
+        return stats;
     }
 }

@@ -98,6 +98,24 @@ public class PositionDAOImpl {
         return results;
     }
 
+    public static List<String> getArtistsByDate(String date1, String date2) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery( "SELECT DISTINCT p.pk.song.artists " +
+                "FROM Position p " +
+                "WHERE p.pk.chart.date >= :date1 " +
+                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : "") +
+                "ORDER BY p.pk.song.artists");
+        query.setParameter("date1", date1);
+        if (date2 != null && !date2.isEmpty()) {
+            query.setParameter("date2", date2);
+        }
+        List<String> results = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return results;
+    }
+
     public static List getWOCforChart(long idChart, List<Long> songIds) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -143,5 +161,28 @@ public class PositionDAOImpl {
         session.getTransaction().commit();
         session.close();
         return count;
+    }
+
+    public static long getArtistTopLengthByDate(String artist, int top, String date1, String date2) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT COUNT(*) " +
+                "FROM Position p " +
+                "WHERE p.pk.song.artists LIKE :artist " +
+                "AND p.position <= :top " +
+                "AND p.pk.chart.date >= :date1 " +
+                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
+        query.setParameter("artist", "%" + artist + "%");
+        query.setParameter("top", top);
+        query.setParameter("date1", date1);
+        if (date2 != null && !date2.isEmpty()) {
+            query.setParameter("date2", date2);
+        }
+
+        Long count = (Long) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+
+        return count == null ? 0L : count;
     }
 }

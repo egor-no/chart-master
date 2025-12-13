@@ -51,6 +51,20 @@ public class ReportsServlet extends HttpServlet  {
         } else if(report.equalsIgnoreCase("topArtists")) {
             request.setAttribute("artists", ArtistSongService.getTopArtists());
             request.getRequestDispatcher("reports/top-artists.jsp").forward(request, response);
+        } else if (report.equalsIgnoreCase("topArtistsDate")) {
+            String sDate1 = request.getParameter("date1");
+            String sDate2 = request.getParameter("date2");
+
+            if (sDate1 == null && sDate2 == null || sDate1.isEmpty()) {
+                request.setAttribute("isListLoaded", false);
+                request.setAttribute("artists", new ArrayList<>());
+            } else {
+                request.setAttribute("isListLoaded", true);
+                request.setAttribute("date1", sDate1);
+                request.setAttribute("date2", sDate2);
+                request.setAttribute("artists", ArtistSongService.getTopArtistsByDate(sDate1, sDate2));
+            }
+            request.getRequestDispatcher("reports/top-artists-date.jsp").forward(request, response);
         }
         response.flushBuffer();
 
