@@ -278,18 +278,28 @@ h1 {
     font-weight: bold;
 }
 
-[name="mov"] {
-    margin-block-start: 12px;
-    margin-block-end: 16px;
+[name="mov-info"]{
+    display: grid;
+    grid-template-columns: 18px 18px;
+    align-items: center;
+    justify-items: center;
+    width: 36px;
+}
+
+[name="mov"]{
+    margin: 0;
     font-size: 18px;
+    line-height: 18px;
+    width: 18px;
     text-align: center;
 }
 
-[name="mov-val"] {
-    margin-block-start: 20px;
-    margin-block-end: 16px;
-    text-align: center;
+[name="mov-val"]{
+    margin-top: 8px;
     font-size: 12px;
+    line-height: 12px;
+    width: 12px;
+    text-align: left;
 }
 
 .flex-mov {
@@ -310,7 +320,7 @@ h1 {
 }
 
 .new {
-    color: #ff05fa;
+    color: #0000CC;
 }
 
 .re {

@@ -48,28 +48,28 @@
                 mov = parseInt(lw) - parseInt(pos);
                 if (mov == 0) {
                     // $(this).find('#img').attr("src", "/icons/equal.png");
-                    $(this).find('[name="mov-info"]').addClass('equal');
-                    $(this).find('[name="mov"]').html("&#x2BC0;");
+                    $(this).find('[name="mov-info"]').addClass('equal').attr('title', 'no change');
+                    $(this).find('[name="mov"]').html("&#9632;");
                 } else if (mov > 0) {
                     // $(this).find('#img').attr("src", "/icons/up.png");
-                    $(this).find('[name="mov-info"]').addClass('up');
+                    $(this).find('[name="mov-info"]').addClass('up').attr('title', 'up ' + mov);
                     $(this).find('[name="mov"]').html("&#9650;");
                     $(this).find('[name="mov-val"]').html(mov);
                 } else {
                     mov = mov * -1;
                     // $(this).find('#img').attr("src", "/icons/down.png");
-                    $(this).find('[name="mov-info"]').addClass('down');
+                    $(this).find('[name="mov-info"]').addClass('down').attr('title', 'down ' + mov);
                     $(this).find('[name="mov"]').html("&#9660;");
                     $(this).find('[name="mov-val"]').html(mov);
                 }
             } else {
                 if (parseInt(woc) > 1) {
-                    $(this).find('[name="mov-info"]').addClass('re');
-                    $(this).find('[name="mov"]').html("&#11095;");
+                    $(this).find('[name="mov-info"]').addClass('re').attr('title', 're-entry');
+                    $(this).find('[name="mov"]').html("&#9670;");
                     // $(this).find('#img').attr("src", "/icons/re.png");
                 } else {
-                    $(this).find('[name="mov-info"]').addClass('new');
-                    $(this).find('[name="mov"]').html("&#x25C9;");
+                    $(this).find('[name="mov-info"]').addClass('new').attr('title', 'new');
+                    $(this).find('[name="mov"]').html("&#9733;");
                     // $(this).find('#img').attr("src", "/icons/re.png");
                 }
             }
