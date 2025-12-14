@@ -1,6 +1,7 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.ChartDAOImpl;
+import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ArtistSongService;
@@ -22,15 +23,19 @@ public class ReportsServlet extends HttpServlet  {
         String report = request.getParameter("report");
         if (report == null || report.isEmpty()) {
             request.getRequestDispatcher("reports.jsp").forward(request, response);
+
         } else if (report.equalsIgnoreCase("longestSongs")) {
             request.setAttribute("songs", SongDAOImpl.getLongestSongs());
             request.getRequestDispatcher("reports/longest-songs.jsp").forward(request, response);
+
         } else if (report.equalsIgnoreCase("no1Songs")) {
             request.setAttribute("songs", SongDAOImpl.getLongestNo1Songs());
             request.getRequestDispatcher("reports/no1-songs.jsp").forward(request, response);
+
         } else if (report.equalsIgnoreCase("topSongs")) {
             request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongs());
             request.getRequestDispatcher("reports/top-songs.jsp").forward(request, response);
+
         } else if (report.equalsIgnoreCase("topSongsDate")) {
             String sDate1 = request.getParameter("date1");
             String sDate2 = request.getParameter("date2");
@@ -45,12 +50,15 @@ public class ReportsServlet extends HttpServlet  {
                 request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongsByDate(sDate1, sDate2));
             }
             request.getRequestDispatcher("reports/top-songs-date.jsp").forward(request, response);
+
         } else if(report.equalsIgnoreCase("effectiveArtists")) {
             request.setAttribute("artists", ArtistSongService.getTopArtistsBySongs());
             request.getRequestDispatcher("reports/effective-artists.jsp").forward(request, response);
+
         } else if(report.equalsIgnoreCase("topArtists")) {
             request.setAttribute("artists", ArtistSongService.getTopArtists());
             request.getRequestDispatcher("reports/top-artists.jsp").forward(request, response);
+
         } else if (report.equalsIgnoreCase("topArtistsDate")) {
             String sDate1 = request.getParameter("date1");
             String sDate2 = request.getParameter("date2");
@@ -65,8 +73,22 @@ public class ReportsServlet extends HttpServlet  {
                 request.setAttribute("artists", ArtistSongService.getTopArtistsByDate(sDate1, sDate2));
             }
             request.getRequestDispatcher("reports/top-artists-date.jsp").forward(request, response);
-        }
-        response.flushBuffer();
 
+        } else if (report.equalsIgnoreCase("no1Debuts")) {
+            request.setAttribute("positions", PositionDAOImpl.getNumberOneDebuts());
+            request.getRequestDispatcher("reports/no1-debuts.jsp").forward(request, response);
+
+        } else if (report.equalsIgnoreCase("longestStallers")) {
+            request.setAttribute("songs", PositionDAOImpl.getNumberOneDebuts());
+            request.getRequestDispatcher("reports/longest-stallers.jsp").forward(request, response);
+
+        } else if (report.equalsIgnoreCase("biggestLeaps")) {
+            request.setAttribute("songs", PositionDAOImpl.getNumberOneDebuts());
+            request.getRequestDispatcher("reports/biggest-leaps.jsp").forward(request, response);
+
+        } else if (report.equalsIgnoreCase("biggestFalls")) {
+            request.setAttribute("songs", PositionDAOImpl.getNumberOneDebuts());
+            request.getRequestDispatcher("reports/biggest-falls.jsp").forward(request, response);
+        }
     }
 }

@@ -12,6 +12,18 @@
             $('#no1-songs').on('click', function () {
                 top.location.href = "/reports?report=no1Songs";
             });
+            $('#no1-debuts').on('click', function () {
+                top.location.href = "/reports?report=no1Debuts";
+            });
+            $('#longest-stallers').on('click', function () {
+                top.location.href = "/reports?report=longestStallers";
+            });
+            $('#biggest-leaps').on('click', function () {
+                top.location.href = "/reports?report=biggestLeaps";
+            });
+            $('#biggest-falls').on('click', function () {
+                top.location.href = "/reports?report=biggestFalls";
+            });
             $('#top-songs').on('click', function () {
                 top.location.href = "/reports?report=topSongs";
             });
@@ -64,6 +76,22 @@
         <div class="report-card" id="no1-songs">
             <h2>Longest no1s</h2>
             <p>Топ песен, которые провели на первом месте чарта дольше остальных</p>
+        </div>
+        <div class="report-card" id="no1-debuts">
+            <h2>Number 1 debuts</h2>
+            <p>Песни, которые попали в самое сердце, и сразу же дебютировали с первого места.</p>
+        </div>
+        <div class="report-card" id="longest-stallers">
+            <h2>Longest stallers</h2>
+            <p>Песни, которые понадобилось время, чтобы понравиться больше. Рекордно долгие пути к топ-10.</p>
+        </div>
+        <div class="report-card" id="biggest-leaps">
+            <h2>Biggest Leaps</h2>
+            <p>Самые большие скачки вверх.</p>
+        </div>
+        <div class="report-card" id="biggest-falls">
+            <h2>Biggest Falls</h2>
+            <p>Самые большие падения, включая выбывания из чарта.</p>
         </div>
         <div class="report-card" id="top-songs">
             <h2>Top songs</h2>

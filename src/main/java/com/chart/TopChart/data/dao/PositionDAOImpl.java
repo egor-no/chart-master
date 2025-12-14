@@ -148,12 +148,10 @@ public class PositionDAOImpl {
     public static List<Object[]> getArtistRowsForStatsAllTime() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-
         Query query = session.createQuery(
                 "SELECT p.position, p.pk.song.artists " +
                         "FROM Position p"
         );
-
         List<Object[]> rows = query.list();
         session.getTransaction().commit();
         session.close();
@@ -171,6 +169,26 @@ public class PositionDAOImpl {
         if (date2 != null && !date2.isEmpty())
             query.setParameter("date2", date2);
         List<Object[]> rows = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return rows;
+    }
+
+    public static List<Position> getNumberOneDebuts() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "FROM Position p " +
+                "WHERE p.position = 1 " +
+                "AND p.lastWeek is null " +
+                "AND NOT EXISTS ( " +
+                        "   SELECT 1 " +
+                        "   FROM Position p2 " +
+                        "   WHERE p2.pk.song.id = p.pk.song.id " +
+                        "   AND p2.pk.chart.id < p.pk.chart.id " +
+                        ") " +
+                "ORDER BY p.pk.chart.date DESC");
+        List<Position> rows = query.list();
         session.getTransaction().commit();
         session.close();
         return rows;
