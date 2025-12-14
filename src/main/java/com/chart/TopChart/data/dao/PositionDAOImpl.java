@@ -1,12 +1,10 @@
 package com.chart.TopChart.data.dao;
 
-import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.data.model.Position;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PositionDAOImpl {
@@ -104,8 +102,7 @@ public class PositionDAOImpl {
         Query query = session.createQuery( "SELECT DISTINCT p.pk.song.artists " +
                 "FROM Position p " +
                 "WHERE p.pk.chart.date >= :date1 " +
-                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : "") +
-                "ORDER BY p.pk.song.artists");
+                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
         query.setParameter("date1", date1);
         if (date2 != null && !date2.isEmpty()) {
             query.setParameter("date2", date2);
@@ -148,41 +145,34 @@ public class PositionDAOImpl {
         return results;
     }
 
-    public static long getArtistTopLength(String artist, int top) {
+    public static List<Object[]> getArtistRowsForStatsAllTime() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT COUNT(*)" +
-                "FROM Position p " +
-                "WHERE p.pk.song.artists LIKE :artist " +
-                "AND p.position <= :top ");
-        query.setParameter("artist", "%" + artist + "%");
-        query.setParameter("top", top);
-        Long count = (Long)query.uniqueResult();
+
+        Query query = session.createQuery(
+                "SELECT p.position, p.pk.song.artists " +
+                        "FROM Position p"
+        );
+
+        List<Object[]> rows = query.list();
         session.getTransaction().commit();
         session.close();
-        return count;
+        return rows;
     }
 
-    public static long getArtistTopLengthByDate(String artist, int top, String date1, String date2) {
+    public static List<Object[]> getArtistRowsForStatsByDate(String date1, String date2) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT COUNT(*) " +
+        Query query = session.createQuery("SELECT p.position, p.pk.song.artists " +
                 "FROM Position p " +
-                "WHERE p.pk.song.artists LIKE :artist " +
-                "AND p.position <= :top " +
-                "AND p.pk.chart.date >= :date1 " +
+                "WHERE p.pk.chart.date >= :date1 " +
                 (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
-        query.setParameter("artist", "%" + artist + "%");
-        query.setParameter("top", top);
         query.setParameter("date1", date1);
-        if (date2 != null && !date2.isEmpty()) {
+        if (date2 != null && !date2.isEmpty())
             query.setParameter("date2", date2);
-        }
-
-        Long count = (Long) query.uniqueResult();
+        List<Object[]> rows = query.list();
         session.getTransaction().commit();
         session.close();
-
-        return count == null ? 0L : count;
+        return rows;
     }
 }

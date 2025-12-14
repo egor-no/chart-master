@@ -22,7 +22,7 @@ public class ArtistSongsServlet extends HttpServlet {
 
         request.setAttribute("songs", songs);
         request.setAttribute("artist", artist);
-        request.setAttribute("stats", ArtistSongService.getArtistTopStats(artist));
+        request.setAttribute("stats", ArtistSongService.getArtistTopStatsFromSongs(songs));
         request.getRequestDispatcher("artistsongs.jsp").forward(request, response);
         response.flushBuffer();
     }

@@ -128,46 +128,21 @@ public class SongDAOImpl {
         return list;
     }
 
-    public static long getArtistScore(String artist) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("SELECT SUM(41 - p.position) as sumpos " +
-                "FROM Song s " +
-                "LEFT JOIN Position p ON p.pk.song.id = s.id " +
-                "WHERE s.artists LIKE :artist " +
-                "ORDER BY sumpos DESC");
-        query.setParameter("artist", "%" + artist + "%");
-        long result = (Long)query.uniqueResult();
-        session.getTransaction().commit();
-        session.close();
-        return result;
-    }
-
-    public static long getArtistScoreByDate(String artist, String date1, String date2) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("SELECT SUM(41 - p.position) " +
-                "FROM Position p " +
-                "WHERE p.pk.song.artists LIKE :artist " +
-                "AND p.pk.chart.date >= :date1 " +
-                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
-        query.setParameter("artist", "%" + artist + "%");
-        query.setParameter("date1", date1);
-        if (date2 != null && !date2.isEmpty()) {
-            query.setParameter("date2", date2);
-        }
-        long result = (Long)query.uniqueResult();
-        session.getTransaction().commit();
-        session.close();
-        return result;
-    }
-
     public static List<Song> getByArtist(String artist) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Song s " +
-                "WHERE s.artists LIKE :artist ");
-        query.setParameter("artist", "%" + artist + "%");
+                "WHERE lower(trim(s.artists)) = :a " +
+                " OR lower(s.artists) LIKE :aPrefix " +
+                " OR lower(s.artists) LIKE :aSuffix " +
+                " OR lower(s.artists) LIKE :aMiddle1 " +
+                " OR lower(s.artists) LIKE :aMiddle2 ");
+        String a = artist == null ? "" : artist.trim().toLowerCase();
+        query.setParameter("a", a);
+        query.setParameter("aPrefix", a + ",%");
+        query.setParameter("aSuffix", "%," + a);
+        query.setParameter("aMiddle1", "%," + a + ",%");
+        query.setParameter("aMiddle2", "%, " + a + ",%");
         List<Song> list = query.list();
         session.getTransaction().commit();
         session.close();
@@ -200,6 +175,17 @@ public class SongDAOImpl {
         session.getTransaction().commit();
         session.close();
         return count;
+    }
+
+    public static List<Object[]> getArtistRowsForSongStatsAllTime() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT s.peak, s.artists " +
+                        "FROM Song s");
+        List<Object[]> rows = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return rows;
     }
 
     public static List<String> getArtists() {
