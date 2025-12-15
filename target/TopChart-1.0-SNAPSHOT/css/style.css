@@ -93,6 +93,10 @@ h1 {
     margin-left: 7px;
 }
 
+.data-center {
+    justify-content: center;
+}
+
 .data-end {
     margin-right: 10px;
 }
@@ -230,8 +234,8 @@ a[name="edit-link"]{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    width: 22px;
-    height: 20px;
+    width: 20px;
+    height: 18px;
     background:#dce0e2;
     border-top:2px solid #fff;
     border-left:2px solid #fff;
@@ -240,6 +244,7 @@ a[name="edit-link"]{
     text-decoration:none;
     color:#000;
     margin-left: 6px;
+    margin-top: -2px;
 }
 
 a[name="edit-link"]:active{
@@ -462,9 +467,17 @@ form {
 }
 
 .i-counter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color:#76367a;
     font-weight:bold;
     font-size:12px;
+    margin: 0;
+}
+
+.report .i-counter {
+    border-right: 1px #76367a solid;
 }
 
 #chart-run{
@@ -578,4 +591,45 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     font-size: 11px;
     color:#282929;
     letter-spacing: 0.2px;
+}
+
+.ui-autocomplete{
+    background:#ffffff;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+    padding:2px;
+    max-height:260px;
+    overflow:auto;
+    box-shadow:none;
+    font-size:12px;
+}
+
+.ui-menu{
+    border-radius:0;
+}
+.ui-menu .ui-menu-item{
+    margin:0;
+}
+
+.ui-menu .ui-menu-item-wrapper{
+    padding:3px 6px;
+    border:1px solid transparent;
+    line-height:1.25;
+    color:#000;
+    font-family: Arial, sans-serif;
+}
+
+.ui-menu .ui-state-active,
+.ui-menu .ui-state-focus,
+.ui-menu .ui-menu-item-wrapper.ui-state-active{
+    background:#000676;
+    color:#fff;
+    border:1px dotted #fff;
+    margin:0;
+}
+
+.ui-autocomplete{
+    font-family: Arial, sans-serif;
 }

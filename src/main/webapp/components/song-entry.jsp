@@ -15,7 +15,7 @@
             <p> ${song.weeks}</p>
         </div>
         <div class="flex1">
-            <a name="edit-link" href="#">&#10000;</a>
+            <p><a name="edit-link" href="#">&#10000;</a></p>
         </div>
     </div>
     <%@include file="song-history.jsp"%>

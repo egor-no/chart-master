@@ -33,7 +33,7 @@ public class ChartDAOImpl {
     public static Chart getById(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Chart c " +
+        Query query = session.createQuery("SELECT DISTINCT c FROM Chart c " +
                 "LEFT JOIN FETCH c.positions " +
                 "LEFT JOIN FETCH c.info ci " +
                 "LEFT JOIN FETCH ci.owner " +

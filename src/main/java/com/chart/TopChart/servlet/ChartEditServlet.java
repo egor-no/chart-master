@@ -27,6 +27,12 @@ public class ChartEditServlet extends HttpServlet {
             String json = new Gson().toJson(SongDAOImpl.getAll());
             request.setAttribute("songs", json);
             request.setAttribute("chart", chart);
+
+            Chart prev = null;
+            if (chart.getId() > 1) {
+                prev = ChartDAOImpl.getById(chart.getId() - 1);
+            }
+            request.setAttribute("prevChart", prev == null ? null : ChartService.getChartFull(prev));
             request.getRequestDispatcher("chartedit.jsp").forward(request, response);
             response.flushBuffer();
         }

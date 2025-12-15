@@ -25,6 +25,8 @@ public class ChartAddServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String json = new Gson().toJson(SongDAOImpl.getAll());
         request.setAttribute("songs", json);
+        Chart chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
+        request.setAttribute("chart", ChartService.getChartFull(chart));
         request.getRequestDispatcher("chartadd.jsp").forward(request, response);
         response.flushBuffer();
     }
