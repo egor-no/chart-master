@@ -6,6 +6,7 @@ import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ArtistSongService;
 import com.chart.TopChart.service.ChartService;
+import com.chart.TopChart.service.ReportService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -79,15 +80,15 @@ public class ReportsServlet extends HttpServlet  {
             request.getRequestDispatcher("reports/no1-debuts.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("longestStallers")) {
-            request.setAttribute("songs", PositionDAOImpl.getNumberOneDebuts());
+            request.setAttribute("rows", ReportService.getLongestWaysToTop10());
             request.getRequestDispatcher("reports/longest-stallers.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("biggestLeaps")) {
-            request.setAttribute("songs", PositionDAOImpl.getNumberOneDebuts());
+            request.setAttribute("rows", PositionDAOImpl.getBiggestJumpsUp());
             request.getRequestDispatcher("reports/biggest-leaps.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("biggestFalls")) {
-            request.setAttribute("songs", PositionDAOImpl.getNumberOneDebuts());
+            request.setAttribute("rows", PositionDAOImpl.getBiggestDrops());
             request.getRequestDispatcher("reports/biggest-falls.jsp").forward(request, response);
         }
     }

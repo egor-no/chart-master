@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PositionDAOImpl {
@@ -189,6 +190,98 @@ public class PositionDAOImpl {
                         ") " +
                 "ORDER BY p.pk.chart.date DESC");
         List<Position> rows = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return rows;
+    }
+
+    public static List<Object[]> getBiggestJumpsUp() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery(
+                "SELECT (p.lastWeek - p.position) as jump, p " +
+                        "FROM Position p " +
+                        "WHERE p.lastWeek is not null " +
+                        "AND p.lastWeek > 0 " +
+                        "AND p.lastWeek > p.position " +
+                        "ORDER BY jump DESC, p.pk.chart.id DESC"
+        );
+        q.setMaxResults(50);
+        List<Object[]> rows = q.list();
+        session.getTransaction().commit();
+        session.close();
+        return rows;
+    }
+
+    public static List<Object[]> getBiggestDrops() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query qDown = session.createQuery(
+                "SELECT (p.position - p.lastWeek) as drop, p.pk.chart, " +
+                        "p.pk.song, p.lastWeek, p.position, false " +
+                        "FROM Position p " +
+                        "WHERE p.lastWeek is not null " +
+                        "AND p.lastWeek > 0 " +
+                        "AND p.position > p.lastWeek"
+        );
+
+        Query qOut = session.createQuery(
+                "SELECT (41 - prev.position) as drop, prev.pk.chart, prev.pk.song, " +
+                        "prev.position, 41, true " +
+                        "FROM Position prev, Chart c " +
+                        "WHERE c.id = prev.pk.chart.id + 1 " +
+                        "  AND prev.position is not null " +
+                        "  AND prev.position > 0 " +
+                        "  AND NOT EXISTS (" +
+                        "      SELECT 1 FROM Position cur " +
+                        "      WHERE cur.pk.chart.id = c.id " +
+                        "        AND cur.pk.song.id = prev.pk.song.id" +
+                        "  )"
+        );
+
+        List<Object[]> rows = new ArrayList<>();
+        rows.addAll(qDown.list());
+        rows.addAll(qOut.list());
+
+        session.getTransaction().commit();
+        session.close();
+
+        rows.sort((a, b) -> Long.compare(((Number)b[0]).longValue(), ((Number)a[0]).longValue()));
+        if (rows.size() > 50) rows.subList(50, rows.size()).clear();
+
+        return rows;
+    }
+
+    public static List<Object[]> getSongPositionsRowsAllTime() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery(
+                "SELECT p.pk.song.id, p.pk.chart.id, p.position, p.pk.song.artists, p.pk.song.name " +
+                        "FROM Position p " +
+                        "ORDER BY p.pk.song.id ASC, p.pk.chart.id ASC");
+        List<Object[]> rows = q.list();
+        session.getTransaction().commit();
+        session.close();
+        return rows;
+    }
+
+    public static List<Object[]> getLongestWaysToTop10() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT (MIN(t10.pk.chart.id) - MIN(p.pk.chart.id) + 1), " +
+                        "MIN(t10.pk.chart), " +
+                        "p.pk.song, " +
+                        "MIN(p.pk.chart.id), " +
+                        "MIN(t10.pk.chart.id) " +
+                        "FROM Position p, Position t10 " +
+                        "WHERE p.pk.song.id = t10.pk.song.id " +
+                        "AND t10.position <= 10 " +
+                        "GROUP BY p.pk.song " +
+                        "HAVING MIN(t10.pk.chart.id) > MIN(p.pk.chart.id) " +
+                        "ORDER BY (MIN(t10.pk.chart.id) - MIN(p.pk.chart.id)) DESC");
+        query.setMaxResults(50);
+        List<Object[]> rows = query.list();
         session.getTransaction().commit();
         session.close();
         return rows;

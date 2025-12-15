@@ -27,7 +27,12 @@ $(document).ready(function() {
             }
         } else {
             var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
-            var idChart = $(document).find('[name="chart-number"]').text();
+            var idChart = '';
+            if (songDiv.find('[name="chart-id"]').length && songDiv.find('[name="chart-id"]').val() !== '') {
+                idChart = songDiv.find('[name="chart-id"]').val();
+            } else if ($(document).find('[name="chart-number"]').length) {
+                idChart = $(document).find('[name="chart-number"]').text();
+            }
             var dateSearch = false;
             var date1 = '';
             var date2 = '';
