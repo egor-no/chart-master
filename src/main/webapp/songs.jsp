@@ -43,11 +43,11 @@
     </div>
     <input name="searchPhrase" style="display:none;" type="text" value="${search}" />
     <input name="length" style="display:none;" type="text" value="${songs == null ? 0 : songs.size()}" />
-    <div id="searchPhraseInfo">
+    <div id="searchPhraseInfo" class="sub-header">
         <h2>Поиск по <i>${search}</i></h2>
     </div>
 
-    <div class="no-display" name="not-found">
+    <div class="no-display" name="not-found" style="margin-top: 8px; margin-left:8px; ">
         <i>Ничего не найдено</i>
     </div>
 

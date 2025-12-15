@@ -7,7 +7,7 @@
         <div class="flex9">
         </div>
         <div class="flex-end">
-            <p style="margin-bottom:0px;"><b>WOC</b></p>
+            <p style="margin-bottom:0px;"><b>WoC</b></p>
         </div>
         <div class="flex1">
         </div>

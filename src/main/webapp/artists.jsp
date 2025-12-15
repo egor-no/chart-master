@@ -15,6 +15,7 @@
 
             if ($('[name="length"]').val() == '0') {
                 $('[name="not-found"]').removeClass('no-display');
+                $('#artists-list').addClass('no-display');
             }
         });
     </script>
@@ -42,15 +43,15 @@
         </form>
     </div>
     <input name="length" style="display:none;" type="text" value="${artists == null ? 0 : artists.size()}" />
-    <div id="searchPhraseInfo">
+    <div id="searchPhraseInfo" class="sub-header">
         <h2>Поиск по <i>${search}</i></h2>
     </div>
-    <div id="artists-list">
+    <div id="artists-list" class="inner-gray-block columns-list">
         <c:forEach items="${artists}" var="artist">
-            <a href="/artist?artist=${artist}">${artist}</a><br/>
+            <a class="block-link" href="/artist?artist=${artist}">${artist}</a>
         </c:forEach>
     </div>
-    <div class="no-display" name="not-found">
+    <div class="no-display" name="not-found" style="margin-top: 8px; margin-left:8px; ">
         <i>Никого не найдено</i>
     </div>
 </div>

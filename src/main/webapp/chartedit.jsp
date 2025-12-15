@@ -69,7 +69,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Добавление нового чарта</h1>
+    <h1>Редактирование чарта</h1>
     <div class="nav">
         <div name="menu" style="margin-bottom:5px;">
             <a href="/">Главная</a>

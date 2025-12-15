@@ -11,7 +11,7 @@
                     <div name="mov-val"></div>
                 </div>
                 <div class="flex1">
-                    <p name="pos" >${position.position}</p>
+                    <p name="pos" class="i-counter">${position.position}</p>
                 </div>
                 <div class="flex1 no-display">
                     <p name="lw">${position.lastWeek}</p>
