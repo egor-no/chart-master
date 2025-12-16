@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style><%@include file="/css/style.css"%>
+    <jsp:include page="components/head.jsp"/>
+    <style>
     .report-card{
         width: 330px;
         height: auto;
@@ -96,17 +96,9 @@
     <div id="report-cap">
         <h1>Отчёты</h1>
         <div class="nav">
-            <div name="menu" style="margin-bottom:5px;">
-                <a href="/chart">Главная</a>
-                |
-                <a href="/chartadd">Добавить чарт</a>
-                |
-                <a href="/artists">Артисты</a>
-                |
-                <a href="/songs">Песни</a>
-                |
-                <b>Отчёты</b>
-            </div>
+            <jsp:include page="components/menu.jsp">
+                <jsp:param name="active" value="reports"/>
+            </jsp:include>
         </div>
     </div>
     <div id="report-body">

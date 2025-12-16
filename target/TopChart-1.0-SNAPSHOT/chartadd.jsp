@@ -5,10 +5,9 @@
 <html>
 <head>
     <title>TOP40 - Add new chart</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <jsp:include page="components/head.jsp"/>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style><%@include file="/css/style.css"%>
+    <style>
     #chart-create [name="num"]{
         width: 40px;
         justify-content: center;
@@ -120,17 +119,9 @@
 <div class="container">
     <h1>Добавление нового чарта</h1>
     <div class="nav">
-        <div name="menu" style="margin-bottom:5px;">
-            <a href="/chart">Главная</a>
-            |
-            <b>Добавить чарт</b>
-            |
-            <a href="/artists">Артисты</a>
-            |
-            <a href="/songs">Песни</a>
-            |
-            <a href="/reports">Отчёты</a>
-        </div>
+        <jsp:include page="components/menu.jsp">
+            <jsp:param name="active" value="chartadd"/>
+        </jsp:include>
     </div>
     <form method="POST" action="/chartadd">
         <div id="chart-create">

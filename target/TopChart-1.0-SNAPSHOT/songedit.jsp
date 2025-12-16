@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>Top40 - Song Edit</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style><%@include file="/css/style.css"%></style>
+    <jsp:include page="components/head.jsp"/>
     <script type = "text/javascript" >
         $(document).ready(function() {
             $('[name="cancel"]').on('click', function () {
@@ -22,17 +21,9 @@
 <div class="container">
     <h1>Редактирование песни</h1>
     <div class="nav">
-        <div name="menu" style="margin-bottom:5px;">
-            <a href="/chart">Главная</a>
-            |
-            <a href="/chartadd">Добавить чарт</a>
-            |
-            <a href="/artists">Артисты</a>
-            |
-            <b>Песни</b>
-            |
-            <a href="/reports">Отчёты</a>
-        </div>
+        <jsp:include page="components/menu.jsp">
+            <jsp:param name="active" value="none"/>
+        </jsp:include>
     </div>
     <form method="POST" action="/songedit">
         <div id="song-info">

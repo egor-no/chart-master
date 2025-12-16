@@ -40,7 +40,7 @@ public class ChartServlet extends HttpServlet {
 
         request.setAttribute("chart", ChartService.getChartFull(chart));
         request.setAttribute("isLastChart", isLastChart);
-        request.getRequestDispatcher("main.jsp").forward(request, response);
+        request.getRequestDispatcher("chart.jsp").forward(request, response);
         response.flushBuffer();
     }
 }

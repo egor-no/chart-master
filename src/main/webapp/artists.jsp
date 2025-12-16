@@ -5,8 +5,7 @@
 <html>
 <head>
     <title>TOP40 - Artists</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style><%@include file="/css/style.css"%></style>
+    <jsp:include page="components/head.jsp"/>
     <script type = "text/javascript" >
         $(document).ready(function() {
             if ($('[name="searchPhrase"]').val() == '') {
@@ -24,17 +23,9 @@
 <div class="container">
     <h1>Список артистов</h1>
     <div class="nav">
-        <div name="menu" style="margin-bottom:5px;">
-            <a href="/chart">Главная</a>
-            |
-            <a href="/chartadd">Добавить чарт</a>
-            |
-            <b>Артисты</b>
-            |
-            <a href="/songs">Песни</a>
-            |
-            <a href="/reports">Отчёты</a>
-        </div>
+        <jsp:include page="components/menu.jsp">
+            <jsp:param name="active" value="artists"/>
+        </jsp:include>
 
         <form method="GET" action="/artists">
             <label for="artistSearch">Поиск по артистам:</label>

@@ -643,3 +643,49 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
 .ui-autocomplete{
     font-family: Arial, sans-serif;
 }
+.menu-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.menu-left{
+    white-space:nowrap;
+}
+
+.menu-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.menu-icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:18px;
+    height:18px;
+    text-decoration:none;
+    color:#0000a8;
+    padding:0;
+    margin:0;
+}
+
+.menu-icon i{
+    font-size:16px;
+    line-height:16px;
+}
+
+.menu-icon:hover{
+    color:#76367a;
+    text-decoration:none;
+}
+
+.menu-icon:focus{
+    outline:1px dotted #000;
+    outline-offset:2px;
+}
+
+.menu-icon:active{
+    transform: translateY(1px);
+}
