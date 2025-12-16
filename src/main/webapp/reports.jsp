@@ -110,8 +110,10 @@
         </div>
     </div>
     <div id="report-body">
-        <div name="reports-title">
+        <div class="report-header">
             <h2>Доступные отчёты для истории чартов</h2>
+        </div>
+        <div class="report-description">
             <p>Stats are <i>FUN</i>! Хочется узнать,
                 какие песни провели на первом месте дольше всего?
                 Или какие песни были в чарте рекордное время?

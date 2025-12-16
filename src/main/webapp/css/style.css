@@ -101,6 +101,11 @@ h1 {
     margin-right: 10px;
 }
 
+.flex05 {
+    display: flex;
+    flex: 0.5;
+}
+
 .flex4 {
     display: flex;
     flex: 4;
@@ -269,6 +274,10 @@ a[name="edit-link"]:active{
     padding:6px 8px;
 }
 
+.report-header {
+    width: 620px;
+}
+
 .report-header h2, .sub-header h2{
     margin:0;
     font-size:18px;
@@ -276,6 +285,7 @@ a[name="edit-link"]:active{
 }
 
 .report-description p {
+    width: 620px;
     margin-left: 8px;
     margin-top: 8px;
 }

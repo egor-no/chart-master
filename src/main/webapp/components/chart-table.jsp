@@ -10,7 +10,7 @@
                     <div name="mov"></div>
                     <div name="mov-val"></div>
                 </div>
-                <div class="flex1 i-counter">
+                <div class="flex1 i-counter" style="justify-content: left;">
                     <p name="pos">${position.position}</p>
                 </div>
                 <div class="flex1 no-display">

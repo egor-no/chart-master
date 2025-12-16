@@ -199,7 +199,7 @@ public class PositionDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query q = session.createQuery(
-                "SELECT (p.lastWeek - p.position) as jump, p " +
+                "SELECT (p.lastWeek - p.position) as jump, p, p.pk.chart " +
                         "FROM Position p " +
                         "WHERE p.lastWeek is not null " +
                         "AND p.lastWeek > 0 " +
