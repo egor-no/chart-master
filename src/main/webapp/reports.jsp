@@ -97,7 +97,7 @@
         <h1>Отчёты</h1>
         <div class="nav">
             <div name="menu" style="margin-bottom:5px;">
-                <a href="/">Главная</a>
+                <a href="/chart">Главная</a>
                 |
                 <a href="/chartadd">Добавить чарт</a>
                 |

@@ -85,7 +85,6 @@
                 songId = parseInt(songId, 10);
                 if (isNaN(songId) || songId <= 0) return;
 
-                // re-entry = есть в базе (songs), но не было в prev чарте
                 if (prev.ids.size > 0 && !prev.ids.has(songId)) {
                     $row.find('[name="num"]').addClass('re-song');
                     $row.find('input[name="prevInChart[]"]').val('1');
@@ -143,7 +142,7 @@
     <h1>Редактирование чарта</h1>
     <div class="nav">
         <div name="menu" style="margin-bottom:5px;">
-            <a href="/">Главная</a>
+            <a href="/chart">Главная</a>
             |
             <a href="/chartadd">Добавить чарт</a>
             |

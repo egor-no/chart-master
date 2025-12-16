@@ -33,9 +33,9 @@ public class UserDAOImpl {
     public static User getById(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM User " +
-                "LEFT JOIN FETCH charts " +
-                "WHERE id = :id");
+        Query query = session.createQuery("FROM User u " +
+                "LEFT JOIN FETCH u.charts " +
+                "WHERE u.id = :id");
         query.setInteger("id", id);
         User result = (User) query.uniqueResult();
         session.getTransaction().commit();
@@ -47,7 +47,6 @@ public class UserDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM User " +
-                "LEFT JOIN FETCH charts " +
                 "WHERE login LIKE :login");
         query.setString("login", login);
         User result = (User) query.uniqueResult();

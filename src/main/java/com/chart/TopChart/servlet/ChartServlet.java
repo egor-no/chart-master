@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "chart", value = "/")
+@WebServlet(name = "chart", value = "/chart")
 public class ChartServlet extends HttpServlet {
 
     @Override
