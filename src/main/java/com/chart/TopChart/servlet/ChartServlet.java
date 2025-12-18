@@ -3,6 +3,7 @@ package com.chart.TopChart.servlet;
 import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ChartService;
+import com.chart.TopChart.web.SessionKeys;
 
 
 import javax.servlet.ServletException;
@@ -10,33 +11,71 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
 
 @WebServlet(name = "chart", value = "/chart")
 public class ChartServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Chart chart;
+        Integer chartInfoId = null;
+
+        String ciStr = request.getParameter("ci");
+        if (ciStr != null && !ciStr.isEmpty()) {
+            try {
+                chartInfoId = Integer.parseInt(ciStr);
+            } catch (Exception ignored) {}
+        }
+
+        if (chartInfoId == null) {
+            HttpSession s0 = request.getSession(false);
+            Object v = (s0 == null) ? null : s0.getAttribute(SessionKeys.CHART_INFO_ID);
+            if (v instanceof Integer) chartInfoId = (Integer) v;
+        }
+
+        if (chartInfoId == null) {
+            response.sendRedirect("/profile");
+            return;
+        }
+
+        HttpSession s = request.getSession(true);
+        s.setAttribute(SessionKeys.CHART_INFO_ID, chartInfoId);
+
+        Chart chart = null;
 
         String chartDate = request.getParameter("date");
-        try {
-            long chartNumber = ChartDAOImpl.getLastByDate(chartDate);
-            chart = ChartDAOImpl.getById(chartNumber);
-            if (chart == null) {
-                throw new Exception();
+        if (chartDate != null && !chartDate.isEmpty()) {
+            long chartId = ChartDAOImpl.getLastByDate(chartDate, chartInfoId);
+            if (chartId > 0) {
+                chart = ChartDAOImpl.getById(chartInfoId, chartId);
             }
-        } catch (Exception ex) {
-            try {
-                long chartNumber = Long.parseLong(request.getParameter("chartNumber"));
-                chart = ChartDAOImpl.getById(chartNumber);
-            } catch (Exception ex2) {
-                chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
-            }
-
         }
-        boolean isLastChart = chart.getId() == ChartDAOImpl.getLastId();
+
+        if (chart == null) {
+            String chartNumberStr = request.getParameter("chartNumber");
+            if (chartNumberStr != null && !chartNumberStr.isEmpty()) {
+                try {
+                    long chartId = Long.parseLong(chartNumberStr);
+                    chart = ChartDAOImpl.getById(chartInfoId, chartId);
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
+        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
+        if (chart == null) {
+            if (lastId != null) {
+                chart = ChartDAOImpl.getById(chartInfoId, lastId);
+            }
+        }
+
+        if (chart == null) {
+            response.sendError(404, "Chart not found");
+            return;
+        }
+
+        boolean isLastChart = (lastId != null && chart.getId() == lastId);
 
         request.setAttribute("chart", ChartService.getChartFull(chart));
         request.setAttribute("isLastChart", isLastChart);

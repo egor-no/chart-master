@@ -20,16 +20,16 @@ public class SongHistoryService {
         return chartBasic;
     }
 
-    public static SongHistory getSongHistory(long idSong, String sDate1, String sDate2) {
+    public static SongHistory getSongHistory(int chartInfoId, long idSong, String sDate1, String sDate2) {
         SongHistory songHistory = new SongHistory();
         Song song = SongDAOImpl.getById(idSong);
         songHistory.setPeak(song.getPeak());
 
         List<Position> positions;
         if (sDate1 != null && sDate2 != null) {
-            positions = PositionDAOImpl.getPositionsForSongByDate(idSong, sDate1, sDate2);
+            positions = PositionDAOImpl.getPositionsForSongByDate(chartInfoId, idSong, sDate1, sDate2);
         } else {
-            positions = PositionDAOImpl.getPositionsForSong(idSong);
+            positions = PositionDAOImpl.getPositionsForSong(chartInfoId, idSong);
         }
         List<ChartRun> chartRuns = new ArrayList<>();
         List<Integer> chartRunPositions = new ArrayList<>();

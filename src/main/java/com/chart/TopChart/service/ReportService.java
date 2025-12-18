@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class ReportService {
 
-    public static List<List<String>> getLongestWaysToTop10() {
-        List<Object[]> rows = PositionDAOImpl.getSongPositionsRowsAllTime();
+    public static List<List<String>> getLongestWaysToTop10(int chartInfoId) {
+        List<Object[]> rows = PositionDAOImpl.getSongPositionsRowsAllTime(chartInfoId);
 
         class Acc {
             long songId;

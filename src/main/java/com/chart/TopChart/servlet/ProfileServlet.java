@@ -8,6 +8,6 @@ import java.io.IOException;
 public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("/chart");
+        response.sendRedirect("/chart?ci=1");
     }
 }

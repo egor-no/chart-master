@@ -7,7 +7,7 @@
     <title>TOP40 - Songs</title>
     <jsp:include page="components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
-
+    <style>
     .artist-stat {
         display: flex;
         flex-flow: column;

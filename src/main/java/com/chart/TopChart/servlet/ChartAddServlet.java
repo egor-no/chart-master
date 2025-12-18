@@ -8,6 +8,8 @@ import com.chart.TopChart.data.model.Position;
 import com.chart.TopChart.data.model.Position_PK;
 import com.chart.TopChart.data.model.Song;
 import com.chart.TopChart.service.ChartService;
+import com.chart.TopChart.web.AuthUtil;
+import com.chart.TopChart.web.SessionUtil;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -23,21 +25,40 @@ public class ChartAddServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String json = new Gson().toJson(SongDAOImpl.getAll());
+        try {
+            AuthUtil.requireOwnedChartInfo(request);
+        } catch (AuthUtil.ForbiddenException ex) {
+            response.sendError(403);
+            return;
+        }
+
+        int chartInfoId = SessionUtil.requireChartInfoId(request);
+
+        String json = new Gson().toJson(SongDAOImpl.getAll(chartInfoId));
         request.setAttribute("songs", json);
-        Chart chart = ChartDAOImpl.getById(ChartDAOImpl.getLastId());
-        request.setAttribute("chart", ChartService.getChartFull(chart));
+
+        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
+        Chart chart = (lastId == null) ? null : ChartDAOImpl.getById(chartInfoId, lastId);
+
+        request.setAttribute("chart", chart == null ? null : ChartService.getChartFull(chart));
         request.getRequestDispatcher("chartadd.jsp").forward(request, response);
-        response.flushBuffer();
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try {
+            AuthUtil.requireOwnedChartInfo(request);
+        } catch (AuthUtil.ForbiddenException ex) {
+            response.sendError(403);
+            return;
+        }
+
         String ids[] = request.getParameterValues("idSong[]");
         String artists[] = request.getParameterValues("artists[]");
         String name[] = request.getParameterValues("name[]");
 
-        ChartService.formChart(ids, name, artists);
+        int chartInfoId = SessionUtil.requireChartInfoId(request);
+        ChartService.formChart(chartInfoId, ids, name, artists);
 
         response.sendRedirect("/");
         response.flushBuffer();

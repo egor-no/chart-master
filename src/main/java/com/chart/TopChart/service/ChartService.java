@@ -13,6 +13,7 @@ import java.util.*;
 public class ChartService {
 
     public static ChartFull getChartFull(Chart chart) {
+        int chartInfoId = chart.getInfo().getId();
         ChartFull chartFull = new ChartFull(chart);
 
         List<Long> songIds = new ArrayList<>();
@@ -20,8 +21,8 @@ public class ChartService {
             songIds.add(chart.getPositions().get(i).getPk().getSong().getId());
         }
 
-        List wocList = PositionDAOImpl.getWOCforChart(chart.getId(), songIds);
-        List peaksList = PositionDAOImpl.getPeaksForChart(chart.getId(), songIds);
+        List wocList = PositionDAOImpl.getWOCforChart(chartInfoId, chart.getId(), songIds);
+        List peaksList = PositionDAOImpl.getPeaksForChart(chartInfoId, chart.getId(), songIds);
 
         Map<Long, Long> wocMap = new HashMap<>();
         Map<Long, Long> peaksMap = new HashMap<>();
@@ -43,20 +44,28 @@ public class ChartService {
         return chartFull;
     }
 
-    public static String getNewChartDate() {
-        String lastSDate = ChartDAOImpl.getById(ChartDAOImpl.getLastId()).getDate();
+    public static String getNewChartDate(int chartInfoId) {
+        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
+
+        if (lastId == null) {
+            return DateUtil.formatDateForSQL(new Date());
+        }
+
+        String lastSDate = ChartDAOImpl.getById(chartInfoId, lastId).getDate();
         Date lastDate = DateUtil.parseStringToSqlDate(lastSDate);
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(lastDate);
         cal.add(Calendar.DAY_OF_MONTH, 7);
+
         return DateUtil.formatDateForSQL(cal.getTime());
     }
 
-    public static boolean deleteChart(long chartId) {
-        if (chartId != ChartDAOImpl.getLastId()) return false;
+    public static boolean deleteChart(long chartId, int chartInfoId) {
+        if (chartId != ChartDAOImpl.getLastId(chartInfoId)) return false;
 
         try {
-            Chart chart = ChartDAOImpl.getById(chartId);
+            Chart chart = ChartDAOImpl.getById(chartInfoId, chartId);
             if (chart == null || chart.getPositions() == null) return false;
 
             Set<Long> songIds = new HashSet<>();
@@ -66,10 +75,10 @@ public class ChartService {
                 }
             }
 
-            ChartDAOImpl.delete(chartId);
+            ChartDAOImpl.delete(chartInfoId, chartId);
 
             for (Long songId : songIds) {
-                List<Position> remaining = PositionDAOImpl.getPositionsForSong(songId);
+                List<Position> remaining = PositionDAOImpl.getPositionsForSong(chartInfoId, songId);
 
                 Song song = SongDAOImpl.getById(songId);
                 if (song == null) continue;
@@ -92,13 +101,15 @@ public class ChartService {
         }
     }
 
-    public static void formChart(String ids[], String name[], String artists[]) {
-        long lastChartId = ChartDAOImpl.getLastId();
+    public static void formChart(int chartInfoId, String ids[], String name[], String artists[]) {
+        Long lastChartIdObj = ChartDAOImpl.getLastId(chartInfoId);
+        long lastChartId = (lastChartIdObj == null) ? 0L : lastChartIdObj;
 
         Chart chart = new Chart();
-        chart.setDate(ChartService.getNewChartDate());
+        chart.setDate(ChartService.getNewChartDate(chartInfoId));
         chart.setId(lastChartId+1);
-        ChartInfo info = ChartInfoDAOImpl.getById(1);
+
+        ChartInfo info = ChartInfoDAOImpl.getById(chartInfoId);
         chart.setInfo(info);
         ChartDAOImpl.save(chart);
 
@@ -132,9 +143,9 @@ public class ChartService {
             position = new Position();
             position.setPosition(pos);
             position.setPk(position_pk);
-            Position prevSongPosition = PositionDAOImpl.getPositionForSong(song.getId(), lastChartId);
-            if (prevSongPosition != null) {
-                position.setLastWeek(prevSongPosition.getPosition());
+            if (lastChartId > 0) {
+                Position prev = PositionDAOImpl.getPositionForSong(chartInfoId, song.getId(), lastChartId);
+                if (prev != null) position.setLastWeek(prev.getPosition());
             }
 
             PositionDAOImpl.save(position);

@@ -1,6 +1,7 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.SongDAOImpl;
+import com.chart.TopChart.web.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,12 +16,15 @@ public class ArtistsServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int chartInfoId = SessionUtil.requireChartInfoId(request);
+
         String searchPhrase = request.getParameter("search");
         List<String> artists;
+
         if (searchPhrase != null && !searchPhrase.isEmpty()) {
-            artists = SongDAOImpl.getArtistsBySearch(searchPhrase);
+            artists = SongDAOImpl.getArtistsBySearch(chartInfoId, searchPhrase);
         } else {
-            artists = SongDAOImpl.getArtists();
+            artists = SongDAOImpl.getArtists(chartInfoId);
         }
 
         request.setAttribute("artists", artists);

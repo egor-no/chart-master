@@ -18,12 +18,15 @@ public class PositionDAOImpl {
         session.close();
     }
 
-    public static List<Position> getAll() {
+    public static List<Position> getAll(int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Position p " +
-                "LEFT JOIN FETCH p.pk.chart  " +
-                "LEFT JOIN FETCH p.pk.song");
+        Query query = session.createQuery(
+                "FROM Position p " +
+                        "LEFT JOIN FETCH p.pk.chart c " +
+                        "LEFT JOIN FETCH p.pk.song s " +
+                        "WHERE c.info.id = :ci");
+        query.setInteger("ci", chartInfoId);
         List<Position> list = query.list();
         session.getTransaction().commit();
         session.close();
@@ -50,45 +53,49 @@ public class PositionDAOImpl {
         session.close();
     }
 
-    public static Position getPositionForSong(long idSong, long idChart) {
+    public static Position getPositionForSong(int chartInfoId, long idSong, long idChart) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Position p " +
-                "WHERE p.pk.song.id = :idSong " +
-                "AND p.pk.chart.id = :idChart ");
+        Query query = session.createQuery(
+                "FROM Position p " +
+                        "WHERE p.pk.song.id = :idSong " +
+                        "AND p.pk.chart.id = :idChart " +
+                        "AND p.pk.chart.info.id = :ci");
         query.setParameter("idSong", idSong);
         query.setParameter("idChart", idChart);
-        List<Position> results = query.list();
+        query.setInteger("ci", chartInfoId);
+        Position result = (Position) query.uniqueResult();
         session.getTransaction().commit();
         session.close();
-        if (results.size() > 0 ) {
-            return results.get(0);
-        } else {
-            return null;
-        }
+        return result;
     }
 
-    public static List<Position> getPositionsForSong(long idSong) {
+    public static List<Position> getPositionsForSong(int chartInfoId, long idSong) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Position p " +
-                "WHERE p.pk.song.id = :idSong " +
-                "ORDER BY p.pk.chart.id ASC ");
+        Query query = session.createQuery(
+                "FROM Position p " +
+                        "WHERE p.pk.song.id = :idSong " +
+                        "AND p.pk.chart.info.id = :ci " +
+                        "ORDER BY p.pk.chart.id ASC ");
         query.setParameter("idSong", idSong);
+        query.setInteger("ci", chartInfoId);
         List<Position> results = query.list();
         session.getTransaction().commit();
         session.close();
         return results;
     }
-
-    public static List<Position> getPositionsForSongByDate(long idSong, String date1, String date2) {
+    public static List<Position> getPositionsForSongByDate(int chartInfoId, long idSong, String date1, String date2) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Position p " +
-                "WHERE p.pk.song.id = :idSong " +
-                "AND p.pk.chart.date >= :date1 AND p.pk.chart.date <= :date2 " +
-                "ORDER BY p.pk.chart.id ASC ");
+        Query query = session.createQuery(
+                "FROM Position p " +
+                        "WHERE p.pk.song.id = :idSong " +
+                        "AND p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.date >= :date1 AND p.pk.chart.date <= :date2 " +
+                        "ORDER BY p.pk.chart.id ASC ");
         query.setParameter("idSong", idSong);
+        query.setInteger("ci", chartInfoId);
         query.setParameter("date1", date1);
         query.setParameter("date2", date2);
         List<Position> results = query.list();
@@ -97,13 +104,17 @@ public class PositionDAOImpl {
         return results;
     }
 
-    public static List<String> getArtistsByDate(String date1, String date2) {
+    public static List<String> getArtistsByDate(int chartInfoId, String date1, String date2) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery( "SELECT DISTINCT p.pk.song.artists " +
-                "FROM Position p " +
-                "WHERE p.pk.chart.date >= :date1 " +
-                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
+        String hql =
+                "SELECT DISTINCT p.pk.song.artists " +
+                        "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.date >= :date1 " +
+                        (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : "");
+        Query query = session.createQuery(hql);
+        query.setInteger("ci", chartInfoId);
         query.setParameter("date1", date1);
         if (date2 != null && !date2.isEmpty()) {
             query.setParameter("date2", date2);
@@ -114,14 +125,17 @@ public class PositionDAOImpl {
         return results;
     }
 
-    public static List getWOCforChart(long idChart, List<Long> songIds) {
+    public static List getWOCforChart(int chartInfoId, long idChart, List<Long> songIds) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT p.pk.song.id, COUNT(*) " +
-                "FROM Position p " +
-                "WHERE p.pk.chart.id <= :idChart " +
-                "AND p.pk.song.id in (:songIds) " +
-                "GROUP BY p.pk.song.id");
+        Query query = session.createQuery(
+                "SELECT p.pk.song.id, COUNT(*) " +
+                        "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.id <= :idChart " +
+                        "AND p.pk.song.id in (:songIds) " +
+                        "GROUP BY p.pk.song.id");
+        query.setInteger("ci", chartInfoId);
         query.setParameter("songIds", songIds);
         query.setParameter("idChart", idChart);
         List results = query.list();
@@ -130,14 +144,17 @@ public class PositionDAOImpl {
         return results;
     }
 
-    public static List getPeaksForChart(long idChart, List<Long> songIds) {
+    public static List getPeaksForChart(int chartInfoId, long idChart, List<Long> songIds) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT p.pk.song.id, MIN(p.position) " +
-                "FROM Position p " +
-                "WHERE p.pk.chart.id <= :idChart " +
-                "AND p.pk.song.id in (:songIds) " +
-                "GROUP BY p.pk.song.id");
+        Query query = session.createQuery(
+                "SELECT p.pk.song.id, MIN(p.position) " +
+                        "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.id <= :idChart " +
+                        "AND p.pk.song.id in (:songIds) " +
+                        "GROUP BY p.pk.song.id");
+        query.setInteger("ci", chartInfoId);
         query.setParameter("songIds", songIds);
         query.setParameter("idChart", idChart);
         List results = query.list();
@@ -146,26 +163,31 @@ public class PositionDAOImpl {
         return results;
     }
 
-    public static List<Object[]> getArtistRowsForStatsAllTime() {
+    public static List<Object[]> getArtistRowsForStatsAllTime(int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
                 "SELECT p.position, p.pk.song.artists " +
-                        "FROM Position p"
-        );
+                        "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci");
+        query.setInteger("ci", chartInfoId);
         List<Object[]> rows = query.list();
         session.getTransaction().commit();
         session.close();
         return rows;
     }
 
-    public static List<Object[]> getArtistRowsForStatsByDate(String date1, String date2) {
+    public static List<Object[]> getArtistRowsForStatsByDate(int chartInfoId, String date1, String date2) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT p.position, p.pk.song.artists " +
-                "FROM Position p " +
-                "WHERE p.pk.chart.date >= :date1 " +
-                (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : ""));
+        String hql =
+                "SELECT p.position, p.pk.song.artists " +
+                        "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.date >= :date1 " +
+                        (date2 != null && !date2.isEmpty() ? "AND p.pk.chart.date <= :date2 " : "");
+        Query query = session.createQuery(hql);
+        query.setInteger("ci", chartInfoId);
         query.setParameter("date1", date1);
         if (date2 != null && !date2.isEmpty())
             query.setParameter("date2", date2);
@@ -175,37 +197,41 @@ public class PositionDAOImpl {
         return rows;
     }
 
-    public static List<Position> getNumberOneDebuts() {
+    public static List<Position> getNumberOneDebuts(int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
                 "FROM Position p " +
-                "WHERE p.position = 1 " +
-                "AND p.lastWeek is null " +
-                "AND NOT EXISTS ( " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.position = 1 " +
+                        "AND p.lastWeek is null " +
+                        "AND NOT EXISTS ( " +
                         "   SELECT 1 " +
                         "   FROM Position p2 " +
                         "   WHERE p2.pk.song.id = p.pk.song.id " +
                         "   AND p2.pk.chart.id < p.pk.chart.id " +
+                        "   AND p2.pk.chart.info.id = :ci " +
                         ") " +
-                "ORDER BY p.pk.chart.date DESC");
+                        "ORDER BY p.pk.chart.date DESC");
+        query.setInteger("ci", chartInfoId);
         List<Position> rows = query.list();
         session.getTransaction().commit();
         session.close();
         return rows;
     }
 
-    public static List<Object[]> getBiggestJumpsUp() {
+    public static List<Object[]> getBiggestJumpsUp(int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query q = session.createQuery(
                 "SELECT (p.lastWeek - p.position) as jump, p, p.pk.chart " +
                         "FROM Position p " +
-                        "WHERE p.lastWeek is not null " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.lastWeek is not null " +
                         "AND p.lastWeek > 0 " +
                         "AND p.lastWeek > p.position " +
-                        "ORDER BY jump DESC, p.pk.chart.id DESC"
-        );
+                        "ORDER BY jump DESC, p.pk.chart.id DESC");
+        q.setInteger("ci", chartInfoId);
         q.setMaxResults(50);
         List<Object[]> rows = q.list();
         session.getTransaction().commit();
@@ -213,7 +239,7 @@ public class PositionDAOImpl {
         return rows;
     }
 
-    public static List<Object[]> getBiggestDrops() {
+    public static List<Object[]> getBiggestDrops(int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -221,24 +247,28 @@ public class PositionDAOImpl {
                 "SELECT (p.position - p.lastWeek) as drop, p.pk.chart, " +
                         "p.pk.song, p.lastWeek, p.position, false " +
                         "FROM Position p " +
-                        "WHERE p.lastWeek is not null " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.lastWeek is not null " +
                         "AND p.lastWeek > 0 " +
-                        "AND p.position > p.lastWeek"
-        );
+                        "AND p.position > p.lastWeek");
+        qDown.setInteger("ci", chartInfoId);
 
         Query qOut = session.createQuery(
                 "SELECT (41 - prev.position) as drop, prev.pk.chart, prev.pk.song, " +
                         "prev.position, 41, true " +
-                        "FROM Position prev, Chart c " +
-                        "WHERE c.id = prev.pk.chart.id + 1 " +
+                        "FROM Position prev, com.chart.TopChart.data.model.Chart c " +
+                        "WHERE c.info.id = :ci " +
+                        "  AND prev.pk.chart.info.id = :ci " +
+                        "  AND c.id = prev.pk.chart.id + 1 " +
                         "  AND prev.position is not null " +
                         "  AND prev.position > 0 " +
                         "  AND NOT EXISTS (" +
                         "      SELECT 1 FROM Position cur " +
                         "      WHERE cur.pk.chart.id = c.id " +
                         "        AND cur.pk.song.id = prev.pk.song.id" +
-                        "  )"
-        );
+                        "        AND cur.pk.chart.info.id = :ci " +
+                        "  )");
+        qOut.setInteger("ci", chartInfoId);
 
         List<Object[]> rows = new ArrayList<>();
         rows.addAll(qDown.list());
@@ -253,35 +283,16 @@ public class PositionDAOImpl {
         return rows;
     }
 
-    public static List<Object[]> getSongPositionsRowsAllTime() {
+    public static List<Object[]> getSongPositionsRowsAllTime(int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query q = session.createQuery(
                 "SELECT p.pk.song.id, p.pk.chart.id, p.position, p.pk.song.artists, p.pk.song.name " +
                         "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci " +
                         "ORDER BY p.pk.song.id ASC, p.pk.chart.id ASC");
+        q.setInteger("ci", chartInfoId);
         List<Object[]> rows = q.list();
-        session.getTransaction().commit();
-        session.close();
-        return rows;
-    }
-
-    public static List<Object[]> getLongestWaysToTop10() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("SELECT (MIN(t10.pk.chart.id) - MIN(p.pk.chart.id) + 1), " +
-                        "MIN(t10.pk.chart), " +
-                        "p.pk.song, " +
-                        "MIN(p.pk.chart.id), " +
-                        "MIN(t10.pk.chart.id) " +
-                        "FROM Position p, Position t10 " +
-                        "WHERE p.pk.song.id = t10.pk.song.id " +
-                        "AND t10.position <= 10 " +
-                        "GROUP BY p.pk.song " +
-                        "HAVING MIN(t10.pk.chart.id) > MIN(p.pk.chart.id) " +
-                        "ORDER BY (MIN(t10.pk.chart.id) - MIN(p.pk.chart.id)) DESC");
-        query.setMaxResults(50);
-        List<Object[]> rows = query.list();
         session.getTransaction().commit();
         session.close();
         return rows;

@@ -4,6 +4,7 @@ import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dto.ChartRun;
 import com.chart.TopChart.data.dto.SongHistory;
 import com.chart.TopChart.service.SongHistoryService;
+import com.chart.TopChart.web.SessionUtil;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -20,10 +21,11 @@ public class SongHistoryServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Long idSong = Long.parseLong(request.getParameter("idSong"));
         Long currentChart;
+        int chartInfoId = SessionUtil.requireChartInfoId(request);
         try {
             currentChart = Long.parseLong(request.getParameter("chartNumber"));
         } catch (Exception ex) {
-            currentChart = ChartDAOImpl.getLastId();
+            currentChart = ChartDAOImpl.getLastId(chartInfoId);
         }
         Boolean dateSearch = Boolean.parseBoolean(request.getParameter("dateSearch"));
 
@@ -31,9 +33,9 @@ public class SongHistoryServlet extends HttpServlet {
         if (dateSearch) {
             String sDate1 = request.getParameter("date1");
             String sDate2 = request.getParameter("date2");
-            songHistory  = SongHistoryService.getSongHistory(idSong, sDate1, sDate2);
+            songHistory  = SongHistoryService.getSongHistory(chartInfoId, idSong, sDate1, sDate2);
         } else {
-            songHistory  = SongHistoryService.getSongHistory(idSong, null, null);
+            songHistory  = SongHistoryService.getSongHistory(chartInfoId, idSong, null, null);
         }
         songHistory.setCurrentChart(currentChart);
 

@@ -36,8 +36,8 @@ public class ArtistSongService {
         return res;
     }
 
-    public static List getTopArtistsBySongs() {
-        return buildTopArtistsBySongs(SongDAOImpl.getArtistRowsForSongStatsAllTime());
+    public static List getTopArtistsBySongs(int chartInfoId) {
+        return buildTopArtistsBySongs(SongDAOImpl.getArtistRowsForSongStatsAllTime(chartInfoId));
     }
 
     private static List<List<String>> buildTopArtistsBySongs(List<Object[]> rows) {
@@ -91,12 +91,12 @@ public class ArtistSongService {
         return stats;
     }
 
-    public static List getTopArtists() {
-        return buildTopArtistsOnePass(PositionDAOImpl.getArtistRowsForStatsAllTime());
+    public static List getTopArtists(int chartInfoId) {
+        return buildTopArtistsOnePass(PositionDAOImpl.getArtistRowsForStatsAllTime(chartInfoId));
     }
 
-    public static List getTopArtistsByDate(String d1, String d2) {
-        return buildTopArtistsOnePass(PositionDAOImpl.getArtistRowsForStatsByDate(d1, d2));
+    public static List getTopArtistsByDate(int chartInfoId, String d1, String d2) {
+        return buildTopArtistsOnePass(PositionDAOImpl.getArtistRowsForStatsByDate(chartInfoId, d1, d2));
     }
 
     private static List<List<String>> buildTopArtistsOnePass(List<Object[]> rows) {
