@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession(true);
         session.setAttribute(SessionKeys.USER_ID, u.getId());
+        session.setAttribute(SessionKeys.USER_LOGIN, u.getLogin());
         session.setAttribute(SessionKeys.CHART_INFO_ID, 1);
 
         response.sendRedirect("/profile");

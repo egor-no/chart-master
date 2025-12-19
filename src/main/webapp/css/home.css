@@ -1,0 +1,237 @@
+.home-body{
+    background-color: #58a8a9;
+    color: #000;
+}
+
+.home-wrap{
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    padding: 24px 14px 40px;
+}
+
+.home-window{
+    width: 1180px;
+    background-color: #dce0e2;
+    border-left: 2px #e8f7f0 solid;
+    border-top: 2px #e8f7f0 solid;
+    border-bottom: 2px #192428 solid;
+    border-right: 2px #192428 solid;
+}
+
+.home-titlebar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background-color:#000676;
+    color:#fff;
+    height: 46px;
+    padding: 0 12px;
+}
+
+.home-title{ font-weight:bold; }
+.home-title-right{ font-size:12px; opacity:.9; }
+
+.home-layout{
+    display:flex;
+    gap: 12px;
+    padding: 12px 14px 14px;
+}
+
+.home-sidebar{
+    width: 310px;
+    flex: 0 0 310px;
+}
+
+.home-main{
+    flex: 1;
+    min-width: 0;
+}
+
+/* sidebar boxes */
+.home-box{
+    background:#dce0e2;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+    margin-bottom: 12px;
+}
+
+.home-box-head{
+    padding: 6px 8px;
+    font-weight:bold;
+    border-bottom:1px solid #192428;
+}
+
+.home-box-body{
+    background:#ffffff;
+    padding: 10px 10px 12px;
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    margin: 8px;
+}
+
+/* main pages */
+.home-page{
+    background:#dce0e2;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+}
+
+.home-page-head{
+    padding: 6px 8px;
+    font-weight:bold;
+    border-bottom:1px solid #192428;
+}
+
+.home-page-body{
+    background:#ffffff;
+    padding: 12px 12px 14px;
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    margin: 8px;
+}
+
+/* article */
+.home-article h2{
+    margin: 0 0 10px 0;
+    color:#000676;
+}
+
+.home-article p{
+    margin: 0 0 10px 0;
+    line-height: 1.35;
+}
+
+.home-hr{
+    height:1px;
+    background:#192428;
+    margin: 10px 0;
+}
+
+.home-note{
+    margin-top: 10px;
+    background:#fcfbdd;
+    border-top: 2px solid #192428;
+    border-left: 2px solid #192428;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding: 8px 10px;
+}
+
+/* buttons */
+.home-btn{
+    display:inline-block;
+    background:#dce0e2;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+    padding:6px 14px;
+    cursor:pointer;
+    text-decoration:none;
+    color:#000;
+}
+
+.home-btn:active{
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+.home-btn.primary{ background:#f6f6ff; }
+.home-btn.block{ display:block; text-align:center; margin-bottom: 8px; }
+
+/* sidebar list rows/links */
+.side-row{
+    display:flex;
+    justify-content:space-between;
+    gap: 10px;
+    padding: 4px 0;
+    border-bottom: 1px solid #e7e7e7;
+}
+.side-row:last-child{ border-bottom:0; }
+
+.side-name{ font-weight:bold; }
+.side-num{ font-weight:bold; color:#76367a; }
+
+.side-link{
+    display:block;
+    padding: 4px 0;
+    color:#0000a8;
+    text-decoration:none;
+    border-bottom: 1px solid #e7e7e7;
+}
+.side-link:hover{ text-decoration:underline; }
+.side-link:last-child{ border-bottom:0; }
+
+/* table */
+.home-table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.home-table th, .home-table td{
+    padding: 6px 6px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+
+.home-table tbody tr:hover{
+    background:#fcfbdd;
+}
+
+.home-link{
+    color:#0000a8;
+    text-decoration:none;
+    font-weight:bold;
+}
+.home-link:hover{ text-decoration:underline; }
+
+/* helpers */
+.muted{ color:#282929; opacity:.9; }
+.tiny{ font-size: 12px; }
+
+.home-footer{
+    padding: 8px 14px 12px;
+    font-size: 12px;
+    text-align:center;
+}
+
+.home-side-top{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    margin-bottom: 10px;
+    padding: 2px 2px 0 2px;
+}
+
+.home-login-link{
+    color:#0000a8;
+    text-decoration:none;
+    font-weight:bold;
+}
+.home-login-link:hover{
+    text-decoration: underline;
+}
+
+.home-side-icons{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+}
+
+.home-hello{
+    font-size: 13px;
+    margin-right: 8px;
+    white-space: nowrap;
+}

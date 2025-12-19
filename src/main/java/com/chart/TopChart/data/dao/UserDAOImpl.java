@@ -1,5 +1,6 @@
 package com.chart.TopChart.data.dao;
 
+import com.chart.TopChart.data.dto.HomeUserRow;
 import com.chart.TopChart.data.model.ChartInfo;
 import com.chart.TopChart.data.model.User;
 import org.hibernate.Query;
@@ -53,6 +54,36 @@ public class UserDAOImpl {
         session.getTransaction().commit();
         session.close();
         return result;
+    }
+
+    public static List<HomeUserRow> getAllWithChartsCount() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query query = session.createQuery(
+                "SELECT new com.chart.TopChart.data.dto.HomeUserRow(" +
+                        "u.id, u.login, u.nickname, count(ci.id)" +
+                        ") " +
+                        "FROM User u " +
+                        "LEFT JOIN u.charts ci " +
+                        "GROUP BY u.id, u.login, u.nickname " +
+                        "ORDER BY u.nickname"
+        );
+
+        List<HomeUserRow> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static long getTotalUsersCount() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT count(u.id) FROM User u");
+        Long val = (Long) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return val == null ? 0 : val;
     }
 
     public static void update(User result) {

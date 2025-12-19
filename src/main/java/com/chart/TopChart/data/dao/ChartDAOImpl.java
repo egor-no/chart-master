@@ -1,6 +1,7 @@
 package com.chart.TopChart.data.dao;
 
 import com.chart.TopChart.data.model.Chart;
+import com.chart.TopChart.data.dto.HomeLatestChartRow;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -105,6 +106,37 @@ public class ChartDAOImpl {
         session.getTransaction().commit();
         session.close();
         return res;
+    }
+
+    public static List<HomeLatestChartRow> getLatestForHome(int limit) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query query = session.createQuery(
+                "SELECT new com.chart.TopChart.data.dto.HomeLatestChartRow(" +
+                        "ci.id, ci.title, c.id, c.date, o.nickname" +
+                        ") " +
+                        "FROM Chart c " +
+                        "JOIN c.info ci " +
+                        "JOIN ci.owner o " +
+                        "ORDER BY c.id DESC");
+        query.setMaxResults(limit);
+
+        List<HomeLatestChartRow> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
+    public static long getTotalChartsCount() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT count(c.id) " +
+                "FROM Chart c");
+        Long val = (Long) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return val == null ? 0 : val;
     }
 
     public static void update(Chart result) {
