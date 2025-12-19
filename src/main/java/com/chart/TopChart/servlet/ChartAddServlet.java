@@ -28,7 +28,9 @@ public class ChartAddServlet extends HttpServlet {
         try {
             AuthUtil.requireOwnedChartInfo(request);
         } catch (AuthUtil.ForbiddenException ex) {
-            response.sendError(403);
+            AuthUtil.renderForbidden(request, response,
+                    "You can't add charts to someone else's chart.",
+                    true);
             return;
         }
 

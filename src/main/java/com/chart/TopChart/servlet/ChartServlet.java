@@ -41,6 +41,8 @@ public class ChartServlet extends HttpServlet {
 
         HttpSession s = request.getSession(true);
         s.setAttribute(SessionKeys.CHART_INFO_ID, chartInfoId);
+        s.removeAttribute(SessionKeys.OWNER_CI_ID);
+        s.removeAttribute(SessionKeys.OWNER_FLAG);
 
         Chart chart = null;
 

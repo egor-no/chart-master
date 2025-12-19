@@ -97,7 +97,7 @@ $(document).ready(function() {
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function () {
                             event.stopPropagation();
                         });
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/?chartNumber=' + chartId);
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/chart?chartNumber=' + chartId);
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + chartId + " | " +  formatDate(chartDate));
                         var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
                         chartRunDiv.find('[name="positions"]').append(positionDiv);

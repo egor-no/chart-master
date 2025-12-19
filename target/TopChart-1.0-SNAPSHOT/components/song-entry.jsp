@@ -15,7 +15,9 @@
             <p> ${song.weeks}</p>
         </div>
         <div class="flex1">
-            <p><a name="edit-link" href="#">&#10000;</a></p>
+            <c:if test="${loggedIn and isOwner}">
+                <p><a name="edit-link" href="#">&#10000;</a></p>
+            </c:if>
         </div>
     </div>
     <%@include file="song-history.jsp"%>

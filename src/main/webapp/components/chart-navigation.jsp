@@ -4,13 +4,17 @@
         <input class="no-display" name="is-last" value="${isLastChart}" />
         <a href="#" title="GOTO Previous chart" name="prevChart"><</a>
         <b>CHART: ${chart.date} </b>
-        <a name="edit-chart-link" href="#">&#10000;</a>
+        <c:if test="${loggedIn and isOwner}">
+            <a name="edit-chart-link" href="#">&#10000;</a>
+        </c:if>
         <a href="#" title="GOTO Next chart" name="nextChart">></a>
         <a href="#" title="GOTO Latest chart" name="curChart">>></a>
     </div>
 
     <div class="flex1 flex-end">
-        <a href="#" target="_blank" title="Export to WordPress" name="wp-export"><i class="fa fa-wordpress wp-icon" aria-hidden="true"></i></a>
+        <c:if test="${loggedIn and isOwner and userId == 1}">
+            <a href="#" target="_blank" title="Export to WordPress" name="wp-export"><i class="fa fa-wordpress wp-icon" aria-hidden="true"></i></a>
+        </c:if>
     </div>
 </div>
 
@@ -27,13 +31,13 @@
         } else {
             $('[name="wp-export"]').addClass('no-display');
             $('[name="edit-chart-link"]').addClass('no-display');
-            $('[name="nextChart"]').attr("href", "/?chartNumber=" + (Number($('[name="chart-id"]').val()) + 1));
+            $('[name="nextChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="chart-id"]').val()) + 1));
             $('[name="curChart"]').attr("href", "/");
         }
         if ($('[name="chart-id]').val() == 1) {
             $('[name="prevChart"]').addClass('no-display');
         } else {
-            $('[name="prevChart"]').attr("href", "/?chartNumber=" + (Number($('[name="chart-id"]').val()) - 1));
+            $('[name="prevChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="chart-id"]').val()) - 1));
         }
     });
 </script>

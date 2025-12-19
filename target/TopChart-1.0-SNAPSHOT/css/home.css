@@ -30,7 +30,7 @@
 }
 
 .home-title{ font-weight:bold; }
-.home-title-right{  font-family: monospace; font-size:12px; opacity:.9; }
+.home-title-right{ font-size:12px; opacity:.9; }
 
 .home-layout{
     display:flex;

@@ -4,5 +4,7 @@ public final class SessionKeys {
     private SessionKeys() {}
     public static final String USER_ID = "userId";
     public static final String USER_LOGIN = "userLogin";
-    public static final String CHART_INFO_ID = "chartInfoId"; // выбранный чарт (пока = 1)
+    public static final String CHART_INFO_ID = "chartInfoId";
+    public static final String OWNER_CI_ID = "ownerCiId";
+    public static final String OWNER_FLAG  = "ownerFlag";
 }

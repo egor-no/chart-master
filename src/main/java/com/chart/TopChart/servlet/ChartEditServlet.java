@@ -53,7 +53,9 @@ public class ChartEditServlet extends HttpServlet {
         try {
             AuthUtil.requireOwnedChart(request, chartNumber);
         } catch (AuthUtil.ForbiddenException ex) {
-            response.sendError(403);
+            AuthUtil.renderForbidden(request, response,
+                    "You can't edit someone else's chart.",
+                    true);
             return;
         }
         int chartInfoId = SessionUtil.requireChartInfoId(request);
