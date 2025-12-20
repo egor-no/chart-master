@@ -62,12 +62,12 @@ public class UserDAOImpl {
 
         Query query = session.createQuery(
                 "SELECT new com.chart.TopChart.data.dto.HomeUserRow(" +
-                        "u.id, u.login, u.nickname, count(ci.id)" +
+                        "u.id, u.login, u.nickname, count(ci.id) as amount " +
                         ") " +
                         "FROM User u " +
                         "LEFT JOIN u.charts ci " +
                         "GROUP BY u.id, u.login, u.nickname " +
-                        "ORDER BY u.nickname"
+                        "ORDER BY amount DESC "
         );
 
         List<HomeUserRow> list = query.list();

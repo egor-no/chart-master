@@ -1,5 +1,6 @@
 package com.chart.TopChart.data.dao;
 
+import com.chart.TopChart.data.dto.ChartBasic;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.data.dto.HomeLatestChartRow;
 import org.hibernate.Query;
@@ -7,7 +8,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChartDAOImpl {
 
@@ -139,6 +143,47 @@ public class ChartDAOImpl {
         return val == null ? 0 : val;
     }
 
+    public static Map<Integer, List<ChartBasic>> getLastChartsByChartInfoIds(
+            List<Integer> chartInfoIds, int limitPerChart) {
+
+        Map<Integer, List<ChartBasic>> result = new HashMap<>();
+        if (chartInfoIds == null || chartInfoIds.isEmpty() || limitPerChart <= 0) {
+            return result;
+        }
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery(
+                "SELECT c.info.id, c.id, c.date " +
+                        "FROM Chart c " +
+                        "WHERE c.info.id IN (:ids) " +
+                        "ORDER BY c.info.id ASC, c.id DESC"
+        );
+        q.setParameterList("ids", chartInfoIds);
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> rows = q.list();
+
+        session.getTransaction().commit();
+        session.close();
+
+        for (Object[] row : rows) {
+            Integer ciId = (Integer) row[0];
+            Long chartId = (Long) row[1];
+            String date = (String) row[2];
+
+            List<ChartBasic> list =
+                    result.computeIfAbsent(ciId, k -> new ArrayList<>());
+
+            if (list.size() < limitPerChart) {
+                list.add(new ChartBasic(chartId, date));
+            }
+        }
+
+        return result;
+    }
+
     public static void update(Chart result) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -152,7 +197,8 @@ public class ChartDAOImpl {
         Transaction tx = session.beginTransaction();
         try {
             Query query = session.createQuery(
-                    "FROM Chart c WHERE c.id = :id AND c.info.id = :ci");
+                    "FROM Chart c " +
+                            "WHERE c.id = :id AND c.info.id = :ci");
             query.setLong("id", id);
             query.setInteger("ci", chartInfoId);
             Chart result = (Chart) query.uniqueResult();

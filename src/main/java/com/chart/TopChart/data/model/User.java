@@ -27,19 +27,23 @@ public class User {
     @Column(name="slogan")
     private String slogan;
 
+    @Column(name="avatar")
+    private String avatar;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChartInfo> charts;
 
     public User() {
     }
 
-    public User(int id, String login, String password, String nickname, String bio, String slogan, List<ChartInfo> charts) {
+    public User(int id, String login, String password, String nickname, String bio, String slogan, String avatar, List<ChartInfo> charts) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.nickname = nickname;
         this.bio = bio;
         this.slogan = slogan;
+        this.avatar = avatar;
         this.charts = charts;
     }
 
@@ -97,5 +101,13 @@ public class User {
 
     public void setCharts(List<ChartInfo> charts) {
         this.charts = charts;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

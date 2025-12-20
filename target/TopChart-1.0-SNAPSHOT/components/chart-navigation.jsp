@@ -32,7 +32,7 @@
             $('[name="wp-export"]').addClass('no-display');
             $('[name="edit-chart-link"]').addClass('no-display');
             $('[name="nextChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="chart-id"]').val()) + 1));
-            $('[name="curChart"]').attr("href", "/");
+            $('[name="curChart"]').attr("href", "/chart");
         }
         if ($('[name="chart-id]').val() == 1) {
             $('[name="prevChart"]').addClass('no-display');

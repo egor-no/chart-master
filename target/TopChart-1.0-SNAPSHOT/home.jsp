@@ -46,34 +46,31 @@
             <div class="home-title-right">${homeSlogan}</div>
         </div>
 
+        <div class="home-statusbar">
+            <div class="home-status">
+                <c:choose>
+                    <c:when test="${loggedIn}">
+                    <span class="home-hello">
+                        Hey, <b>${sessionScope.userLogin}</b>!
+                    </span>
+
+                        <a href="/profile" class="menu-icon" title="Профиль">
+                            <i class="fa fa-user"></i>
+                        </a>
+                        <a href="/logout" class="menu-icon" title="Выход">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="home-login-link" href="/login">login</a>
+                        <span class="muted tiny">(to create & edit)</span>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+
         <div class="home-layout">
-
             <div class="home-sidebar">
-
-                <div class="home-side-top">
-                    <c:choose>
-                        <c:when test="${loggedIn}">
-                            <div class="home-side-icons">
-                                <span class="home-hello">
-                                    Hey, <b>${sessionScope.userLogin}</b>!
-                                </span>
-
-                                <a href="/profile" class="menu-icon" title="Профиль" aria-label="Профиль">
-                                    <i class="fa fa-user"></i>
-                                </a>
-                                <a href="/logout" class="menu-icon" title="Выход" aria-label="Выход">
-                                    <i class="fa fa-sign-out"></i>
-                                </a>
-                            </div>
-                        </c:when>
-
-                        <c:otherwise>
-                            <a class="home-login-link" href="/login">login</a>
-                            <span class="muted tiny"> (to create & edit)</span>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-
                 <div class="home-box">
                     <div class="home-box-head">Site stats</div>
                     <div class="home-box-body">
@@ -98,7 +95,10 @@
                     <div class="home-box-body">
                         <c:forEach items="${users}" var="u" begin="0" end="7">
                             <div class="side-row">
-                                <span class="side-name">${fn:escapeXml(u.nickname)}</span>
+                                <a class="side-name side-link"
+                                   href="/profile?u=${u.id}">
+                                        ${fn:escapeXml(u.nickname)}
+                                </a>
                                 <span class="side-num">${u.chartsCount}</span>
                             </div>
                         </c:forEach>

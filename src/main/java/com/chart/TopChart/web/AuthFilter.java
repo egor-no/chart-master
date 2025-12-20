@@ -21,6 +21,8 @@ public class AuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
 
         String uri = request.getRequestURI();
+        String ctx = request.getContextPath();
+        String path = (ctx != null && !ctx.isEmpty()) ? uri.substring(ctx.length()) : uri;
 
         HttpSession s = request.getSession(false);
 
@@ -61,32 +63,39 @@ public class AuthFilter implements Filter {
         request.setAttribute("loggedIn", loggedInFlag);
         request.setAttribute("isOwner", isOwnerFlag);
 
-        if (!isPublic(uri) && !loggedInFlag) {
-            response.sendRedirect("/login");
+        if (isPublic(path)) {
+            chain.doFilter(req, res);
+            return;
+        }
+
+        if (!loggedInFlag) {
+            response.sendRedirect(ctx + "/login");
             return;
         }
 
         chain.doFilter(req, res);
     }
 
-    private boolean isPublic(String uri) {
-        if (uri == null) return true;
+    private boolean isPublic(String path) {
+        if (path == null) return true;
 
-        if (uri.equals("/") || uri.equals("/login")) return true;
+        if (path.equals("/") || path.equals("/login")) return true;
+        if (path.equals("/profile")) return true;
 
-        if (uri.equals("/chart")) return true;
-        if (uri.equals("/reports")) return true;
-        if (uri.equals("/artists")) return true;
-        if (uri.equals("/songs")) return true;
+        if (path.equals("/chart")) return true;
+        if (path.equals("/reports")) return true;
+        if (path.equals("/artists")) return true;
+        if (path.equals("/songs")) return true;
 
-        if (uri.equals("/artist")) return true;
-        if (uri.equals("/song")) return true;
-        if (uri.equals("/songhistory")) return true;
+        if (path.equals("/artist")) return true;
+        if (path.equals("/song")) return true;
+        if (path.equals("/songhistory")) return true;
 
-        if (uri.startsWith("/css/")) return true;
-        if (uri.startsWith("/icons/")) return true;
-        if (uri.startsWith("/js/")) return true;
-        if (uri.startsWith("/components/")) return true;
+        if (path.startsWith("/css/")) return true;
+        if (path.startsWith("/icons/")) return true;
+        if (path.startsWith("/js/")) return true;
+        if (path.startsWith("/components/")) return true;
+        if (path.startsWith("/avatars/")) return true;
 
         return false;
     }

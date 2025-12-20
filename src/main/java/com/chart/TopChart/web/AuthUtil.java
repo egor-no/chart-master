@@ -15,7 +15,7 @@ public final class AuthUtil {
 
     public static ChartInfo requireOwnedChartInfo(HttpServletRequest req) {
         int userId = SessionUtil.requireUserId(req);
-        int chartInfoId = SessionUtil.requireChartInfoId(req);
+        int chartInfoId = SessionUtil.requireResolvedChartInfoId(req);
 
         ChartInfo ci = ChartInfoDAOImpl.getById(chartInfoId);
         if (ci == null || ci.getOwner() == null || ci.getOwner().getId() != userId) {
