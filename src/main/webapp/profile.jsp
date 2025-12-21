@@ -118,11 +118,13 @@
                     <c:when test="${loggedIn}">
                         <span class="home-hello">Hey, <b>${sessionScope.userLogin}</b>!</span>
                         <a href="/" class="menu-icon" title="Home"><i class="fa fa-home"></i></a>
+                        <a href="javascript:void(0)"  class="menu-icon" title="Поделиться профилем" aria-label="Поделиться профилем" onclick="copyText(window.location.origin + '/profile?u=${profileUser.id}')"><i class="fa fa-link"></i></a>
                         <a href="/profile" class="menu-icon" title="My profile"><i class="fa fa-user"></i></a>
                         <a href="/logout" class="menu-icon" title="Logout"><i class="fa fa-sign-out"></i></a>
                     </c:when>
                     <c:otherwise>
                         <a href="/" class="menu-icon" title="Home"><i class="fa fa-home"></i></a>
+                        <a href="javascript:void(0)"  class="menu-icon" title="Поделиться профилем" aria-label="Поделиться профилем" onclick="copyText(window.location.origin + '/profile?u=${profileUser.id}')"><i class="fa fa-link"></i></a>
                         <a class="home-login-link" href="/login">login</a>
                         <span class="muted tiny">(to create & edit)</span>
                     </c:otherwise>

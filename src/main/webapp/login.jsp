@@ -65,10 +65,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            // фокус на логин
             $('[name="login"]').focus();
 
-            // Enter в пароле отправляет форму (и так отправит, но пусть будет явно)
             $('[name="password"]').on('keydown', function(e){
                 if (e.key === 'Enter') {
                     $('form').submit();

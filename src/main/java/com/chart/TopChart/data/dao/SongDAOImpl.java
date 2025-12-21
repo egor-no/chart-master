@@ -62,7 +62,7 @@ public class SongDAOImpl {
                         "JOIN p.pk.song s " +
                         "WHERE p.pk.chart.info.id = :ci " +
                         "AND lower(s.name) LIKE :q " +
-                        "ORDER BY s.name");
+                        "ORDER BY s.id");
         query.setInteger("ci", chartInfoId);
         query.setString("q", "%" + qStr + "%");
 
@@ -183,7 +183,7 @@ public class SongDAOImpl {
                         "   OR lower(s.artists) LIKE :aMiddle1 " +
                         "   OR lower(s.artists) LIKE :aMiddle2 " +
                         ") " +
-                        "ORDER BY s.name");
+                        "ORDER BY s.id");
         query.setInteger("ci", chartInfoId);
         query.setParameter("a", a);
         query.setParameter("aPrefix", a + ",%");

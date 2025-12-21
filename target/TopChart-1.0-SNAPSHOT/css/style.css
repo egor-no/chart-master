@@ -689,3 +689,23 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
 .menu-icon:active{
     transform: translateY(1px);
 }
+
+.toast-win {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    padding: 6px 10px;
+    font-size: 12px;
+
+    background: #dce0e2;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #192428;
+    border-bottom: 2px solid #192428;
+
+    box-shadow: none;
+    z-index: 9999;
+}
+
+.toast-win-show {
+}

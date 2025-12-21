@@ -63,7 +63,10 @@ public class AuthFilter implements Filter {
         request.setAttribute("loggedIn", loggedInFlag);
         request.setAttribute("isOwner", isOwnerFlag);
 
-        if (isPublic(path)) {
+        boolean isPublic = isPublic(path);
+        boolean allowShare = isPublic && isShareable(path);
+        request.setAttribute("allowShare", allowShare);
+        if (isPublic) {
             chain.doFilter(req, res);
             return;
         }
@@ -98,5 +101,20 @@ public class AuthFilter implements Filter {
         if (path.startsWith("/avatars/")) return true;
 
         return false;
+    }
+
+    private boolean isShareable(String path) {
+        if (path == null) return false;
+
+        if (path.equals("/login") || path.equals("/logout")) return false;
+        if (path.equals("/songhistory")) return false;
+
+        if (path.startsWith("/css/")) return false;
+        if (path.startsWith("/js/")) return false;
+        if (path.startsWith("/icons/")) return false;
+        if (path.startsWith("/components/")) return false;
+        if (path.startsWith("/avatars/")) return false;
+
+        return true;
     }
 }

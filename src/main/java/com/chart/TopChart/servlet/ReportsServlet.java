@@ -22,9 +22,9 @@ public class ReportsServlet extends HttpServlet  {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Integer chartInfoIdObj = SessionUtil.getChartInfoId(request);
+        Integer chartInfoIdObj = SessionUtil.resolveChartInfoId(request);
         if (chartInfoIdObj == null) {
-            response.sendError(400, "Chart is not selected (missing chartInfoId in session)");
+            response.sendRedirect("/");
             return;
         }
         int chartInfoId = chartInfoIdObj;

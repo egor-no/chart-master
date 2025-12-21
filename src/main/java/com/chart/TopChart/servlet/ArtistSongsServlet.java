@@ -18,7 +18,12 @@ public class ArtistSongsServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int chartInfoId = SessionUtil.requireChartInfoId(request);
+        Integer chartInfoIdObj = SessionUtil.resolveChartInfoId(request);
+        if (chartInfoIdObj == null) {
+            response.sendRedirect("/");
+            return;
+        }
+        int chartInfoId = chartInfoIdObj;
 
         String artist = request.getParameter("artist");
         List<Song> songs = SongDAOImpl.getByArtist(chartInfoId, artist);
