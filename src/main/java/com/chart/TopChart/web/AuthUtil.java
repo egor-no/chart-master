@@ -2,8 +2,10 @@ package com.chart.TopChart.web;
 
 import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.ChartInfoDAOImpl;
+import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.data.model.ChartInfo;
+import com.chart.TopChart.data.model.Song;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,5 +50,20 @@ public final class AuthUtil {
 
         request.getRequestDispatcher("/WEB-INF/jsp/forbidden.jsp")
                 .forward(request, response);
+    }
+
+    public static Song requireOwnedSongViaPositions(HttpServletRequest req, long songId) {
+        ChartInfo ci = requireOwnedChartInfo(req);
+
+        if (!SongDAOImpl.existsInChartInfo(songId, ci.getId())) {
+            throw new ForbiddenException("Song not owned by user");
+        }
+
+        Song s = SongDAOImpl.getById(songId);
+        if (s == null) {
+            throw new ForbiddenException("Song not found");
+        }
+
+        return s;
     }
 }

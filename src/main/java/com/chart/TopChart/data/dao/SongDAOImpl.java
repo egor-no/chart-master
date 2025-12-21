@@ -62,7 +62,7 @@ public class SongDAOImpl {
                         "JOIN p.pk.song s " +
                         "WHERE p.pk.chart.info.id = :ci " +
                         "AND lower(s.name) LIKE :q " +
-                        "ORDER BY s.id");
+                        "ORDER BY s.id DESC");
         query.setInteger("ci", chartInfoId);
         query.setString("q", "%" + qStr + "%");
 
@@ -183,7 +183,7 @@ public class SongDAOImpl {
                         "   OR lower(s.artists) LIKE :aMiddle1 " +
                         "   OR lower(s.artists) LIKE :aMiddle2 " +
                         ") " +
-                        "ORDER BY s.id");
+                        "ORDER BY s.id DESC");
         query.setInteger("ci", chartInfoId);
         query.setParameter("a", a);
         query.setParameter("aPrefix", a + ",%");
@@ -217,6 +217,23 @@ public class SongDAOImpl {
         session.getTransaction().commit();
         session.close();
         return list;
+    }
+
+    public static boolean existsInChartInfo(long songId, int chartInfoId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery(
+                "SELECT 1 " +
+                        "FROM Position p " +
+                        "WHERE p.pk.song.id = :sid " +
+                        "AND p.pk.chart.info.id = :ci");
+        q.setLong("sid", songId);
+        q.setInteger("ci", chartInfoId);
+        q.setMaxResults(1);
+        Object one = q.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return one != null;
     }
 
     public static List<Object[]> getArtistRowsForSongStatsAllTime(int chartInfoId) {
