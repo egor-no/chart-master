@@ -3,6 +3,7 @@ package com.chart.TopChart.servlet;
 import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.ChartInfoDAOImpl;
 import com.chart.TopChart.data.dao.UserDAOImpl;
+import com.chart.TopChart.service.HomeUpdatesService;
 import com.chart.TopChart.web.SessionKeys;
 import com.chart.TopChart.web.SessionUtil;
 
@@ -38,7 +39,7 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("users", UserDAOImpl.getAllWithChartsCount());
         request.setAttribute("chartInfos", ChartInfoDAOImpl.getAllForHome());
 
-        request.setAttribute("latest", ChartDAOImpl.getLatestForHome(12));
+        request.setAttribute("updates", HomeUpdatesService.getLatestUpdates(20));
 
         request.setAttribute("totalUsers", UserDAOImpl.getTotalUsersCount());
         request.setAttribute("totalChartInfos", ChartInfoDAOImpl.getTotalChartInfosCount());

@@ -35,6 +35,22 @@
     <title>TopChart — Portal</title>
     <jsp:include page="components/head.jsp"/>
     <style><%@include file="/css/home.css"%></style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#updates-table .upd-row').each(function () {
+                var t = $(this).data('type'); // USER / CHART_INFO / CHART_ISSUE
+                var $ico = $(this).find('[name="upd-ico"]');
+
+                if (t === 'CHART_ISSUE') {
+                    $ico.html('&#9632;').attr('title', 'issue'); // ■
+                } else if (t === 'CHART_INFO') {
+                    $ico.html('&#9670;').attr('title', 'new chart'); // ◆
+                } else {
+                    $ico.html('&#9679;').attr('title', 'new user'); // ●
+                }
+            });
+        });
+    </script>
 </head>
 
 <body class="home-body">
@@ -156,40 +172,87 @@
                     </div>
                 </div>
 
-                <!-- UPDATES -->
                 <div class="home-page" style="margin-top:12px;">
-                    <div class="home-page-head">Updates / latest issues</div>
+                    <div class="home-page-head">Updates</div>
                     <div class="home-page-body">
 
-                        <table class="home-table">
-                            <thead>
-                            <tr>
-                                <th>Chart</th>
-                                <th>Owner</th>
-                                <th>Date</th>
-                                <th style="text-align:right;">#</th>
-                            </tr>
-                            </thead>
+                        <table class="home-table" id="updates-table">
                             <tbody>
-                            <c:forEach items="${latest}" var="l">
-                                <tr>
+                            <c:forEach items="${updates}" var="u">
+                                <tr class="upd-row">
                                     <td>
-                                        <a class="home-link" href="/chart?ci=${l.chartInfoId}&chartNumber=${l.chartId}">
-                                                ${fn:escapeXml(l.chartInfoTitle)}
-                                        </a>
+                                        <c:choose>
+                                            <c:when test="${u.type == 'CHART_ISSUE'}">
+                                                <div class="upd-ico equal" title="new chart issue">&#9632;</div>
+                                            </c:when>
+                                            <c:when test="${u.type == 'CHART_INFO'}">
+                                                <div class="upd-ico new" title="new chart created">&#9670;</div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="upd-ico re" title="new user registered">&#9673;</div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </td>
-                                    <td>${fn:escapeXml(l.ownerNickname)}</td>
-                                    <td>${fn:escapeXml(l.date)}</td>
-                                    <td style="text-align:right;">${l.chartId}</td>
+                                    <td class="upd-event">
+                                        <c:choose>
+                                            <c:when test="${u.type == 'CHART_ISSUE'}">new chart issue added</c:when>
+                                            <c:when test="${u.type == 'CHART_INFO'}">new chart created</c:when>
+                                            <c:otherwise>new user registered</c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${u.type == 'CHART_ISSUE'}">
+                                                <a class="home-link"
+                                                   href="/chart?ci=${u.chartInfoId}&chartNumber=${u.chartId}">
+                                                        ${fn:escapeXml(u.chartInfoTitle)}
+                                                </a>
+                                                <span class="muted tiny">#${u.chartId}</span>
+                                            </c:when>
+                                            <c:when test="${u.type == 'CHART_INFO'}">
+                                                <a class="home-link"
+                                                   href="/chart?ci=${u.chartInfoId}">
+                                                        ${fn:escapeXml(u.chartInfoTitle)}
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="muted">—</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:if test="${u.type == 'CHART_ISSUE' || u.type == 'CHART_INFO'}">
+                                            <span class="muted tiny">by</span>
+                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${u.type == 'USER'}">
+                                                <a class="home-link" href="/profile?u=${u.userId}">
+                                                        ${fn:escapeXml(u.userNickname)}
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${fn:escapeXml(u.ownerNickname)}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${u.type == 'CHART_ISSUE'}">
+                                                ${fn:escapeXml(u.chartDate)}
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${fn:escapeXml(u.createdAtStr)}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
 
                         <div class="muted tiny" style="margin-top:8px;">
-                            Links open charts via <b>?ci=</b> and a specific issue via <b>&chartNumber=</b>.
+                            Guest-friendly: users, charts, issues.
                         </div>
-
                     </div>
                 </div>
 

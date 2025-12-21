@@ -706,6 +706,3 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     box-shadow: none;
     z-index: 9999;
 }
-
-.toast-win-show {
-}

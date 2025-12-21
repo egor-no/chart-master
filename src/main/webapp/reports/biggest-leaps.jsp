@@ -6,10 +6,7 @@
 <head>
     <title>TOP40 - Biggest leaps</title>
     <link rel="icon" href="/icons/icon.png" type="image/x-icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        <%@include file="/css/style.css"%>
-    </style>
+    <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript">
         <%@include file="/components/song-history.js"%>
     </script>

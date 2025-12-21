@@ -1,11 +1,14 @@
 package com.chart.TopChart.data.dao;
 
 import com.chart.TopChart.data.dto.HomeChartInfoRow;
+import com.chart.TopChart.data.dto.HomeUpdateRow;
 import com.chart.TopChart.data.model.ChartInfo;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChartInfoDAOImpl {
@@ -75,6 +78,36 @@ public class ChartInfoDAOImpl {
         session.getTransaction().commit();
         session.close();
         return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<HomeUpdateRow> getLatestChartInfosForUpdates(int limit) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery(
+                "SELECT ci.id, ci.title, o.nickname, ci.createdAt " +
+                        "FROM ChartInfo ci " +
+                        "JOIN ci.owner o " +
+                        "ORDER BY ci.createdAt DESC"
+        );
+        q.setMaxResults(limit);
+
+        List<Object[]> rows = q.list();
+
+        session.getTransaction().commit();
+        session.close();
+
+        List<HomeUpdateRow> out = new ArrayList<>();
+        for (Object[] r : rows) {
+            Integer ciId = (Integer) r[0];
+            String title = (String) r[1];
+            String ownerNick = (String) r[2];
+            LocalDateTime createdAt = (LocalDateTime) r[3];
+
+            out.add(HomeUpdateRow.chartInfo(ciId, title, ownerNick, createdAt));
+        }
+        return out;
     }
 
     public static long getTotalChartInfosCount() {

@@ -1,6 +1,7 @@
 package com.chart.TopChart.data.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="chart_info")
@@ -33,10 +34,13 @@ public class ChartInfo {
     @Column(name="field2Name")
     private String field2Name;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
     public ChartInfo() {
     }
 
-    public ChartInfo(int id, User owner, String title, int size, String description, Integer fieldsAmount, String field1Name, String field2Name) {
+    public ChartInfo(int id, User owner, String title, int size, String description, Integer fieldsAmount, String field1Name, String field2Name, LocalDateTime createdAt) {
         this.id = id;
         this.owner = owner;
         this.title = title;
@@ -45,6 +49,7 @@ public class ChartInfo {
         this.fieldsAmount = fieldsAmount;
         this.field1Name = field1Name;
         this.field2Name = field2Name;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -109,5 +114,13 @@ public class ChartInfo {
 
     public void setField2Name(String field2Name) {
         this.field2Name = field2Name;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

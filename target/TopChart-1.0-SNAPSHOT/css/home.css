@@ -248,3 +248,28 @@
     gap:10px;
     white-space:nowrap;
 }
+
+.upd-ico.issue {color: #fdff12;}
+.upd-ico.chart {color: #0000CC;}
+.upd-ico.user  {color: #ab47aa;}
+
+.upd-event{ white-space:nowrap; }
+
+.home-table td.upd-col{
+    width: 30px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+.home-table td.upd-col .upd-ico{
+    margin: 0 auto;
+}
+
+.upd-ico{
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

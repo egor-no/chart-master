@@ -1,6 +1,7 @@
 package com.chart.TopChart.data.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,13 +31,16 @@ public class User {
     @Column(name="avatar")
     private String avatar;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChartInfo> charts;
 
     public User() {
     }
 
-    public User(int id, String login, String password, String nickname, String bio, String slogan, String avatar, List<ChartInfo> charts) {
+    public User(int id, String login, String password, String nickname, String bio, String slogan, String avatar, LocalDateTime createdAt, List<ChartInfo> charts) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -44,6 +48,7 @@ public class User {
         this.bio = bio;
         this.slogan = slogan;
         this.avatar = avatar;
+        this.createdAt = createdAt;
         this.charts = charts;
     }
 
@@ -109,5 +114,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

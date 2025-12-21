@@ -1,6 +1,7 @@
 package com.chart.TopChart.data.dao;
 
 import com.chart.TopChart.data.dto.ChartBasic;
+import com.chart.TopChart.data.dto.HomeUpdateRow;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.data.dto.HomeLatestChartRow;
 import org.hibernate.Query;
@@ -8,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,6 +133,45 @@ public class ChartDAOImpl {
         session.getTransaction().commit();
         session.close();
         return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<HomeUpdateRow> getLatestIssuesForUpdates(int limit) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery(
+                "SELECT ci.id, ci.title, o.nickname, c.id, c.date " +
+                        "FROM Chart c " +
+                        "JOIN c.info ci " +
+                        "JOIN ci.owner o " +
+                        "ORDER BY c.date DESC, c.id DESC"
+        );
+        q.setMaxResults(limit);
+
+        List<Object[]> rows = q.list();
+
+        session.getTransaction().commit();
+        session.close();
+
+        List<HomeUpdateRow> out = new ArrayList<>();
+        for (Object[] r : rows) {
+            Integer ciId = (Integer) r[0];
+            String ciTitle = (String) r[1];
+            String ownerNick = (String) r[2];
+            Long chartId = (Long) r[3];
+            String chartDate = (String) r[4];
+
+            LocalDateTime sortTime;
+            try {
+                sortTime = LocalDate.parse(chartDate).atStartOfDay();
+            } catch (Exception ex) {
+                sortTime = LocalDateTime.MIN;
+            }
+
+            out.add(HomeUpdateRow.issue(ciId, ciTitle, ownerNick, chartId, chartDate, sortTime));
+        }
+        return out;
     }
 
     public static long getTotalChartsCount() {

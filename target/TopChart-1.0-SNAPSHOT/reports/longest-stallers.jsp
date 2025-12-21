@@ -6,17 +6,13 @@
 <html>
 <head>
     <title>TOP40 - Longest stallers</title>
-    <link rel="icon" href="/icons/icon.png" type="image/x-icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style><%@include file="/css/style.css"%></style>
+    <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
 </head>
 <body>
 <div class="report">
     <div id="report-cap">
-        <div class="report-header">
-            <h1>Отчёты</h1>
-        </div>
+        <h1>Отчёты</h1>
         <div class="nav">
             <jsp:include page="../components/menu.jsp">
                 <jsp:param name="active" value="none"/>
