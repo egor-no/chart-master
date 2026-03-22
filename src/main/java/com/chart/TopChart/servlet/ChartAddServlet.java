@@ -62,7 +62,7 @@ public class ChartAddServlet extends HttpServlet {
         int chartInfoId = SessionUtil.requireChartInfoId(request);
         ChartService.formChart(chartInfoId, ids, name, artists);
 
-        response.sendRedirect("/");
+        response.sendRedirect("/chart");
         response.flushBuffer();
     }
 }

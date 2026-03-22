@@ -79,6 +79,8 @@
                     </c:when>
                     <c:otherwise>
                         <a class="home-login-link" href="/login">login</a>
+                        <span class="muted tiny">/</span>
+                        <a class="home-login-link" href="/register">register</a>
                         <span class="muted tiny">(to create & edit)</span>
                     </c:otherwise>
                 </c:choose>

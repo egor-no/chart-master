@@ -30,6 +30,28 @@
         background:#f6f6ff;
         box-shadow: inset 3px 0 0 #76367a;
     }
+
+    .ui-autocomplete {
+        max-width: 520px;
+        width: auto !important;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        z-index: 9999;
+    }
+
+    .ui-autocomplete .ui-menu-item-wrapper {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ui-helper-hidden-accessible {
+        position: absolute !important;
+        left: -9999px !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+    }
     </style>
     <script type = "text/javascript" >
 
@@ -72,13 +94,17 @@
 
             $('[name="artists[]"], [name="name[]"]').autocomplete({
                 minLength: 2,
+                appendTo: "body",
                 source: function(request, response){
                     response($.map(songs, function(obj){
                         var label = obj.artists + " - " + obj.name;
                         return label.toUpperCase().includes(request.term.toUpperCase())
-                            ? { label, value: obj }
+                            ? { label: label, value: obj }
                             : null;
                     }));
+                },
+                open: function() {
+                    $(this).autocomplete("widget").outerWidth($(this).outerWidth());
                 },
                 select: function(event, ui){
                     event.preventDefault();

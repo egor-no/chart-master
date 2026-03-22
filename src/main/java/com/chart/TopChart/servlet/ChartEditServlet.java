@@ -69,7 +69,7 @@ public class ChartEditServlet extends HttpServlet {
             System.out.println("******************** not deleted charNumber " + chartNumber);
         }
 
-        response.sendRedirect("/");
+        response.sendRedirect("/chart");
         response.flushBuffer();
     }
 }

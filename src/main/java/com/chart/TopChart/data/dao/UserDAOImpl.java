@@ -15,6 +15,10 @@ import java.util.List;
 public class UserDAOImpl {
 
     public static int save(User result) {
+        if (result.getCreatedAt() == null) {
+            result.setCreatedAt(LocalDateTime.now());
+        }
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         int id = (Integer) session.save(result);
@@ -37,9 +41,11 @@ public class UserDAOImpl {
     public static User getById(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM User u " +
-                "LEFT JOIN FETCH u.charts " +
-                "WHERE u.id = :id");
+        Query query = session.createQuery(
+                "SELECT DISTINCT u FROM User u " +
+                        "LEFT JOIN FETCH u.charts " +
+                        "WHERE u.id = :id"
+        );
         query.setInteger("id", id);
         User result = (User) query.uniqueResult();
         session.getTransaction().commit();
@@ -51,7 +57,7 @@ public class UserDAOImpl {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM User " +
-                "WHERE login LIKE :login");
+                "WHERE login = :login");
         query.setString("login", login);
         User result = (User) query.uniqueResult();
         session.getTransaction().commit();

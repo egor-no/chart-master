@@ -181,7 +181,7 @@
 
                             <div style="flex:1;">
                                 <c:if test="${not empty profileUser.bio}">
-                                    <p style="margin-top:0;">
+                                    <p style="margin-top:0; white-space: pre-line;">
                                             ${fn:escapeXml(profileUser.bio)}
                                     </p>
                                 </c:if>
@@ -198,7 +198,7 @@
                                         <input type="button" value="Add new chart"
                                                onclick="alert('Soon: create new ChartInfo');" />
                                         <input type="button" value="Edit profile"
-                                               onclick="alert('Soon: profile edit page');" />
+                                               onclick="window.location.href='${pageContext.request.contextPath}/profile?action=edit';" />
                                     </c:if>
                                 </div>
                             </div>

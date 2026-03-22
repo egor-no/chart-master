@@ -180,14 +180,18 @@ public class SongDAOImpl {
                         "   lower(trim(s.artists)) = :a " +
                         "   OR lower(s.artists) LIKE :aPrefix " +
                         "   OR lower(s.artists) LIKE :aSuffix " +
+                        "   OR lower(s.artists) LIKE :aSuffixSp " +
                         "   OR lower(s.artists) LIKE :aMiddle1 " +
                         "   OR lower(s.artists) LIKE :aMiddle2 " +
                         ") " +
-                        "ORDER BY s.id DESC");
+                        "ORDER BY s.id DESC"
+        );
+
         query.setInteger("ci", chartInfoId);
         query.setParameter("a", a);
         query.setParameter("aPrefix", a + ",%");
         query.setParameter("aSuffix", "%," + a);
+        query.setParameter("aSuffixSp", "%, " + a);
         query.setParameter("aMiddle1", "%," + a + ",%");
         query.setParameter("aMiddle2", "%, " + a + ",%");
 

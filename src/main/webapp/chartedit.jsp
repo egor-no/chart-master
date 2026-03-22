@@ -28,21 +28,21 @@
         box-shadow: inset 3px 0 0 #76367a;
     }
 
-    .ui-autocomplete{
-        background:#dce0e2;
-        border-top:2px solid #fff;
-        border-left:2px solid #fff;
-        border-right:2px solid #192428;
-        border-bottom:2px solid #192428;
-        padding:2px;
-        max-height: 260px;
-        overflow-y: auto;
+    .ui-autocomplete {
+        max-width: 520px;
+        width: auto !important;
+        box-sizing: border-box;
         overflow-x: hidden;
+        z-index: 9999;
         font-size: 12px;
     }
-    .ui-menu-item-wrapper{
-        padding: 3px 6px;
+
+    .ui-autocomplete .ui-menu-item-wrapper {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
+
     .ui-state-active{
         background:#000676;
         color:#fff;

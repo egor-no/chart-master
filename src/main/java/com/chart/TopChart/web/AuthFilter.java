@@ -84,6 +84,7 @@ public class AuthFilter implements Filter {
 
         if (path.equals("/") || path.equals("/login")) return true;
         if (path.equals("/profile")) return true;
+        if (path.equals("/register")) return true;
 
         if (path.equals("/chart")) return true;
         if (path.equals("/reports")) return true;
