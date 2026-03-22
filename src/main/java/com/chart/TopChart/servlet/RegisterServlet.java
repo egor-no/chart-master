@@ -2,13 +2,17 @@ package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.UserDAOImpl;
 import com.chart.TopChart.data.model.User;
+import util.AvatarUtil;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 
 @WebServlet(name = "register", value = "/register")
+@MultipartConfig
 public class RegisterServlet extends HttpServlet {
 
     @Override
@@ -64,13 +68,25 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+        Part avatarPart = request.getPart("avatarFile");
+        String avatarFileName = null;
+        if (avatarPart != null && avatarPart.getSize() > 0) {
+            String ext = AvatarUtil.getFileExtension(avatarPart);
+            if (ext != null && AvatarUtil.isAvatarFileAllowed(ext)) {
+                String uploadPath = request.getServletContext().getRealPath("/avatars");
+                String newFileName = AvatarUtil.getNextAvatarFileName(uploadPath, ext);
+                avatarPart.write(uploadPath + File.separator + newFileName);
+                avatarFileName = newFileName;
+            }
+        }
+
         User user = new User();
         user.setLogin(login);
         user.setPassword(password);
         user.setNickname(nickname);
         user.setSlogan(slogan);
         user.setBio(bio);
-        user.setAvatar(avatar);
+        user.setAvatar(avatarFileName);
 
         int id = UserDAOImpl.save(user);
 

@@ -83,7 +83,7 @@
                     <div class="home-page-head">Create your profile</div>
                     <div class="home-page-body">
 
-                        <form method="post" action="/register" class="form-grid">
+                        <form method="post" action="/register" enctype="multipart/form-data">
                             <div class="form-row">
                                 <label>Login *</label>
                                 <input class="retro-input" type="text" name="login"
@@ -122,10 +122,8 @@
                             </div>
 
                             <div class="form-row">
-                                <label>Avatar file name</label>
-                                <input class="retro-input" type="text" name="avatar"
-                                       value="${fn:escapeXml(formAvatar)}" maxlength="255"
-                                       placeholder="example: avatar.jpg"/>
+                                <label>Avatar </label>
+                                <input type="file" name="avatarFile" accept="image/*">
                             </div>
 
                             <div class="profile-actions">

@@ -134,7 +134,7 @@
                     </div>
                     <div class="home-page-body">
 
-                        <form method="post" action="/profile?action=update" class="profile-form">
+                        <form method="post" action="/profile?action=update" enctype="multipart/form-data" class="profile-form">
                             <div class="profile-header">
                                 <div class="profile-avatar">
                                     <c:choose>
@@ -171,13 +171,18 @@
                                     </div>
 
                                     <div class="profile-form-row" style="margin-top:10px;">
-                                        <label class="profile-label">Avatar file name</label>
-                                        <input class="profile-input" type="text" name="avatar"
-                                               value="${fn:escapeXml(profileUser.avatar)}" maxlength="255"
-                                               placeholder="example: avatar.jpg"/>
+                                        <label class="profile-label">New avatar</label>
+                                        <input class="profile-input" type="file" name="avatarFile" accept="image/*"/>
                                         <div class="muted tiny">
-                                            File should already exist in ROOT/avatars.
+                                            Leave empty to keep current avatar.
                                         </div>
+
+                                        <c:if test="${not empty profileUser.avatar}">
+                                            <label style="margin-top:6px;">
+                                                <input type="checkbox" name="removeAvatar" value="1"/>
+                                                Remove current avatar
+                                            </label>
+                                        </c:if>
                                     </div>
 
                                     <div class="profile-form-row" style="margin-top:10px;">

@@ -6,16 +6,20 @@ import com.chart.TopChart.data.dto.ChartBasic;
 import com.chart.TopChart.data.model.ChartInfo;
 import com.chart.TopChart.data.model.User;
 import com.chart.TopChart.web.SessionUtil;
+import util.AvatarUtil;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "profile", value = "/profile")
+@MultipartConfig
 public class ProfileServlet extends HttpServlet {
 
     @Override
@@ -140,8 +144,8 @@ public class ProfileServlet extends HttpServlet {
         String nickname = trim(request.getParameter("nickname"));
         String slogan = trim(request.getParameter("slogan"));
         String bio = trim(request.getParameter("bio"));
-        String avatar = trim(request.getParameter("avatar"));
         String password = trim(request.getParameter("password"));
+        String removeAvatar = request.getParameter("removeAvatar");
 
         boolean hasError = false;
 
@@ -154,17 +158,41 @@ public class ProfileServlet extends HttpServlet {
             user.setNickname(nickname);
             user.setSlogan(slogan);
             user.setBio(bio);
-            user.setAvatar(avatar);
 
             request.setAttribute("profileUser", user);
             request.getRequestDispatcher("profileEdit.jsp").forward(request, response);
             return;
         }
 
+        String uploadPath = request.getServletContext().getRealPath("/avatars");
+        String oldAvatar = user.getAvatar();
+
+        Part avatarPart = request.getPart("avatarFile");
+        boolean hasNewAvatar = avatarPart != null && avatarPart.getSize() > 0;
+
+        if (hasNewAvatar) {
+            String ext = AvatarUtil.getFileExtension(avatarPart);
+
+            if (ext != null && AvatarUtil.isAvatarFileAllowed(ext)) {
+                String newFileName = AvatarUtil.getNextAvatarFileName(uploadPath, ext);
+
+                avatarPart.write(uploadPath + File.separator + newFileName);
+                user.setAvatar(newFileName);
+
+                if (oldAvatar != null && !oldAvatar.trim().isEmpty()) {
+                    AvatarUtil.deleteAvatarFile(uploadPath, oldAvatar);
+                }
+            }
+        } else if ("1".equals(removeAvatar)) {
+            if (oldAvatar != null && !oldAvatar.trim().isEmpty()) {
+                AvatarUtil.deleteAvatarFile(uploadPath, oldAvatar);
+            }
+            user.setAvatar(null);
+        }
+
         user.setNickname(nickname);
         user.setSlogan(slogan);
         user.setBio(bio);
-        user.setAvatar(avatar);
 
         if (!isBlank(password)) {
             user.setPassword(password);

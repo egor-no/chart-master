@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         User u = UserDAOImpl.getByLogin(login.trim());
 
         if (u == null || u.getPassword() == null || !u.getPassword().equals(password)) {
-            request.setAttribute("error", "Неверный логин или пароль");
+            request.setAttribute("error", "Incorrect login or password");
             request.setAttribute("login", login);
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
