@@ -130,14 +130,15 @@ public class UserDAOImpl {
         session.close();
     }
 
-    public static void delete(int id){
+    public static void delete(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query=session.createQuery("FROM User " +
-                "WHERE id = :id");
-        query.setInteger("id",id);
-        User result = (User) query.uniqueResult();
-        session.delete(result);
+
+        User user = (User) session.get(User.class, id);
+        if (user != null) {
+            session.delete(user);
+        }
+
         session.getTransaction().commit();
         session.close();
     }

@@ -33,7 +33,6 @@ public class RegisterServlet extends HttpServlet {
         String nickname = trim(request.getParameter("nickname"));
         String slogan = trim(request.getParameter("slogan"));
         String bio = trim(request.getParameter("bio"));
-        String avatar = trim(request.getParameter("avatar"));
 
         boolean hasError = false;
 
@@ -62,18 +61,25 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute("formNickname", nickname);
             request.setAttribute("formSlogan", slogan);
             request.setAttribute("formBio", bio);
-            request.setAttribute("formAvatar", avatar);
 
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
 
-        Part avatarPart = request.getPart("avatarFile");
+        String uploadPath = request.getServletContext().getRealPath("/avatars");
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
         String avatarFileName = null;
-        if (avatarPart != null && avatarPart.getSize() > 0) {
+        Part avatarPart = request.getPart("avatarFile");
+        boolean hasNewAvatar = avatarPart != null && avatarPart.getSize() > 0;
+
+        if (hasNewAvatar) {
             String ext = AvatarUtil.getFileExtension(avatarPart);
+
             if (ext != null && AvatarUtil.isAvatarFileAllowed(ext)) {
-                String uploadPath = request.getServletContext().getRealPath("/avatars");
                 String newFileName = AvatarUtil.getNextAvatarFileName(uploadPath, ext);
                 avatarPart.write(uploadPath + File.separator + newFileName);
                 avatarFileName = newFileName;
@@ -90,11 +96,7 @@ public class RegisterServlet extends HttpServlet {
 
         int id = UserDAOImpl.save(user);
 
-        HttpSession session = request.getSession();
-        session.setAttribute("userId", id);
-        session.setAttribute("userLogin", login);
-
-        response.sendRedirect("/profile");
+        response.sendRedirect("/login?registered=1");
     }
 
     private String trim(String value) {

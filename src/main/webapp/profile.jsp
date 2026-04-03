@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <html>
 <head>
     <title>TopChart — Profile</title>
@@ -98,6 +97,48 @@
         .date-pill-link:visited{
             color:#76367a;
         }
+
+        .danger-actions{
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            align-items:center;
+        }
+
+        .danger-actions form{
+            margin:0;
+        }
+
+        .danger-note{
+            line-height:1.4;
+        }
+
+        .inactive-badge{
+            color:#7a5a00;
+            font-size:12px;
+            margin-left:6px;
+        }
+
+        .inactive-warning{
+            background:#fcfbdd;
+            border-top:2px solid #192428;
+            border-left:2px solid #192428;
+            border-right:2px solid #fff;
+            border-bottom:2px solid #fff;
+            padding:10px 12px;
+            margin-bottom:12px;
+        }
+
+        .inactive-view{
+            opacity:0.55;
+            filter:grayscale(100%);
+        }
+
+        .inactive-view a,
+        .inactive-view input,
+        .inactive-view button{
+            pointer-events:none;
+        }
     </style>
 </head>
 
@@ -150,6 +191,15 @@
                                 This is your page.
                             </div>
                         </c:if>
+                        <div class="side-row">
+                            <span class="muted">status</span>
+                            <span class="side-num">
+                                <c:choose>
+                                    <c:when test="${profileUser.active}">active</c:when>
+                                    <c:otherwise>inactive</c:otherwise>
+                                </c:choose>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,13 +209,42 @@
                 <div class="home-page">
                     <div class="home-page-head">
                         ${fn:escapeXml(profileUser.nickname)}
+
+                        <c:if test="${not profileUser.active}">
+                            <span class="inactive-badge">(user inactive)</span>
+                        </c:if>
+
                         <c:if test="${not empty profileUser.slogan}">
                             <span class="muted tiny"> — ${fn:escapeXml(profileUser.slogan)}</span>
                         </c:if>
                     </div>
+
                     <div class="home-page-body">
 
-                        <div class="profile-header">
+                        <c:if test="${isMine and not profileUser.active}">
+                            <div class="inactive-warning">
+                                <div>
+                                    <b>This profile is inactive.</b><br/>
+
+                                    <c:if test="${not empty deactivatedFormatted}">
+                                        <span class="muted tiny">
+                                            Deactivated at: ${deactivatedFormatted}
+                                        </span>
+                                    </c:if>
+                                </div>
+
+                                <div style="margin-top:10px;">
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/profile?action=activate"
+                                          style="margin:0;">
+                                        <input type="submit" value="Activate again"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <div class="${not profileUser.active ? 'inactive-view' : ''}">
+                            <div class="profile-header">
                             <div class="profile-avatar">
                                 <c:choose>
                                     <c:when test="${not empty profileUser.avatar}">
@@ -203,60 +282,86 @@
                                 </div>
                             </div>
                         </div>
-
+                        </div>
                     </div>
                 </div>
 
-                <div class="home-page" style="margin-top:12px;">
+                <div class="home-page ${not profileUser.active ? 'inactive-view' : ''}" style="margin-top:12px;">
                     <div class="home-page-head">Charts</div>
-                    <div class="home-page-body">
-
+                        <div class="home-page-body">
                         <div class="chart-cards">
-                            <c:forEach items="${cards}" var="card">
-                                <div class="chart-card">
-                                    <div class="chart-card-head">
-                                        <div class="chart-card-title">
-                                            <a href="/chart?ci=${card.ci.id}">
-                                                    ${fn:escapeXml(card.ci.title)}
-                                            </a>
-                                        </div>
-                                        <div class="chart-card-meta muted">
-                                            size: ${card.ci.size}
-                                            <c:if test="${not empty card.ci.description}">
-                                                | ${fn:escapeXml(card.ci.description)}
-                                            </c:if>
-                                        </div>
+                        <c:forEach items="${cards}" var="card">
+                            <div class="chart-card">
+                                <div class="chart-card-head">
+                                    <div class="chart-card-title">
+                                        <a href="/chart?ci=${card.ci.id}">
+                                                ${fn:escapeXml(card.ci.title)}
+                                        </a>
                                     </div>
-
-                                    <div class="muted tiny">Latest issues:</div>
-                                    <div class="dates-row">
-                                        <c:if test="${card.lastIssues == null || card.lastIssues.size() == 0}">
-                                            <span class="muted tiny">No issues yet.</span>
-                                        </c:if>
-                                        <c:forEach items="${card.lastIssues}" var="it">
-                                            <a class="date-pill date-pill-link"
-                                               href="/chart?ci=${card.ci.id}&chartNumber=${it.id}"
-                                               title="Open issue #${it.id}">
-                                                    ${fn:escapeXml(it.date)}
-                                            </a>
-                                        </c:forEach>
-                                    </div>
-
-                                    <div class="card-actions">
-                                        <a class="home-link" href="/chart?ci=${card.ci.id}">Open</a>
-
-                                        <c:if test="${isMine}">
-                                            <span class="muted tiny">|</span>
-                                            <a class="home-link" href="/chartadd">Add issue</a>
-                                            <span class="muted tiny">(for this chart)</span>
+                                    <div class="chart-card-meta muted">
+                                        size: ${card.ci.size}
+                                        <c:if test="${not empty card.ci.description}">
+                                            | ${fn:escapeXml(card.ci.description)}
                                         </c:if>
                                     </div>
                                 </div>
-                            </c:forEach>
-                        </div>
 
+                                <div class="muted tiny">Latest issues:</div>
+                                <div class="dates-row">
+                                    <c:if test="${card.lastIssues == null || card.lastIssues.size() == 0}">
+                                        <span class="muted tiny">No issues yet.</span>
+                                    </c:if>
+                                    <c:forEach items="${card.lastIssues}" var="it">
+                                        <a class="date-pill date-pill-link"
+                                           href="/chart?ci=${card.ci.id}&chartNumber=${it.id}"
+                                           title="Open issue #${it.id}">
+                                                ${fn:escapeXml(it.date)}
+                                        </a>
+                                    </c:forEach>
+                                </div>
+
+                                <div class="card-actions">
+                                    <a class="home-link" href="/chart?ci=${card.ci.id}">Open</a>
+
+                                    <c:if test="${isMine}">
+                                        <span class="muted tiny">|</span>
+                                        <a class="home-link" href="/chartadd">Add issue</a>
+                                        <span class="muted tiny">(for this chart)</span>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
+                     </div>
                 </div>
+
+                <c:if test="${isMine and profileUser.active}">
+                    <div class="home-page" style="margin-top:12px;">
+                        <div class="home-page-head">Danger zone</div>
+                        <div class="home-page-body">
+
+                            <div class="danger-note muted tiny" style="margin-bottom:10px;">
+                                Deactivation marks your profile as inactive but keeps your charts visible.
+                                Permanent deletion removes your profile and all your charts.
+                            </div>
+
+                            <div class="danger-actions">
+                                <form method="post"
+                                      action="${pageContext.request.contextPath}/profile?action=deactivate"
+                                      onsubmit="return confirm('Deactivate your account?');">
+                                    <input type="submit" value="Deactivate account"/>
+                                </form>
+
+                                <form method="post"
+                                      action="${pageContext.request.contextPath}/profile?action=delete"
+                                      onsubmit="return confirm('Delete account permanently? All your charts and issues will be removed. This cannot be undone.');">
+                                    <input type="submit" value="Delete permanently"/>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </c:if>
 
             </div>
 

@@ -34,13 +34,19 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ChartInfo> charts;
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
+
+    @Column(name = "deactivated_at", nullable = true)
+    private LocalDateTime deactivatedAt;
 
     public User() {
     }
 
-    public User(int id, String login, String password, String nickname, String bio, String slogan, String avatar, LocalDateTime createdAt, List<ChartInfo> charts) {
+    public User(int id, String login, String password, String nickname, String bio, String slogan, String avatar, LocalDateTime createdAt, List<ChartInfo> charts, boolean active, LocalDateTime deactivatedAt) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -50,6 +56,8 @@ public class User {
         this.avatar = avatar;
         this.createdAt = createdAt;
         this.charts = charts;
+        this.active = active;
+        this.deactivatedAt = deactivatedAt;
     }
 
     public int getId() {
@@ -122,5 +130,21 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public LocalDateTime getDeactivatedAt() {
+        return deactivatedAt;
+    }
+
+    public void setDeactivatedAt(LocalDateTime deactivatedAt) {
+        this.deactivatedAt = deactivatedAt;
     }
 }

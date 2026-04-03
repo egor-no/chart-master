@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,21 @@ public class ProfileServlet extends HttpServlet {
         String action = request.getParameter("action");
         if ("update".equals(action)) {
             updateProfile(request, response);
+            return;
+        }
+
+        if ("deactivate".equals(action)) {
+            deactivateProfile(request, response);
+            return;
+        }
+
+        if ("activate".equals(action)) {
+            activateProfile(request, response);
+            return;
+        }
+
+        if ("delete".equals(action)) {
+            deleteProfile(request, response);
             return;
         }
 
@@ -100,6 +116,14 @@ public class ProfileServlet extends HttpServlet {
             }
         }
 
+        String deactivatedFormatted = null;
+
+        if (profileUser.getDeactivatedAt() != null) {
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            deactivatedFormatted = profileUser.getDeactivatedAt().format(fmt);
+        }
+
+        request.setAttribute("deactivatedFormatted", deactivatedFormatted);
         request.setAttribute("profileUser", profileUser);
         request.setAttribute("isMine", isMine);
         request.setAttribute("cards", cards);
@@ -227,5 +251,79 @@ public class ProfileServlet extends HttpServlet {
         public List<ChartBasic> getLastIssues() {
             return lastIssues;
         }
+    }
+
+    private void deactivateProfile(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        Integer viewerId = SessionUtil.getUserId(request);
+        if (viewerId == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        User user = UserDAOImpl.getById(viewerId);
+        if (user == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        user.setActive(false);
+        user.setDeactivatedAt(java.time.LocalDateTime.now());
+        UserDAOImpl.update(user);
+
+        response.sendRedirect("/deactivated");
+    }
+
+    private void deleteProfile(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        Integer viewerId = SessionUtil.getUserId(request);
+        if (viewerId == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        User user = UserDAOImpl.getById(viewerId);
+        if (user == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        if (user.getAvatar() != null && !user.getAvatar().trim().isEmpty()) {
+            String uploadPath = request.getServletContext().getRealPath("/avatars");
+            AvatarUtil.deleteAvatarFile(uploadPath, user.getAvatar());
+        }
+
+        UserDAOImpl.delete(viewerId);
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        response.sendRedirect("/?deleted=1");
+    }
+
+    private void activateProfile(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        Integer viewerId = SessionUtil.getUserId(request);
+        if (viewerId == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        User user = UserDAOImpl.getById(viewerId);
+        if (user == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+
+        user.setActive(true);
+        user.setDeactivatedAt(null);
+        UserDAOImpl.update(user);
+
+        response.sendRedirect("/profile?activated=1");
     }
 }

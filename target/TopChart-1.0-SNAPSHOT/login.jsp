@@ -49,6 +49,20 @@
         color:#d80000;
     }
 
+    .success-box{
+        background:#e6ffea; /* мягкий зелёный */
+        border-top: 2px solid #192428;
+        border-left: 2px solid #192428;
+        border-right: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        padding: 8px 10px;
+        margin: 10px 0 0 0;
+    }
+
+    .success-box b{
+        color:#0a7a2f;
+    }
+
     .login-actions{
         display:flex;
         justify-content: end;
@@ -91,6 +105,18 @@
             <h2 style="margin:0; color:#000676;">Авторизация</h2>
         </div>
 
+        <c:if test="${param.registered == '1'}">
+            <div class="success-box">
+                <b>Success:</b> Profile created! You can now log in.
+            </div>
+        </c:if>
+
+        <c:if test="${not empty error}">
+            <div class="error-box">
+                <b>Error:</b> ${error}
+            </div>
+        </c:if>
+
         <form method="post" action="/login">
             <div class="login-row">
                 <label for="login">Логин</label>
@@ -104,14 +130,9 @@
 
             <div class="login-actions">
                 <input type="submit" value="Войти" />
-                <input type="button" value="Назад" onclick="top.location.href='/login';" />
+                <input type="button" value="Назад" onclick="top.location.href='/';" />
             </div>
 
-            <c:if test="${not empty error}">
-                <div class="error-box">
-                    <b>Ошибка:</b> ${error}
-                </div>
-            </c:if>
         </form>
     </div>
 </div>
