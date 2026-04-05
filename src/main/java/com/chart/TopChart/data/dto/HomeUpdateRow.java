@@ -16,7 +16,7 @@ public class HomeUpdateRow {
     private final Integer chartInfoId;
     private final String chartInfoTitle;
 
-    private final Long chartId;
+    private final Integer issueNumber;
     private final String chartDate;     // YYYY-MM-DD
     private final String ownerNickname;
     private final String createdAtStr;
@@ -24,7 +24,7 @@ public class HomeUpdateRow {
     private HomeUpdateRow(Type type, LocalDateTime sortTime,
                           Integer userId, String userNickname,
                           Integer chartInfoId, String chartInfoTitle,
-                          Long chartId, String chartDate,
+                          Integer issueNumber, String chartDate,
                           String ownerNickname,
                           String createdAtStr) {
 
@@ -34,7 +34,7 @@ public class HomeUpdateRow {
         this.userNickname = userNickname;
         this.chartInfoId = chartInfoId;
         this.chartInfoTitle = chartInfoTitle;
-        this.chartId = chartId;
+        this.issueNumber = issueNumber;
         this.chartDate = chartDate;
         this.ownerNickname = ownerNickname;
         this.createdAtStr = createdAtStr;
@@ -56,9 +56,9 @@ public class HomeUpdateRow {
     }
 
     public static HomeUpdateRow issue(int ciId, String ciTitle, String ownerNickname,
-                                      long chartId, String chartDate, LocalDateTime sortTime) {
+                                      Integer issueNumber, String chartDate, LocalDateTime sortTime) {
         return new HomeUpdateRow(Type.CHART_ISSUE, sortTime,
-                null, null, ciId, ciTitle, chartId, chartDate, ownerNickname, null);
+                null, null, ciId, ciTitle, issueNumber, chartDate, ownerNickname, null);
     }
 
     public Type getType() { return type; }
@@ -70,7 +70,7 @@ public class HomeUpdateRow {
     public Integer getChartInfoId() { return chartInfoId; }
     public String getChartInfoTitle() { return chartInfoTitle; }
 
-    public Long getChartId() { return chartId; }
+    public Integer getIssueNumber() { return issueNumber; }
     public String getChartDate() { return chartDate; }
 
     public String getOwnerNickname() { return ownerNickname; }

@@ -21,8 +21,8 @@ public class ChartService {
             songIds.add(chart.getPositions().get(i).getPk().getSong().getId());
         }
 
-        List wocList = PositionDAOImpl.getWOCforChart(chartInfoId, chart.getId(), songIds);
-        List peaksList = PositionDAOImpl.getPeaksForChart(chartInfoId, chart.getId(), songIds);
+        List wocList = PositionDAOImpl.getWOCforChart(chartInfoId, chart.getIssueNumber(), songIds);
+        List peaksList = PositionDAOImpl.getPeaksForChart(chartInfoId, chart.getIssueNumber(), songIds);
 
         Map<Long, Long> wocMap = new HashMap<>();
         Map<Long, Long> peaksMap = new HashMap<>();
@@ -45,13 +45,13 @@ public class ChartService {
     }
 
     public static String getNewChartDate(int chartInfoId) {
-        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
 
-        if (lastId == null) {
+        if (lastIssueNumber == null) {
             return DateUtil.formatDateForSQL(new Date());
         }
 
-        String lastSDate = ChartDAOImpl.getById(chartInfoId, lastId).getDate();
+        String lastSDate = ChartDAOImpl.getByIssueNumber(chartInfoId, lastIssueNumber).getDate();
         Date lastDate = DateUtil.parseStringToSqlDate(lastSDate);
 
         Calendar cal = Calendar.getInstance();
@@ -61,11 +61,11 @@ public class ChartService {
         return DateUtil.formatDateForSQL(cal.getTime());
     }
 
-    public static boolean deleteChart(long chartId, int chartInfoId) {
-        if (chartId != ChartDAOImpl.getLastId(chartInfoId)) return false;
+    public static boolean deleteChart(int issueNumber, int chartInfoId) {
+        if (issueNumber != ChartDAOImpl.getLastIssueNumber(chartInfoId)) return false;
 
         try {
-            Chart chart = ChartDAOImpl.getById(chartInfoId, chartId);
+            Chart chart = ChartDAOImpl.getByIssueNumber(chartInfoId, issueNumber);
             if (chart == null || chart.getPositions() == null) return false;
 
             Set<Long> songIds = new HashSet<>();
@@ -75,7 +75,7 @@ public class ChartService {
                 }
             }
 
-            ChartDAOImpl.delete(chartInfoId, chartId);
+            ChartDAOImpl.delete(chartInfoId, issueNumber);
 
             for (Long songId : songIds) {
                 List<Position> remaining = PositionDAOImpl.getPositionsForSong(chartInfoId, songId);
@@ -102,12 +102,16 @@ public class ChartService {
     }
 
     public static void formChart(int chartInfoId, String ids[], String name[], String artists[]) {
-        Long lastChartIdObj = ChartDAOImpl.getLastId(chartInfoId);
+        Long lastChartIdObj = ChartDAOImpl.getLastId();
         long lastChartId = (lastChartIdObj == null) ? 0L : lastChartIdObj;
+
+        Integer lastChartIssueObj = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+        int lastChartIssueNumber = (lastChartIssueObj == null) ? 0 : lastChartIssueObj;
 
         Chart chart = new Chart();
         chart.setDate(ChartService.getNewChartDate(chartInfoId));
         chart.setId(lastChartId+1);
+        chart.setIssueNumber(lastChartIssueNumber+1);
 
         ChartInfo info = ChartInfoDAOImpl.getById(chartInfoId);
         chart.setInfo(info);
@@ -143,8 +147,8 @@ public class ChartService {
             position = new Position();
             position.setPosition(pos);
             position.setPk(position_pk);
-            if (lastChartId > 0) {
-                Position prev = PositionDAOImpl.getPositionForSong(chartInfoId, song.getId(), lastChartId);
+            if (lastChartIssueNumber > 0) {
+                Position prev = PositionDAOImpl.getPositionForSong(chartInfoId, song.getId(), lastChartIssueNumber);
                 if (prev != null) position.setLastWeek(prev.getPosition());
             }
 

@@ -48,9 +48,9 @@ public class ChartServlet extends HttpServlet {
 
         String chartDate = request.getParameter("date");
         if (chartDate != null && !chartDate.isEmpty()) {
-            long chartId = ChartDAOImpl.getLastByDate(chartDate, chartInfoId);
-            if (chartId > 0) {
-                chart = ChartDAOImpl.getById(chartInfoId, chartId);
+            int issueNumber = ChartDAOImpl.getLastIssueNumberByDate(chartDate, chartInfoId);
+            if (issueNumber > 0) {
+                chart = ChartDAOImpl.getByIssueNumber(chartInfoId, issueNumber);
             }
         }
 
@@ -58,17 +58,17 @@ public class ChartServlet extends HttpServlet {
             String chartNumberStr = request.getParameter("chartNumber");
             if (chartNumberStr != null && !chartNumberStr.isEmpty()) {
                 try {
-                    long chartId = Long.parseLong(chartNumberStr);
-                    chart = ChartDAOImpl.getById(chartInfoId, chartId);
+                    Integer chartIssueNumber = Integer.parseInt(chartNumberStr);
+                    chart = ChartDAOImpl.getByIssueNumber(chartInfoId, chartIssueNumber);
                 } catch (Exception ignored) {
                 }
             }
         }
 
-        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
         if (chart == null) {
-            if (lastId != null) {
-                chart = ChartDAOImpl.getById(chartInfoId, lastId);
+            if (lastIssueNumber != null) {
+                chart = ChartDAOImpl.getByIssueNumber(chartInfoId, lastIssueNumber);
             }
         }
 
@@ -77,7 +77,7 @@ public class ChartServlet extends HttpServlet {
             return;
         }
 
-        boolean isLastChart = (lastId != null && chart.getId() == lastId);
+        boolean isLastChart = (lastIssueNumber != null && chart.getIssueNumber().equals(lastIssueNumber));
 
         request.setAttribute("chart", ChartService.getChartFull(chart));
         request.setAttribute("isLastChart", isLastChart);

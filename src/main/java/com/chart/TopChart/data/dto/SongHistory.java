@@ -5,15 +5,15 @@ import java.util.List;
 public class SongHistory {
 
     private Integer peak;
-    private Long currentChart;
+    private Integer currentIssue;
     private List<ChartRun> chartRuns;
 
     public SongHistory() {
     }
 
-    public SongHistory(Integer peak, Long currentChart, List<ChartRun> chartRuns) {
+    public SongHistory(Integer peak, Integer currentIssue, List<ChartRun> chartRuns) {
         this.peak = peak;
-        this.currentChart = currentChart;
+        this.currentIssue = currentIssue;
         this.chartRuns = chartRuns;
     }
 
@@ -25,12 +25,12 @@ public class SongHistory {
         this.peak = peak;
     }
 
-    public Long getCurrentChart() {
-        return currentChart;
+    public Integer getCurrentIssue() {
+        return currentIssue;
     }
 
-    public void setCurrentChart(Long currentChart) {
-        this.currentChart = currentChart;
+    public void setCurrentIssue(Integer currentIssue) {
+        this.currentIssue = currentIssue;
     }
 
     public List<ChartRun> getChartRuns() {

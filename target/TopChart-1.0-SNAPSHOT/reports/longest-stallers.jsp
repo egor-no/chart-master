@@ -41,7 +41,7 @@
                 <div name="song">
                     <div class="song-row">
                         <input name="song-id" style="display:none;" value="${r[4]}" />
-                        <input name="chart-id" style="display:none;" value="${r[6]}" />
+                        <input name="chart-number" style="display:none;" value="${r[6]}" />
                         <div class="flex1 data-start">
                             <p>${r[0]}</p>
                         </div>

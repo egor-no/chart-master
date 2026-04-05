@@ -39,8 +39,8 @@ public class ChartAddServlet extends HttpServlet {
         String json = new Gson().toJson(SongDAOImpl.getAll(chartInfoId));
         request.setAttribute("songs", json);
 
-        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
-        Chart chart = (lastId == null) ? null : ChartDAOImpl.getById(chartInfoId, lastId);
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+        Chart chart = (lastIssueNumber == null) ? null : ChartDAOImpl.getByIssueNumber(chartInfoId, lastIssueNumber);
 
         request.setAttribute("chart", chart == null ? null : ChartService.getChartFull(chart));
         request.getRequestDispatcher("chartadd.jsp").forward(request, response);

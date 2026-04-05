@@ -27,12 +27,13 @@ $(document).ready(function() {
             }
         } else {
             var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
-            var idChart = '';
-            if (songDiv.find('[name="chart-id"]').length && songDiv.find('[name="chart-id"]').val() !== '') {
-                idChart = songDiv.find('[name="chart-id"]').val();
+            var chartNumber = '';
+            if (songDiv.find('[name="chart-number"]').length && songDiv.find('[name="chart-number"]').val() !== '') {
+                chartNumber = songDiv.find('[name="chart-number"]').val();
             } else if ($(document).find('[name="chart-number"]').length) {
-                idChart = $(document).find('[name="chart-number"]').text();
+                chartNumber = $(document).find('[name="chart-number"]').text();
             }
+
             var dateSearch = false;
             var date1 = '';
             var date2 = '';
@@ -45,12 +46,12 @@ $(document).ready(function() {
             }
 
             $.get("songhistory?idSong=" + idSong
-                + "&chartNumber=" + idChart
+                + "&chartNumber=" + chartNumber
                 + "&dateSearch=" + dateSearch
                 + "&date1=" + date1
                 + "&date2=" + date2, function(songhistory) {
                 var peak = songhistory.peak;
-                var currentChart = songhistory.currentChart;
+                var currentChart = songhistory.currentIssue;
                 $.each(songhistory.chartRuns, function (index, chartRun) {
                     var chartRunSize = chartRun.positions.length;
                     var chartRunDiv = $(document).find('[name="chart-run-template"]').clone();
@@ -64,7 +65,7 @@ $(document).ready(function() {
                         chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunOne');
                     }
 
-                    var chartId = chartRun.firstChart.id;
+                    var issueNumber = chartRun.firstChart.issueNumber;
                     var chartDateStr = chartRun.firstChart.date;
                     let chartDate = new Date(chartDateStr);
 
@@ -88,7 +89,7 @@ $(document).ready(function() {
                             top20++;
                         }
 
-                        if (chartId == currentChart) {
+                        if (issueNumber == currentChart) {
                             chartRunDiv.find('[name="position"]:last').addClass('current');
                         } else {
                             chartRunDiv.find('[name="position"]:last').removeClass('current');
@@ -97,12 +98,12 @@ $(document).ready(function() {
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function () {
                             event.stopPropagation();
                         });
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/chart?chartNumber=' + chartId);
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + chartId + " | " +  formatDate(chartDate));
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/chart?chartNumber=' + issueNumber);
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + issueNumber + " | " +  formatDate(chartDate));
                         var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
                         chartRunDiv.find('[name="positions"]').append(positionDiv);
 
-                        chartId++;
+                        issueNumber++;
                         chartDate.setDate(chartDate.getDate() + 7);
                     });
                     chartRunDiv.find('[name="position"]:last').remove();

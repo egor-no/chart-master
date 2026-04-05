@@ -168,8 +168,8 @@
                 <c:forEach begin="1" end="40" var="val">
                     <div id="song-row-draggable" class="song-row">
                         <input type="hidden" name="idSong[]" />
-                        <input type="hidden" name="prevInChart" value="0" />
-                        <input type="hidden" name="prevWoc" value="0" />
+                        <input type="hidden" name="prevInChart[]" value="0" />
+                        <input type="hidden" name="prevWoc[]" value="0" />
                         <div class="flex1 i-counter" name="num"><c:out value="${val}"/></div>
                         <div class="flex9"><input style="width:100%;" name="artists[]" type="text" /></div>
                         <div style="text-align:center; width: 30px;"> - </div>

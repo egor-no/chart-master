@@ -17,7 +17,7 @@
             <jsp:param name="active" value="chart"/>
         </jsp:include>
 
-        <form method="GET" action="/">
+        <form method="GET" action="/chart">
             <label for="chartSearch">Поиск по дате чарта:</label>
             <input name="date" id="chartSearch" type="date" /><input type="submit" value="Искать" />
         </form>

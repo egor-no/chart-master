@@ -146,7 +146,7 @@
         </jsp:include>
     </div>
     <form method="POST" action="/chartedit">
-        <input name="chartNumber" type="text" value="${chart.id}" style="display: none;" />
+        <input name="chartNumber" type="text" value="${chart.issueNumber}" style="display: none;" />
         <div id="chart-create">
             <div class="song-row">
                 <div class="flex1 title">

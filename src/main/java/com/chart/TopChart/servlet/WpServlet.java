@@ -25,15 +25,15 @@ public class WpServlet extends HttpServlet {
         String chartNumberStr = request.getParameter("chartNumber");
         if (chartNumberStr != null && !chartNumberStr.isEmpty()) {
             try {
-                long chartNumber = Long.parseLong(chartNumberStr);
-                chart = ChartDAOImpl.getById(chartInfoId, chartNumber);
+                int chartNumber = Integer.parseInt(chartNumberStr);
+                chart = ChartDAOImpl.getByIssueNumber(chartInfoId, chartNumber);
             } catch (Exception ignored) {}
         }
 
         if (chart == null) {
-            Long lastId = ChartDAOImpl.getLastId(chartInfoId);
-            if (lastId != null) {
-                chart = ChartDAOImpl.getById(chartInfoId, lastId);
+            Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+            if (lastIssueNumber != null) {
+                chart = ChartDAOImpl.getByIssueNumber(chartInfoId, lastIssueNumber);
             }
         }
 

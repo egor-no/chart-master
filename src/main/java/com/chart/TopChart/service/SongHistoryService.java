@@ -16,7 +16,7 @@ import java.util.List;
 public class SongHistoryService {
 
     private static ChartBasic converChartToBasic(Chart chart) {
-        ChartBasic chartBasic = new ChartBasic(chart.getId(), chart.getDate());
+        ChartBasic chartBasic = new ChartBasic(chart.getIssueNumber(), chart.getDate());
         return chartBasic;
     }
 
@@ -43,7 +43,7 @@ public class SongHistoryService {
                 firstChart = positions.get(i).getPk().getChart();
             }
             if (i == positions.size() - 1 ||
-                    positions.get(i+1).getPk().getChart().getId() - positions.get(i).getPk().getChart().getId() != 1) {
+                    positions.get(i+1).getPk().getChart().getIssueNumber() - positions.get(i).getPk().getChart().getIssueNumber() != 1) {
                 chartRun.setFirstChart(converChartToBasic(firstChart));
                 chartRun.setLastChart(converChartToBasic(positions.get(i).getPk().getChart()));
                 chartRuns.add(chartRun);

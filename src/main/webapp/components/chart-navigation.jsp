@@ -1,6 +1,6 @@
 <div id="chartNav" class="song-row">
     <div class="flex9">
-        <input class="no-display" name="chart-id" type="text" value="${chart.id}"/>
+        <input class="no-display" name="issue-number" type="text" value="${chart.issueNumber}"/>
         <input class="no-display" name="is-last" value="${isLastChart}" />
         <a href="#" title="GOTO Previous chart" name="prevChart"><</a>
         <b>CHART: ${chart.date} </b>
@@ -20,24 +20,24 @@
 
 <script type = "text/javascript" >
     $(document).ready(function() {
-        $('[name="edit-chart-link"]').attr("href", "/chartedit?chartNumber=" + (Number($('[name="chart-id"]').val())));
+        $('[name="edit-chart-link"]').attr("href", "/chartedit?chartNumber=" + (Number($('[name="issue-number"]').val())));
 
         if ($('[name="is-last"]').val() == 'true') {
             $('[name="nextChart"]').addClass('no-display');
             $('[name="curChart"]').addClass('no-display');
             $('[name="edit-chart-link"]').removeClass('no-display');
             $('[name="wp-export"]').removeClass('no-display');
-            $('[name="wp-export"]').attr("href", "/wp-export?chartNumber=" + (Number($('[name="chart-id"]').val())));
+            $('[name="wp-export"]').attr("href", "/wp-export?chartNumber=" + (Number($('[name="issue-number"]').val())));
         } else {
             $('[name="wp-export"]').addClass('no-display');
             $('[name="edit-chart-link"]').addClass('no-display');
-            $('[name="nextChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="chart-id"]').val()) + 1));
+            $('[name="nextChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="issue-number"]').val()) + 1));
             $('[name="curChart"]').attr("href", "/chart");
         }
-        if ($('[name="chart-id]').val() == 1) {
+        if ($('[name="issue-number"]').val() == 1) {
             $('[name="prevChart"]').addClass('no-display');
         } else {
-            $('[name="prevChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="chart-id"]').val()) - 1));
+            $('[name="prevChart"]').attr("href", "/chart?chartNumber=" + (Number($('[name="issue-number"]').val()) - 1));
         }
     });
 </script>

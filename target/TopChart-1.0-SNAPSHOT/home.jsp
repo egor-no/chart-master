@@ -206,10 +206,10 @@
                                         <c:choose>
                                             <c:when test="${u.type == 'CHART_ISSUE'}">
                                                 <a class="home-link"
-                                                   href="/chart?ci=${u.chartInfoId}&chartNumber=${u.chartId}">
+                                                   href="/chart?ci=${u.chartInfoId}&chartNumber=${u.issueNumber}">
                                                         ${fn:escapeXml(u.chartInfoTitle)}
                                                 </a>
-                                                <span class="muted tiny">#${u.chartId}</span>
+                                                <span class="muted tiny">#${u.issueNumber}</span>
                                             </c:when>
                                             <c:when test="${u.type == 'CHART_INFO'}">
                                                 <a class="home-link"

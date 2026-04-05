@@ -20,12 +20,12 @@ public class SongHistoryServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Long idSong = Long.parseLong(request.getParameter("idSong"));
-        Long currentChart;
+        Integer currentIssueNumber;
         int chartInfoId = SessionUtil.requireChartInfoId(request);
         try {
-            currentChart = Long.parseLong(request.getParameter("chartNumber"));
+            currentIssueNumber = Integer.parseInt(request.getParameter("chartNumber"));
         } catch (Exception ex) {
-            currentChart = ChartDAOImpl.getLastId(chartInfoId);
+            currentIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
         }
         Boolean dateSearch = Boolean.parseBoolean(request.getParameter("dateSearch"));
 
@@ -37,7 +37,7 @@ public class SongHistoryServlet extends HttpServlet {
         } else {
             songHistory  = SongHistoryService.getSongHistory(chartInfoId, idSong, null, null);
         }
-        songHistory.setCurrentChart(currentChart);
+        songHistory.setCurrentIssue(currentIssueNumber);
 
         String json = new Gson().toJson(songHistory);
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ChartFull {
 
-    private long id;
+    private int issueNumber;
     private String date;
     private List<Position> positions;
     private List<Long> woc;
@@ -15,8 +15,8 @@ public class ChartFull {
     public ChartFull() {
     }
 
-    public ChartFull(long id, String date, List<Position> positions, List<Long> woc, List<Long> peaks) {
-        this.id = id;
+    public ChartFull(int issueNumber, String date, List<Position> positions, List<Long> woc, List<Long> peaks) {
+        this.issueNumber = issueNumber;
         this.date = date;
         this.positions = positions;
         this.woc = woc;
@@ -24,17 +24,17 @@ public class ChartFull {
     }
 
     public ChartFull(Chart chart) {
-        this.id = chart.getId();
+        this.issueNumber = chart.getIssueNumber();
         this.date = chart.getDate();
         this.positions = chart.getPositions();
     }
 
-    public long getId() {
-        return id;
+    public int getIssueNumber() {
+        return issueNumber;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIssueNumber(int issueNumber) {
+        this.issueNumber = issueNumber;
     }
 
     public String getDate() {

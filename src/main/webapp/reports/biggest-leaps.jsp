@@ -49,7 +49,7 @@
                 <div name="song">
                     <div class="song-row">
                         <input name="song-id" style="display:none;" type="text" value="${p.pk.song.id}" />
-                        <input name="chart-id" type="hidden" value="${chart.id}" />
+                        <input name="chart-number" type="hidden" value="${chart.issueNumber}" />
                         <div name="mov-info" class="flex-mov up">
                             <div name="mov">&#9650;</div>
                             <div name="mov-val">${jump}</div>

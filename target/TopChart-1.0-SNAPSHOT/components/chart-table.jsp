@@ -1,5 +1,5 @@
 <div id="chart-table">
-    <div class="no-display" name="chart-number">${chart.id}</div>
+    <div class="no-display" name="chart-number">${chart.issueNumber}</div>
     <%@include file="chart-navigation.jsp"%>
     <c:forEach items="${chart.positions}" var="position" varStatus="status">
         <div name="song">

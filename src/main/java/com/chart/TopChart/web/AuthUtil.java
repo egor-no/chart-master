@@ -26,9 +26,9 @@ public final class AuthUtil {
         return ci;
     }
 
-    public static Chart requireOwnedChart(HttpServletRequest req, long chartId) {
+    public static Chart requireOwnedChart(HttpServletRequest req, int chartIssueNumber) {
         ChartInfo ci = requireOwnedChartInfo(req);
-        Chart c = ChartDAOImpl.getById(ci.getId(), chartId);
+        Chart c = ChartDAOImpl.getByIssueNumber(ci.getId(), chartIssueNumber);
         if (c == null || c.getInfo() == null || c.getInfo().getId() != ci.getId()) {
             throw new ForbiddenException("Chart not owned by user");
         }

@@ -4,24 +4,23 @@ import javax.persistence.Column;
 
 public class ChartBasic {
 
-    private long id;
-
+    private int issueNumber;
     private String date;
 
     public ChartBasic() {
     }
 
-    public ChartBasic(long id, String date) {
-        this.id = id;
+    public ChartBasic(int issueNumber, String date) {
+        this.issueNumber = issueNumber;
         this.date = date;
     }
 
-    public long getId() {
-        return id;
+    public int getIssueNumber() {
+        return issueNumber;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIssueNumber(int issueNumber) {
+        this.issueNumber = issueNumber;
     }
 
     public String getDate() {

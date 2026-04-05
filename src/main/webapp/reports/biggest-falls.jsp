@@ -49,7 +49,7 @@
                 <c:set var="isOut" value="${r[5]}" />
                 <div name="song">
                     <input name="song-id" type="hidden" value="${song.id}" />
-                    <input name="chart-id" type="hidden" value="${chart.id}" />
+                    <input name="chart-number" type="hidden" value="${chart.issueNumber}" />
                     <div class="song-row">
                         <div name="mov-info" class="flex-mov down">
                             <div name="mov">&#9660;</div>

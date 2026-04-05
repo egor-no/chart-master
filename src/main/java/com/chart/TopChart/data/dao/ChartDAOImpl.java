@@ -44,7 +44,7 @@ public class ChartDAOImpl {
         Query query = session.createQuery(
                 "FROM Chart c " +
                         "WHERE c.info.id = :ci " +
-                        "ORDER BY c.id");
+                        "ORDER BY c.issueNumber");
         query.setInteger("ci", chartInfoId);
         List<Chart> list = query.list();
         session.getTransaction().commit();
@@ -52,16 +52,31 @@ public class ChartDAOImpl {
         return list;
     }
 
-    public static Chart getById(int chartInfoId, long id) {
+    public static Chart getById(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("SELECT DISTINCT c FROM Chart c " +
                 "LEFT JOIN FETCH c.positions " +
                 "LEFT JOIN FETCH c.info ci " +
                 "LEFT JOIN FETCH ci.owner " +
-                "WHERE c.id = :id " +
-                "AND c.info.id = :ciid ");
+                "WHERE c.id = :id ");
         query.setLong("id", id);
+        Chart result = (Chart) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    public static Chart getByIssueNumber(int chartInfoId, int issueNumber) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT DISTINCT c FROM Chart c " +
+                "LEFT JOIN FETCH c.positions " +
+                "LEFT JOIN FETCH c.info ci " +
+                "LEFT JOIN FETCH ci.owner " +
+                "WHERE c.issueNumber = :issueNumber " +
+                "AND c.info.id = :ciid ");
+        query.setInteger("issueNumber", issueNumber);
         query.setInteger("ciid", chartInfoId);
         Chart result = (Chart) query.uniqueResult();
         session.getTransaction().commit();
@@ -69,70 +84,62 @@ public class ChartDAOImpl {
         return result;
     }
 
-    public static long getLastByDate(String sDate, int chartInfoId) {
+    public static int getLastIssueNumberByDate(String sDate, int chartInfoId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT MAX(c.id) " +
+                "SELECT MAX(c.issueNumber) " +
                         "FROM Chart c " +
                         "WHERE c.info.id = :ci " +
                         "AND c.date <= :date"
         );
         query.setInteger("ci", chartInfoId);
         query.setParameter("date", sDate);
-        Long result = (Long) query.uniqueResult();
+        Integer result = (Integer) query.uniqueResult();
         session.getTransaction().commit();
         session.close();
-        return result == null ? 0L : result;
+        return result == null ? 0 : result;
     }
 
-    public static Long getLastId(int chartInfoId) {
+    public static Long getLastId() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query q = session.createQuery("SELECT " +
-                "MAX(c.id) FROM Chart c " +
-                "WHERE c.info.id = :ci");
-        q.setInteger("ci", chartInfoId);
+                "MAX(c.id) FROM Chart c ");
         Long res = (Long) q.uniqueResult();
         session.getTransaction().commit();
         session.close();
         return res;
     }
 
-    public static Long getPrevId(int chartInfoId, long currentChartId) {
+    public static Integer getLastIssueNumber(int chartInfoId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery("SELECT " +
+                "MAX(c.issueNumber) FROM Chart c " +
+                "WHERE c.info.id = :ci "
+        );
+        q.setInteger("ci", chartInfoId);
+        Integer res = (Integer) q.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return res;
+    }
+
+    public static Integer getPrevIssueNumber(int chartInfoId, int issueNumber) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query q = session.createQuery(
-                "SELECT MAX(c.id) " +
+                "SELECT MAX(c.issueNumber) " +
                         "FROM Chart c " +
                         "WHERE c.info.id = :ci " +
-                        "AND c.id < :cur");
+                        "AND c.issueNumber < :cur");
         q.setInteger("ci", chartInfoId);
-        q.setLong("cur", currentChartId);
-        Long res = (Long) q.uniqueResult();
+        q.setInteger("cur", issueNumber);
+        Integer res = (Integer) q.uniqueResult();
         session.getTransaction().commit();
         session.close();
         return res;
-    }
-
-    public static List<HomeLatestChartRow> getLatestForHome(int limit) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        Query query = session.createQuery(
-                "SELECT new com.chart.TopChart.data.dto.HomeLatestChartRow(" +
-                        "ci.id, ci.title, c.id, c.date, o.nickname" +
-                        ") " +
-                        "FROM Chart c " +
-                        "JOIN c.info ci " +
-                        "JOIN ci.owner o " +
-                        "ORDER BY c.id DESC");
-        query.setMaxResults(limit);
-
-        List<HomeLatestChartRow> list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
     }
 
     @SuppressWarnings("unchecked")
@@ -141,7 +148,7 @@ public class ChartDAOImpl {
         session.beginTransaction();
 
         Query q = session.createQuery(
-                "SELECT ci.id, ci.title, o.nickname, c.id, c.date " +
+                "SELECT ci.id, ci.title, o.nickname, c.issueNumber, c.date " +
                         "FROM Chart c " +
                         "JOIN c.info ci " +
                         "JOIN ci.owner o " +
@@ -159,7 +166,7 @@ public class ChartDAOImpl {
             Integer ciId = (Integer) r[0];
             String ciTitle = (String) r[1];
             String ownerNick = (String) r[2];
-            Long chartId = (Long) r[3];
+            Integer issueNumber = (Integer) r[3];
             String chartDate = (String) r[4];
 
             LocalDateTime sortTime;
@@ -169,7 +176,7 @@ public class ChartDAOImpl {
                 sortTime = LocalDateTime.MIN;
             }
 
-            out.add(HomeUpdateRow.issue(ciId, ciTitle, ownerNick, chartId, chartDate, sortTime));
+            out.add(HomeUpdateRow.issue(ciId, ciTitle, ownerNick, issueNumber, chartDate, sortTime));
         }
         return out;
     }
@@ -197,10 +204,10 @@ public class ChartDAOImpl {
         session.beginTransaction();
 
         Query q = session.createQuery(
-                "SELECT c.info.id, c.id, c.date " +
+                "SELECT c.info.id, c.issueNumber, c.date " +
                         "FROM Chart c " +
                         "WHERE c.info.id IN (:ids) " +
-                        "ORDER BY c.info.id ASC, c.id DESC"
+                        "ORDER BY c.info.id ASC, c.issueNumber DESC"
         );
         q.setParameterList("ids", chartInfoIds);
 
@@ -212,14 +219,14 @@ public class ChartDAOImpl {
 
         for (Object[] row : rows) {
             Integer ciId = (Integer) row[0];
-            Long chartId = (Long) row[1];
+            Integer issueNumber = (Integer) row[1];
             String date = (String) row[2];
 
             List<ChartBasic> list =
                     result.computeIfAbsent(ciId, k -> new ArrayList<>());
 
             if (list.size() < limitPerChart) {
-                list.add(new ChartBasic(chartId, date));
+                list.add(new ChartBasic(issueNumber, date));
             }
         }
 
@@ -234,14 +241,14 @@ public class ChartDAOImpl {
         session.close();
     }
 
-    public static void delete(int chartInfoId, long id) throws Exception {
+    public static void delete(int chartInfoId, int issueNumber) throws Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try {
             Query query = session.createQuery(
                     "FROM Chart c " +
-                            "WHERE c.id = :id AND c.info.id = :ci");
-            query.setLong("id", id);
+                            "WHERE c.issueNumber = :issueNumber AND c.info.id = :ci");
+            query.setInteger("issueNumber", issueNumber);
             query.setInteger("ci", chartInfoId);
             Chart result = (Chart) query.uniqueResult();
             session.delete(result);

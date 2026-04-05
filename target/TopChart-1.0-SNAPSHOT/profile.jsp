@@ -313,8 +313,8 @@
                                     </c:if>
                                     <c:forEach items="${card.lastIssues}" var="it">
                                         <a class="date-pill date-pill-link"
-                                           href="/chart?ci=${card.ci.id}&chartNumber=${it.id}"
-                                           title="Open issue #${it.id}">
+                                           href="/chart?ci=${card.ci.id}&chartNumber=${it.issueNumber}"
+                                           title="Open issue #${it.issueNumber}">
                                                 ${fn:escapeXml(it.date)}
                                         </a>
                                     </c:forEach>

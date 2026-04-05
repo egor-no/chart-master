@@ -20,7 +20,7 @@ public class ChartEditServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        long chartNumber = Long.parseLong(request.getParameter("chartNumber"));
+        Integer chartNumber = Integer.parseInt(request.getParameter("chartNumber"));
         Chart chart;
         try {
             chart = AuthUtil.requireOwnedChart(request, chartNumber);
@@ -30,17 +30,17 @@ public class ChartEditServlet extends HttpServlet {
         }
 
         int chartInfoId = SessionUtil.requireChartInfoId(request);
-        Long lastId = ChartDAOImpl.getLastId(chartInfoId);
-        if (lastId == null || chart.getId() != lastId) {
-            response.sendRedirect("/?chartNumber=" + chart.getId());
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+        if (lastIssueNumber == null || !chart.getIssueNumber().equals(lastIssueNumber)) {
+            response.sendRedirect("/?chartNumber=" + chart.getIssueNumber());
             return;
         } else {
             String json = new Gson().toJson(SongDAOImpl.getAll(chartInfoId));
             request.setAttribute("songs", json);
             request.setAttribute("chart", chart);
 
-            Long prevId = ChartDAOImpl.getPrevId(chartInfoId, chart.getId());
-            Chart prev = (prevId == null) ? null : ChartDAOImpl.getById(chartInfoId, prevId);
+            Integer prevIssueNumber = ChartDAOImpl.getPrevIssueNumber(chartInfoId, chart.getIssueNumber());
+            Chart prev = (prevIssueNumber == null) ? null : ChartDAOImpl.getByIssueNumber(chartInfoId, prevIssueNumber);
             request.setAttribute("prevChart", prev == null ? null : ChartService.getChartFull(prev));
             request.getRequestDispatcher("chartedit.jsp").forward(request, response);
             response.flushBuffer();
@@ -51,7 +51,7 @@ public class ChartEditServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
 
-        long chartNumber = Long.parseLong(request.getParameter("chartNumber"));
+        Integer chartNumber = Integer.parseInt(request.getParameter("chartNumber"));
         try {
             AuthUtil.requireOwnedChart(request, chartNumber);
         } catch (AuthUtil.ForbiddenException ex) {

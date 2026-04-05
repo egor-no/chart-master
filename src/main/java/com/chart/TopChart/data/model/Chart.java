@@ -11,6 +11,9 @@ public class Chart {
     @Column(name="idChart")
     private long id;
 
+    @Column(name = "issue_number")
+    private Integer issueNumber;
+
     @Column(name="Date")
     private String date;
 
@@ -24,8 +27,9 @@ public class Chart {
     public Chart() {
     }
 
-    public Chart(long id, String date, ChartInfo info, List<Position> positions) {
+    public Chart(long id, Integer issueNumber, String date, ChartInfo info, List<Position> positions) {
         this.id = id;
+        this.issueNumber = issueNumber;
         this.date = date;
         this.info = info;
         this.positions = positions;
@@ -61,6 +65,14 @@ public class Chart {
 
     public void setInfo(ChartInfo info) {
         this.info = info;
+    }
+
+    public Integer getIssueNumber() {
+        return issueNumber;
+    }
+
+    public void setIssueNumber(Integer issueNumber) {
+        this.issueNumber = issueNumber;
     }
 
     @Override
