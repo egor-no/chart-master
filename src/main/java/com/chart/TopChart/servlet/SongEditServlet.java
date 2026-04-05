@@ -51,6 +51,10 @@ public class SongEditServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
         long idSong;
         try {
             idSong = Long.parseLong(request.getParameter("id"));

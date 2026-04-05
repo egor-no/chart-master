@@ -49,6 +49,8 @@ public class ChartEditServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+
         long chartNumber = Long.parseLong(request.getParameter("chartNumber"));
         try {
             AuthUtil.requireOwnedChart(request, chartNumber);

@@ -48,6 +48,8 @@ public class ChartAddServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+
         try {
             AuthUtil.requireOwnedChartInfo(request);
         } catch (AuthUtil.ForbiddenException ex) {
