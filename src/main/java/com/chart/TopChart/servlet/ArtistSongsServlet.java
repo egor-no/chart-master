@@ -1,6 +1,7 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.SongDAOImpl;
+import com.chart.TopChart.data.dto.ArtistSongRow;
 import com.chart.TopChart.data.model.Song;
 import com.chart.TopChart.service.ArtistSongService;
 import com.chart.TopChart.web.SessionUtil;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "artistsongs", value = "/artist")
@@ -26,8 +28,14 @@ public class ArtistSongsServlet extends HttpServlet {
         int chartInfoId = chartInfoIdObj;
 
         String artist = request.getParameter("artist");
-        List<Song> songs = SongDAOImpl.getByArtist(chartInfoId, artist);
+        List<ArtistSongRow> songRows = SongDAOImpl.getArtistSongRows(chartInfoId, artist);
 
+        List<Song> songs = new ArrayList<>();
+        for (ArtistSongRow row : songRows) {
+            songs.add(row.getSong());
+        }
+
+        request.setAttribute("songRows", songRows);
         request.setAttribute("songs", songs);
         request.setAttribute("artist", artist);
         request.setAttribute("stats", ArtistSongService.getArtistTopStatsFromSongs(songs));

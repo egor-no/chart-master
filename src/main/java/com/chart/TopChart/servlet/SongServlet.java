@@ -1,6 +1,7 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.SongDAOImpl;
+import com.chart.TopChart.data.dto.ArtistSongRow;
 import com.chart.TopChart.data.model.Song;
 import com.chart.TopChart.web.SessionUtil;
 
@@ -22,13 +23,22 @@ public class SongServlet extends HttpServlet {
 
         String searchPhrase = request.getParameter("search");
 
+        List<ArtistSongRow> songRows;
         List<Song> songs;
+
         if (searchPhrase != null && !searchPhrase.isEmpty()) {
-            songs = SongDAOImpl.getBySearchPhrase(chartInfoId, searchPhrase);
+            songRows = SongDAOImpl.getSongRowsBySearchPhrase(chartInfoId, searchPhrase);
+
+            songs = new ArrayList<>();
+            for (ArtistSongRow row : songRows) {
+                songs.add(row.getSong());
+            }
         } else {
+            songRows = new ArrayList<>();
             songs = new ArrayList<>();
         }
 
+        request.setAttribute("songRows", songRows);
         request.setAttribute("songs", songs);
         request.setAttribute("search", searchPhrase);
         request.getRequestDispatcher("songs.jsp").forward(request, response);

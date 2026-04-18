@@ -793,3 +793,23 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     margin-top: 12px;
     text-align: right;
 }
+
+.flex-date{
+    width:72px;
+    min-width:72px;
+    text-align:center;
+    margin-top: 16px;
+}
+
+.first-date{
+    font-size:12px;
+    line-height:12px;
+    color:#000676;
+    text-transform:uppercase;
+}
+
+.first-date .year{
+    font-size:13px;
+    color:#444;
+    font-weight:bold;
+}

@@ -1,13 +1,16 @@
 package com.chart.TopChart.data.dao;
 
+import com.chart.TopChart.data.dto.ArtistSongRow;
 import com.chart.TopChart.data.model.Song;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SongDAOImpl {
 
@@ -50,26 +53,31 @@ public class SongDAOImpl {
         return result;
     }
 
-    public static List<Song> getBySearchPhrase(int chartInfoId, String searchPhrase) {
+    public static List<ArtistSongRow> getSongRowsBySearchPhrase(int chartInfoId, String searchPhrase) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         String qStr = (searchPhrase == null) ? "" : searchPhrase.trim().toLowerCase();
 
         Query query = session.createQuery(
-                "SELECT DISTINCT s " +
+                "SELECT s, MIN(c.date) " +
                         "FROM Position p " +
                         "JOIN p.pk.song s " +
-                        "WHERE p.pk.chart.info.id = :ci " +
+                        "JOIN p.pk.chart c " +
+                        "WHERE c.info.id = :ci " +
                         "AND lower(s.name) LIKE :q " +
-                        "ORDER BY s.id DESC");
+                        "GROUP BY s.id, s.weeks, s.peak, s.artists, s.name " +
+                        "ORDER BY MIN(c.date) ASC, s.id ASC"
+        );
         query.setInteger("ci", chartInfoId);
         query.setString("q", "%" + qStr + "%");
 
-        List<Song> list = query.list();
+        List<Object[]> rows = query.list();
+
         session.getTransaction().commit();
         session.close();
-        return list;
+
+        return mapArtistSongRows(rows);
     }
 
     public static List<Song> getLongestSongs(int chartInfoId) {
@@ -165,17 +173,18 @@ public class SongDAOImpl {
     }
 
 
-    public static List<Song> getByArtist(int chartInfoId, String artist) {
+    public static List<ArtistSongRow> getArtistSongRows(int chartInfoId, String artist) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         String a = artist == null ? "" : artist.trim().toLowerCase();
 
         Query query = session.createQuery(
-                "SELECT DISTINCT s " +
+                "SELECT s, MIN(c.date) " +
                         "FROM Position p " +
                         "JOIN p.pk.song s " +
-                        "WHERE p.pk.chart.info.id = :ci " +
+                        "JOIN p.pk.chart c " +
+                        "WHERE c.info.id = :ci " +
                         "AND (" +
                         "   lower(trim(s.artists)) = :a " +
                         "   OR lower(s.artists) LIKE :aPrefix " +
@@ -184,7 +193,8 @@ public class SongDAOImpl {
                         "   OR lower(s.artists) LIKE :aMiddle1 " +
                         "   OR lower(s.artists) LIKE :aMiddle2 " +
                         ") " +
-                        "ORDER BY s.id DESC"
+                        "GROUP BY s.id, s.weeks, s.peak, s.artists, s.name " +
+                        "ORDER BY MIN(c.date) ASC, s.id ASC"
         );
 
         query.setInteger("ci", chartInfoId);
@@ -195,10 +205,12 @@ public class SongDAOImpl {
         query.setParameter("aMiddle1", "%," + a + ",%");
         query.setParameter("aMiddle2", "%, " + a + ",%");
 
-        List<Song> list = query.list();
+        List<Object[]> rows = query.list();
+
         session.getTransaction().commit();
         session.close();
-        return list;
+
+        return mapArtistSongRows(rows);
     }
 
     public static List<String> getArtistsBySearch(int chartInfoId, String searchPhrase) {
@@ -306,4 +318,26 @@ public class SongDAOImpl {
         session.close();
     }
 
+    private static List<ArtistSongRow> mapArtistSongRows(List<Object[]> rows) {
+        List<ArtistSongRow> result = new ArrayList<>();
+        DateTimeFormatter outFmt = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+
+        for (Object[] row : rows) {
+            Song song = (Song) row[0];
+            String firstDateRaw = (String) row[1];
+
+            String firstDateFormatted = "";
+            if (firstDateRaw != null && !firstDateRaw.isEmpty()) {
+                try {
+                    firstDateFormatted = LocalDate.parse(firstDateRaw).format(outFmt);
+                } catch (Exception ignored) {
+                    firstDateFormatted = firstDateRaw;
+                }
+            }
+
+            result.add(new ArtistSongRow(song, firstDateFormatted));
+        }
+
+        return result;
+    }
 }

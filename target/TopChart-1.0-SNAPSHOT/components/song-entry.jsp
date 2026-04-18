@@ -1,7 +1,18 @@
 <div name="song">
     <div class="song-row">
         <input name="song-id" style="display:none;" type="text" value="${song.id}" />
-        <div class="flex1 data-start">
+        <div class="flex-date data-start">
+            <c:if test="${not empty firstEntryDate}">
+                <div class="first-date">
+                        ${firstEntryDate.substring(0,6)}
+                    <br>
+                    <span class="year">
+                            ${firstEntryDate.substring(7)}
+                    </span>
+                </div>
+            </c:if>
+        </div>
+        <div class="flex1">
             <p>${song.peak}</p>
         </div>
         <div class="flex4">
