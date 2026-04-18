@@ -8,6 +8,12 @@
     <title>TOP40 - Top songs</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -27,7 +33,7 @@
             <p>В этом отчёте собраны самые успешные песни за всё время по взвешенному рейтингу. При расчёте учитываются и позиции в чарте, и продолжительность пребывания, что позволяет выявить действительно значимые хиты, а не разовые успехи.</p>
         </div>
 
-        <div id="report-list" >
+        <div id="report-list">
             <div class="song-row">
                 <div class="flex1">
                     <b>No</b>
@@ -38,10 +44,10 @@
                 <div class="flex9">
                 </div>
                 <div class="flex1">
-                   <b>Peak</b>
+                    <b>Peak</b>
                 </div>
                 <div class="flex-end">
-                   <b>WoC</b>
+                    <b>WoC</b>
                 </div>
             </div>
             <c:set var="i" value="1" />
@@ -57,7 +63,14 @@
                             <p>${song[0]}</p>
                         </div>
                         <div class="flex4">
-                            <p>${song[4]}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${song[4]}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${song[4]}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${song[5]}</p>
@@ -66,7 +79,7 @@
                             <p>${song[2]}</p>
                         </div>
                         <div class="flex1 flex-end data-end">
-                            <p> ${song[3]}</p>
+                            <p>${song[3]}</p>
                         </div>
                     </div>
                     <%@include file="../components/song-history.jsp"%>
@@ -76,6 +89,7 @@
         </div>
 
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
 
     </div>
 </div>

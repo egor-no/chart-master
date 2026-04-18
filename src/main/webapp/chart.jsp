@@ -8,6 +8,7 @@
     <title>TOP40 - Music Chart</title>
     <jsp:include page="components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
 </head>
 <body>
 <div class="container">

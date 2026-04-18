@@ -8,6 +8,12 @@
     <title>TOP40 - Longest stallers</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -49,7 +55,14 @@
                             <p>${r[1]}</p>
                         </div>
                         <div class="flex4">
-                            <p>${r[2]}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${r[2]}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${r[2]}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${r[3]}</p>
@@ -59,7 +72,9 @@
                 </div>
             </c:forEach>
         </div>
+
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
     </div>
 </div>
 

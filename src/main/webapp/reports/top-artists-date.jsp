@@ -7,15 +7,17 @@
 <head>
     <title>TOP40 - Top artists</title>
     <jsp:include page="/components/head.jsp"/>
-    <script type = "text/javascript" >
 
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
         $(document).ready(function() {
-
             var isListLoaded = ${isListLoaded};
 
             if (isListLoaded == false) {
                 $('#report-list').css('display', 'none');
             }
+
+            ArtistPicker.init();
         });
     </script>
 </head>
@@ -49,7 +51,7 @@
         <input style="display: none" name="date1-data" type="text" value="${date1}" />
         <input style="display: none" name="date2-data" type="text" value="${date2}" />
 
-        <div id="report-list" >
+        <div id="report-list">
             <div class="song-row">
                 <div class="flex1">
                     <b>No</b>
@@ -80,7 +82,14 @@
                             <p>${artist[1]}</p>
                         </div>
                         <div class="flex5">
-                            <p><a href="/artist?artist=${artist[0]}" target="_blank">${artist[0]}</a></p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${artist[0]}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${artist[0]}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex1 flex-end data-end">
                             <p title="Weeks at number 1">${artist[2]}</p>
@@ -89,13 +98,15 @@
                             <p title="Weeks in top10">${artist[3]}</p>
                         </div>
                         <div class="flex1 flex-end data-end">
-                            <p title="Weeks in top40"> ${artist[4]}</p>
+                            <p title="Weeks in top40">${artist[4]}</p>
                         </div>
                     </div>
                 </div>
                 <c:set var="i" value="${i+1}" />
             </c:forEach>
         </div>
+
+        <%@include file="../components/artist-picker-modal.jsp"%>
     </div>
 </div>
 

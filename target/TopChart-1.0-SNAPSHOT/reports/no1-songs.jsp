@@ -8,6 +8,12 @@
     <title>TOP40 - Longest no1 songs</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -26,7 +32,7 @@
         <div class="report-description">
             <p>Топ песен, которые дольше всех удерживали первое место чарта. Он отражает не просто популярность, а настоящие доминирующие хиты, которые надолго оставались вне конкуренции.</p>
         </div>
-        <div id="report-list" >
+        <div id="report-list">
             <div class="song-row">
                 <div class="flex1">
                     <b>No</b>
@@ -53,13 +59,20 @@
                             <p>${song[0]}</p>
                         </div>
                         <div class="flex4">
-                            <p>${song[4]}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${song[4]}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${song[4]}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${song[5]}</p>
                         </div>
                         <div class="flex1 flex-end data-end">
-                            <p> ${song[3]}</p>
+                            <p>${song[3]}</p>
                         </div>
                     </div>
                     <%@include file="../components/song-history.jsp"%>
@@ -69,6 +82,7 @@
         </div>
 
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
 
     </div>
 </div>

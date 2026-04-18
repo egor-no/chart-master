@@ -10,6 +10,14 @@
     <script type="text/javascript">
         <%@include file="/components/song-history.js"%>
     </script>
+    <script type="text/javascript">
+        <%@include file="/components/artistPicker.js"%>
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -58,13 +66,20 @@
                             <p style="white-space:nowrap;">${p.pk.chart.date}</p>
                         </div>
                         <div class="flex1" style="flex:0 0 90px;">
-                                <p title="LW → Pos">${p.lastWeek} → ${p.position}</p>
+                            <p title="LW → Pos">${p.lastWeek} → ${p.position}</p>
                         </div>
                         <div class="flex4" style="padding-left:12px;">
-                            <p>${p.pk.song.artists}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${p.pk.song.artists}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${p.pk.song.artists}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
-                                <p>${p.pk.song.name}</p>
+                            <p>${p.pk.song.name}</p>
                         </div>
                     </div>
                     <%@include file="../components/song-history.jsp"%>
@@ -72,6 +87,7 @@
             </c:forEach>
         </div>
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
     </div>
 </div>
 </body>

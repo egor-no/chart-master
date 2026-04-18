@@ -8,6 +8,12 @@
     <title>TOP40 - Longest on chart</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -53,13 +59,20 @@
                             <p>${song.peak}</p>
                         </div>
                         <div class="flex4">
-                            <p>${song.artists}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${song.artists}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${song.artists}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${song.name}</p>
                         </div>
                         <div class="flex1 flex-end data-end">
-                            <p> ${song.weeks}</p>
+                            <p>${song.weeks}</p>
                         </div>
                     </div>
                     <%@include file="../components/song-history.jsp"%>
@@ -68,7 +81,9 @@
             </c:forEach>
         </div>
     </div>
+
     <%@include file="../components/chart-run-template.jsp"%>
+    <%@include file="../components/artist-picker-modal.jsp"%>
 </div>
 
 </body>

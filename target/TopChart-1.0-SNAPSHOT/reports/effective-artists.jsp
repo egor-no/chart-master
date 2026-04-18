@@ -7,6 +7,16 @@
 <head>
     <title>TOP40 - Effective artists</title>
     <jsp:include page="/components/head.jsp"/>
+
+    <script type="text/javascript">
+        <%@include file="/components/artistPicker.js"%>
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -18,54 +28,83 @@
             </jsp:include>
         </div>
     </div>
+
     <div id="report-body">
         <div class="report-header">
             <h2>Effective Artists</h2>
         </div>
+
         <div class="report-description">
             <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
         </div>
-        <div id="report-list" >
+
+        <div id="report-list">
+
             <div class="song-row">
                 <div class="flex1">
                     <p style="margin-bottom:0px;"><b>No</b></p>
                 </div>
-                <div class="flex9">
-                </div>
+
+                <div class="flex9"></div>
+
                 <div class="flex1">
                     <p style="margin-bottom:0px;"><b>no1</b></p>
                 </div>
+
                 <div class="flex1">
                     <p style="margin-bottom:0px;"><b>top10</b></p>
                 </div>
+
                 <div class="flex-end">
                     <p style="margin-bottom:0px;"><b>top40</b></p>
                 </div>
             </div>
+
             <c:set var="i" value="1" />
+
             <c:forEach items="${artists}" var="artist">
+
                 <div name="song">
                     <div class="song-row">
+
                         <div class="flex1 i-counter">
                             <p>${i}</p>
                         </div>
+
                         <div class="flex9 data-start">
-                            <p><a href="/artist?artist=${artist[0]}" target="_blank">${artist[0]}</a></p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${artist[0]}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${artist[0]}
+                                </span>
+                            </p>
                         </div>
+
                         <div class="flex1 flex-end data-end">
                             <p>${artist[1]}</p>
                         </div>
+
                         <div class="flex1 flex-end data-end">
                             <p>${artist[2]}</p>
                         </div>
+
                         <div class="flex1 flex-end data-end">
-                            <p> ${artist[3]}</p>
+                            <p>${artist[3]}</p>
                         </div>
+
                     </div>
                 </div>
+
                 <c:set var="i" value="${i+1}" />
+
             </c:forEach>
+
         </div>
+
+        <%@include file="../components/artist-picker-modal.jsp"%>
+
     </div>
 </div>
 

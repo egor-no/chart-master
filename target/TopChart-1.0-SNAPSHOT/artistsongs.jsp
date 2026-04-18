@@ -103,7 +103,7 @@
             </div>
         </div>
     </div>
-
+    <c:set var="artistPickerEnabled" value="false" />
     <%@include file="components/song-list-search.jsp"%>
 </div>
 </body>

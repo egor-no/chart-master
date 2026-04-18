@@ -8,6 +8,12 @@
     <title>TOP40 - Biggest falls</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -70,7 +76,14 @@
                             </p>
                         </div>
                         <div class="flex4" style="padding-left:12px;">
-                            <p>${song.artists}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${song.artists}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${song.artists}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${song.name}</p>
@@ -78,12 +91,12 @@
                     </div>
 
                     <%@include file="../components/song-history.jsp"%>
-
                 </div>
             </c:forEach>
         </div>
 
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
 
     </div>
 </div>

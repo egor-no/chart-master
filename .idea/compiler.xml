@@ -9,5 +9,8 @@
         <module name="TopChart" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="TopChart" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

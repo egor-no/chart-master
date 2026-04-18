@@ -8,6 +8,12 @@
     <title>TOP40 - No1 Debuts</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ArtistPicker.init();
+        });
+    </script>
 </head>
 <body>
 <div class="report">
@@ -26,7 +32,7 @@
         <div class="report-description">
             <p>Песни, которые сразу попали в самое сердце и дебютировали в чарте с первого места. Это редкие случаи мгновенного успеха, когда трек моментально становился главным событием недели.</p>
         </div>
-        <div id="report-list" >
+        <div id="report-list">
             <div class="song-row">
                 <div class="flex1">
                     <p style="margin-bottom:0px;"><b>No</b></p>
@@ -53,13 +59,20 @@
                             <p>${position.pk.chart.date}</p>
                         </div>
                         <div class="flex4">
-                            <p>${position.pk.song.artists}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${position.pk.song.artists}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${position.pk.song.artists}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${position.pk.song.name}</p>
                         </div>
                         <div class="flex1 flex-end data-end">
-                            <p> ${position.pk.song.weeks}</p>
+                            <p>${position.pk.song.weeks}</p>
                         </div>
                     </div>
                     <%@include file="../components/song-history.jsp"%>
@@ -69,6 +82,7 @@
         </div>
 
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
 
     </div>
 </div>

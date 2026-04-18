@@ -706,3 +706,90 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     box-shadow: none;
     z-index: 9999;
 }
+
+
+.artist-link {
+    color: #0000a8;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.artist-link:hover {
+    text-decoration: underline;
+    color: #0000a8;
+}
+
+.artist-link:focus {
+    outline: 1px dotted #000;
+    outline-offset: 2px;
+}
+
+.artist-picker-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.20);
+    z-index: 3000;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 90px;
+}
+
+.artist-picker-overlay.no-display {
+    display: none;
+}
+
+.artist-picker-modal {
+    width: 420px;
+    background: #dce0e2;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #192428;
+    border-bottom: 2px solid #192428;
+    box-sizing: border-box;
+}
+
+.artist-picker-titlebar {
+    height: 24px;
+    background: #000676;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 4px 2px 8px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.artist-picker-titlebar-close {
+    min-width: 22px;
+    height: 20px;
+    padding: 0;
+    line-height: 18px;
+    font-weight: bold;
+}
+
+.artist-picker-body {
+    padding: 12px;
+}
+
+.artist-picker-text {
+    margin-bottom: 10px;
+}
+
+.artist-picker-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.artist-picker-option {
+    width: 100%;
+    text-align: left;
+}
+
+.artist-picker-actions {
+    margin-top: 12px;
+    text-align: right;
+}

@@ -17,7 +17,14 @@
                     <p name="lw">${position.lastWeek}</p>
                 </div>
                 <div class="flex4">
-                    <p><a href="/artist?artist=${position.pk.song.artists}" target="_blank">${position.pk.song.artists}</a></p>
+                    <p>
+                        <span class="artist-link"
+                              data-artists="${position.pk.song.artists}"
+                              title="Open artist page"
+                              tabindex="0">
+                                ${position.pk.song.artists}
+                        </span>
+                    </p>
                 </div>
                 <div class="flex5">
                     <p>${position.pk.song.name}</p>
@@ -36,6 +43,7 @@
 </div>
 
 <%@include file="chart-run-template.jsp"%>
+<%@ include file="../components/artist-picker-modal.jsp" %>
 
 <script type = "text/javascript" >
     $(document).ready(function() {
@@ -75,8 +83,6 @@
             }
         });
 
-        $('[name="song"] a').on('click', function () {
-            event.stopPropagation();
-        });
+        ArtistPicker.init();
     });
 </script>

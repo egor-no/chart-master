@@ -8,15 +8,16 @@
     <title>TOP40 - Top songs</title>
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
-    <script type = "text/javascript" >
-
+    <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script type="text/javascript">
         $(document).ready(function() {
-
             var isListLoaded = ${isListLoaded};
 
             if (isListLoaded == false) {
                 $('#report-list').css('display', 'none');
             }
+
+            ArtistPicker.init();
         });
     </script>
 </head>
@@ -50,11 +51,12 @@
         <input style="display: none" name="date1-data" type="text" value="${date1}" />
         <input style="display: none" name="date2-data" type="text" value="${date2}" />
 
-        <div id="report-list" >
+        <div id="report-list">
             <c:if test="${date2 == ''}">
                 <c:set var="date2" value="now"/>
             </c:if>
-            <b>From ${date1} til ${date2} </b>
+            <b>From ${date1} til ${date2}</b>
+
             <div class="song-row">
                 <div class="flex1">
                     <p style="margin-bottom:0px;"><b>No</b></p>
@@ -71,6 +73,7 @@
                     <p style="margin-bottom:0px;"><b>WoC</b></p>
                 </div>
             </div>
+
             <c:set var="i" value="1" />
             <c:forEach items="${songs}" var="song">
                 <div name="song">
@@ -84,7 +87,14 @@
                             <p>${song[0]}</p>
                         </div>
                         <div class="flex4">
-                            <p>${song[4]}</p>
+                            <p>
+                                <span class="artist-link"
+                                      data-artists="${song[4]}"
+                                      title="Open artist page"
+                                      tabindex="0">
+                                        ${song[4]}
+                                </span>
+                            </p>
                         </div>
                         <div class="flex5">
                             <p>${song[5]}</p>
@@ -93,7 +103,7 @@
                             <p>${song[2]}</p>
                         </div>
                         <div class="flex1 flex-end data-end">
-                            <p> ${song[3]}</p>
+                            <p>${song[3]}</p>
                         </div>
                     </div>
                     <%@include file="../components/song-history.jsp"%>
@@ -103,6 +113,7 @@
         </div>
 
         <%@include file="../components/chart-run-template.jsp"%>
+        <%@include file="../components/artist-picker-modal.jsp"%>
 
     </div>
 </div>

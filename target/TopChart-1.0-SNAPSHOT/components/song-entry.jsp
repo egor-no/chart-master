@@ -1,12 +1,25 @@
 <div name="song">
     <div class="song-row">
         <input name="song-id" style="display:none;" type="text" value="${song.id}" />
-
         <div class="flex1 data-start">
             <p>${song.peak}</p>
         </div>
         <div class="flex4">
-            <p>${song.artists}</p>
+            <p>
+                <c:choose>
+                    <c:when test="${artistPickerEnabled}">
+                <span class="artist-link"
+                      data-artists="${song.artists}"
+                      title="Open artist page"
+                      tabindex="0">
+                        ${song.artists}
+                </span>
+                    </c:when>
+                    <c:otherwise>
+                        <span>${song.artists}</span>
+                    </c:otherwise>
+                </c:choose>
+            </p>
         </div>
         <div class="flex5">
             <p>${song.name}</p>
