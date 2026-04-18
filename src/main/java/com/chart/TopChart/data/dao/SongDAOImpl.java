@@ -327,7 +327,10 @@ public class SongDAOImpl {
             String firstDateRaw = (String) row[1];
 
             String firstDateFormatted = "";
+            String firstDateSortable = "";
+
             if (firstDateRaw != null && !firstDateRaw.isEmpty()) {
+                firstDateSortable = firstDateRaw;
                 try {
                     firstDateFormatted = LocalDate.parse(firstDateRaw).format(outFmt);
                 } catch (Exception ignored) {
@@ -335,7 +338,7 @@ public class SongDAOImpl {
                 }
             }
 
-            result.add(new ArtistSongRow(song, firstDateFormatted));
+            result.add(new ArtistSongRow(song, firstDateFormatted, firstDateSortable));
         }
 
         return result;

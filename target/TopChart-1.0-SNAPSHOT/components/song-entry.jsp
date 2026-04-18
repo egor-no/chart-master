@@ -1,5 +1,9 @@
 <div name="song">
-    <div class="song-row">
+    <div class="song-row sortable-song-row"
+         data-peak="${song.peak}"
+         data-weeks="${song.weeks}"
+         data-first-entry="${firstEntryDateSortable}">
+
         <input name="song-id" style="display:none;" type="text" value="${song.id}" />
         <div class="flex-date data-start">
             <c:if test="${not empty firstEntryDate}">
