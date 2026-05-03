@@ -22,15 +22,22 @@ public class SongHistoryService {
 
     public static SongHistory getSongHistory(int chartInfoId, long idSong, String sDate1, String sDate2) {
         SongHistory songHistory = new SongHistory();
-        Song song = SongDAOImpl.getById(idSong);
-        songHistory.setPeak(song.getPeak());
 
         List<Position> positions;
-        if (sDate1 != null && sDate2 != null) {
+        if (sDate1 != null && !sDate1.isEmpty()) {
             positions = PositionDAOImpl.getPositionsForSongByDate(chartInfoId, idSong, sDate1, sDate2);
         } else {
             positions = PositionDAOImpl.getPositionsForSong(chartInfoId, idSong);
         }
+
+        Integer peak = null;
+        for (Position position : positions) {
+            if (peak == null || position.getPosition() < peak) {
+                peak = position.getPosition();
+            }
+        }
+        songHistory.setPeak(peak);
+
         List<ChartRun> chartRuns = new ArrayList<>();
         List<Integer> chartRunPositions = new ArrayList<>();
         ChartRun chartRun =  new ChartRun();

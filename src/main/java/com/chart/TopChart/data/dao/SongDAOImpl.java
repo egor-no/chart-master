@@ -149,26 +149,33 @@ public class SongDAOImpl {
 
         String hql =
                 "SELECT SUM(41 - p.position) as sumpos, " +
-                        "s.id, s.peak, s.weeks, s.artists, s.name " +
+                        "s.id, " +
+                        "MIN(p.position) as periodPeak, " +
+                        "COUNT(p.position) as periodWeeks, " +
+                        "s.artists, s.name " +
                         "FROM Position p " +
                         "JOIN p.pk.song s " +
                         "JOIN p.pk.chart c " +
                         "WHERE c.info.id = :ci " +
                         "AND c.date >= :date1 " +
                         (date2 != null && !date2.isEmpty() ? "AND c.date <= :date2 " : "") +
-                        "GROUP BY s.id, s.peak, s.weeks, s.artists, s.name " +
+                        "GROUP BY s.id, s.artists, s.name " +
                         "ORDER BY sumpos DESC";
+
         Query query = session.createQuery(hql);
         query.setInteger("ci", chartInfoId);
         query.setParameter("date1", date1);
+
         if (date2 != null && !date2.isEmpty()) {
             query.setParameter("date2", date2);
         }
+
         query.setMaxResults(50);
 
         List list = query.list();
         session.getTransaction().commit();
         session.close();
+
         return list;
     }
 
