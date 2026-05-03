@@ -62,18 +62,23 @@ $(document).ready(function() {
                     chartRunDiv.attr('name', 'chart-run');
 
                     if (chartRun.firstChart.date != chartRun.lastChart.date) {
-                        chartRunDiv.find('[name="chart-run-header"]').html(chartRunSize + " weeks: " + chartRun.firstChart.date + " - " + chartRun.lastChart.date);
+                        chartRunDiv.find('[name="chart-run-header"]').html(
+                            chartRunSize + " weeks: " + chartRun.firstChart.date + " - " + chartRun.lastChart.date
+                        );
                         chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunTwo');
                     } else {
-                        chartRunDiv.find('[name="chart-run-header"]').html(chartRunSize + " week: " +  chartRun.firstChart.date);
+                        chartRunDiv.find('[name="chart-run-header"]').html(
+                            chartRunSize + " week: " + chartRun.firstChart.date
+                        );
                         chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunOne');
                     }
 
-                    var issueNumber = chartRun.firstChart.issueNumber;
-                    var chartDateStr = chartRun.firstChart.date;
-                    let chartDate = new Date(chartDateStr);
+                    $.each(chartRun.positions, function(i, item) {
+                        var position = item.position;
+                        var issueNumber = item.issueNumber;
+                        var chartDateStr = item.date;
+                        let chartDate = new Date(chartDateStr);
 
-                    $.each(chartRun.positions, function(i, position) {
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').html(position);
 
                         if (position == peak) {
@@ -88,7 +93,6 @@ $(document).ready(function() {
                         if (position <= 10) {
                             top10++;
                         }
-
                         if (position <= 20) {
                             top20++;
                         }
@@ -99,23 +103,23 @@ $(document).ready(function() {
                             chartRunDiv.find('[name="position"]:last').removeClass('current');
                         }
 
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function () {
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function (event) {
                             event.stopPropagation();
                         });
+
                         chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/chart?chartNumber=' + issueNumber);
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + issueNumber + " | " +  formatDate(chartDate));
+                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + issueNumber + " | " + formatDate(chartDate));
+
                         var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
                         chartRunDiv.find('[name="positions"]').append(positionDiv);
-
-                        issueNumber++;
-                        chartDate.setDate(chartDate.getDate() + 7);
                     });
+
                     chartRunDiv.find('[name="position"]:last').remove();
 
                     songDiv.find('[name="song-history"]').append(chartRunDiv);
                     chartRunDiv.css('display', 'block');
                     songDiv.find('[name="song-history"]').slideDown(500);
-                    songDiv.find('[name="mov-info"]').addClass('history-mov')
+                    songDiv.find('[name="mov-info"]').addClass('history-mov');
                     songDiv.find('[name="i-report"]').addClass('i-highlight');
 
                     songDiv.find('#stats-weeks-no1s').html(no1);
