@@ -137,7 +137,7 @@ h1 {
 [name="song"] {
     display: flex;
     flex-flow: column;
-    border-bottom: 1px solid grey;
+    /*border-bottom: 1px solid grey;*/
 }
 
 .song-row {
@@ -825,4 +825,115 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
 
 .sort-indicator {
     font-size: 11px;
+}
+
+.outsider-row {
+    background-color: #dddddd;
+    background-image:
+            repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 6px,
+                    #c8d5ea 6px,
+                    #c8d5ea 7px
+            );
+
+    border-top: 1px solid #8c8c8c;
+    border-left: 1px solid #8c8c8c;
+    border-right: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+
+    color: #444;
+}
+
+.outsider-row p {
+    color: #555;
+}
+
+.outsider-row .artist-link,
+.outsider-row .song-row a,
+.outsider-row a {
+    color: #5a5aa8;
+}
+
+.outsider-row .i-counter {
+    color: #6f4f78;
+}
+
+
+.container [name="song"]:hover .outsider-row {
+    background-color: #e3e6ef;
+}
+
+.history-open-outsider {
+    background: #e3e6ef;
+
+    border-top: 1px solid #7f8792;
+    border-left: 1px solid #7f8792;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.container [name="song"]:hover .outsider-row,
+.history-open-outsider .outsider-row {
+    background: #e3e6ef;
+}
+
+.history-open-outsider [name="song-history"] {
+    background: #e3e6ef;
+}
+
+.history-open-outsider [name="song-history"] {
+    background: #e3e6ef;
+    color: #555;
+}
+
+.history-open-outsider [name="song-history"] p,
+.history-open-outsider [name="song-history"] span,
+.history-open-outsider [name="song-history"] div {
+    color: #555;
+}
+
+.history-open-outsider [name="song-history"] a {
+    color: #5a5aa8;
+}
+
+.history-open-outsider [name="song-history"] .chartRunOne,
+.history-open-outsider [name="song-history"] .chartRunTwo {
+    border-bottom: 1px solid #8d94a0;
+}
+
+.history-open-outsider [name="song-history"] [name="position"] {
+    background: #d9dde7;
+    border: 1px solid #8d94a0;
+}
+
+.history-open-outsider [name="song-history"] #song-stats {
+    background: #d9dde7;
+}
+
+.history-open-outsider [name="song-history"] #song-stats .song-stat {
+    background: #e3e6ef;
+}
+
+.history-open-outsider [name="song-history"] #song-stats .song-stat h3 {
+    color: #4f5a8a;
+}
+
+#chart-table > [name="song"]:not(.history-open) > .song-row:not(.outsider-row) {
+    background-color: #dce0e2;
+    background-image:
+            radial-gradient(#d9d2be 1px, transparent 1px);
+    background-size: 8px 8px;
+
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #f4f4f4;
+    border-right: 1px solid #8c8c8c;
+    border-bottom: 1px solid #8c8c8c;
+
+    margin-bottom: 4px;
+}
+
+.container #chart-table > [name="song"]:not(.history-open):hover > .song-row:not(.outsider-row) {
+    background: #fcfbdd;
 }

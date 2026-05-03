@@ -11,16 +11,18 @@ public class ChartFull {
     private List<Position> positions;
     private List<Long> woc;
     private List<Long> peaks;
+    private List<ChartOutsider> outsiders;
 
     public ChartFull() {
     }
 
-    public ChartFull(int issueNumber, String date, List<Position> positions, List<Long> woc, List<Long> peaks) {
+    public ChartFull(int issueNumber, String date, List<Position> positions, List<Long> woc, List<Long> peaks, List<ChartOutsider> outsiders) {
         this.issueNumber = issueNumber;
         this.date = date;
         this.positions = positions;
         this.woc = woc;
         this.peaks = peaks;
+        this.outsiders = outsiders;
     }
 
     public ChartFull(Chart chart) {
@@ -67,5 +69,13 @@ public class ChartFull {
 
     public void setPeaks(List<Long> peaks) {
         this.peaks = peaks;
+    }
+
+    public List<ChartOutsider> getOutsiders() {
+        return outsiders;
+    }
+
+    public void setOutsiders(List<ChartOutsider> outsiders) {
+        this.outsiders = outsiders;
     }
 }

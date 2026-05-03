@@ -5,6 +5,7 @@ import com.chart.TopChart.data.dao.ChartInfoDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.dto.ChartFull;
+import com.chart.TopChart.data.dto.ChartOutsider;
 import com.chart.TopChart.data.model.*;
 import util.DateUtil;
 
@@ -40,6 +41,56 @@ public class ChartService {
 
         chartFull.setPeaks(peaks);
         chartFull.setWoc(woc);
+
+        List<Position> outsiderPositions = new ArrayList<>();
+
+        if (chart.getIssueNumber() > 1) {
+            outsiderPositions = PositionDAOImpl.getOutsidersForChart(chartInfoId, chart.getIssueNumber());
+        }
+
+        List<ChartOutsider> outsiders = new ArrayList<>();
+
+        if (!outsiderPositions.isEmpty()) {
+            List<Long> outsiderSongIds = new ArrayList<>();
+
+            for (Position outsiderPosition : outsiderPositions) {
+                outsiderSongIds.add(outsiderPosition.getPk().getSong().getId());
+            }
+
+            List outsiderWocList = PositionDAOImpl.getWOCforChart(chartInfoId, chart.getIssueNumber() - 1, outsiderSongIds);
+            List outsiderPeaksList = PositionDAOImpl.getPeaksForChart(chartInfoId, chart.getIssueNumber() - 1, outsiderSongIds);
+
+            Map<Long, Long> outsiderWocMap = new HashMap<>();
+            Map<Long, Long> outsiderPeaksMap = new HashMap<>();
+
+            for (int i = 0; i < outsiderWocList.size(); i++) {
+                Object[] row = (Object[]) outsiderWocList.get(i);
+                outsiderWocMap.put(
+                        Long.parseLong(row[0].toString()),
+                        Long.parseLong(row[1].toString())
+                );
+            }
+
+            for (int i = 0; i < outsiderPeaksList.size(); i++) {
+                Object[] row = (Object[]) outsiderPeaksList.get(i);
+                outsiderPeaksMap.put(
+                        Long.parseLong(row[0].toString()),
+                        Long.parseLong(row[1].toString())
+                );
+            }
+
+            for (Position outsiderPosition : outsiderPositions) {
+                Long songId = outsiderPosition.getPk().getSong().getId();
+
+                outsiders.add(new ChartOutsider(
+                        outsiderPosition,
+                        outsiderPeaksMap.get(songId),
+                        outsiderWocMap.get(songId)
+                ));
+            }
+        }
+
+        chartFull.setOutsiders(outsiders);
 
         return chartFull;
     }

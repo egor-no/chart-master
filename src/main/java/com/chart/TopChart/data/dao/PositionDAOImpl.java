@@ -306,4 +306,33 @@ public class PositionDAOImpl {
         session.close();
         return rows;
     }
+
+    public static List<Position> getOutsidersForChart(int chartInfoId, int issueNumber) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query query = session.createQuery(
+                "FROM Position prev " +
+                        "WHERE prev.pk.chart.info.id = :ci " +
+                        "AND prev.pk.chart.issueNumber = :prevIssueNumber " +
+                        "AND NOT EXISTS ( " +
+                        "   SELECT 1 " +
+                        "   FROM Position cur " +
+                        "   WHERE cur.pk.chart.info.id = :ci " +
+                        "   AND cur.pk.chart.issueNumber = :issueNumber " +
+                        "   AND cur.pk.song.id = prev.pk.song.id " +
+                        ") " +
+                        "ORDER BY prev.position ASC"
+        );
+
+        query.setInteger("ci", chartInfoId);
+        query.setInteger("issueNumber", issueNumber);
+        query.setInteger("prevIssueNumber", issueNumber - 1);
+
+        List<Position> results = query.list();
+
+        session.getTransaction().commit();
+        session.close();
+        return results;
+    }
 }

@@ -39,6 +39,59 @@
             <%@include file="song-history.jsp"%>
         </div>
     </c:forEach>
+
+    <c:if test="${not empty chart.outsiders}">
+        <div class="chart-outsiders-title">
+            <h3>Outsiders</h3>
+        </div>
+
+        <c:forEach items="${chart.outsiders}" var="outsider">
+            <div name="song">
+                <div class="song-row outsider-row">
+                    <input name="song-id" style="display:none;" type="text" value="${outsider.position.pk.song.id}" />
+                    <input name="outsider" style="display:none;" type="text" value="true" />
+
+                    <div name="mov-info" class="flex-mov data-start out">
+                        <div name="mov"></div>
+                        <div name="mov-val"></div>
+                    </div>
+
+                    <div class="flex1 i-counter" style="justify-content: left;">
+                        <p>${outsider.position.position}</p>
+                    </div>
+
+                    <div class="flex1 no-display">
+                        <p name="lw">${outsider.position.position}</p>
+                    </div>
+
+                    <div class="flex4">
+                        <p>
+                        <span class="artist-link"
+                              data-artists="${outsider.position.pk.song.artists}"
+                              title="Open artist page"
+                              tabindex="0">
+                                ${outsider.position.pk.song.artists}
+                        </span>
+                        </p>
+                    </div>
+
+                    <div class="flex5">
+                        <p>${outsider.position.pk.song.name}</p>
+                    </div>
+
+                    <div name="peak" class="flex1" title="peak">
+                        <p>${outsider.peak}</p>
+                    </div>
+
+                    <div class="flex1" title="weeks on chart">
+                        <p name="woc">${outsider.woc}</p>
+                    </div>
+                </div>
+
+                <%@include file="song-history.jsp"%>
+            </div>
+        </c:forEach>
+    </c:if>
     </tbody>
 </div>
 
@@ -48,6 +101,10 @@
 <script type = "text/javascript" >
     $(document).ready(function() {
         $('[name="song"]').each(function () {
+            if ($(this).find('[name="outsider"]').val() === 'true') {
+                return;
+            }
+
             var lw = $(this).find('[name="lw"]').text();
             var pos = $(this).find('[name="pos"]').text();
             var woc = $(this).find('[name="woc"]').text();

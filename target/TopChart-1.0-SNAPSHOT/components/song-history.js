@@ -19,11 +19,15 @@ $(document).ready(function() {
                 songDiv.find('[name="mov-info"]').removeClass('history-mov');
                 songDiv.find('[name="i-report"]').removeClass('i-highlight');
                 songDiv.removeClass('history-open');
+                songDiv.removeClass('history-open-outsider');
             } else {
                 songDiv.find('[name="song-history"]').slideDown(500);
                 songDiv.find('[name="mov-info"]').addClass('history-mov');
                 songDiv.find('[name="i-report"]').addClass('i-highlight');
                 songDiv.addClass('history-open');
+                if (songDiv.find('[name="outsider"]').val() === 'true') {
+                    songDiv.addClass('history-open-outsider');
+                }
             }
         } else {
             var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
@@ -126,6 +130,10 @@ $(document).ready(function() {
                     songDiv.find('#stats-weeks-top10s').html(top10);
                     songDiv.find('#stats-weeks-top20s').html(top20);
                     songDiv.addClass('history-open');
+
+                    if (songDiv.find('[name="outsider"]').val() === 'true') {
+                        songDiv.addClass('history-open-outsider');
+                    }
                 });
             });
         }
