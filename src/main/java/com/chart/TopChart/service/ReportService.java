@@ -16,14 +16,16 @@ public class ReportService {
             long songId;
             String artists;
             String name;
+            Integer peak;
             Integer debutIssueNumber = null;
             Integer firstTop10IssueNumber = null;
             List<Integer> issueNumbers = new ArrayList<>();
 
-            Acc(long songId, String artists, String name) {
+            Acc(long songId, String artists, String name, Integer peak) {
                 this.songId = songId;
                 this.artists = artists;
                 this.name = name;
+                this.peak = peak;
             }
         }
 
@@ -35,10 +37,11 @@ public class ReportService {
             Integer pos = (Integer) r[2];
             String artists = (String) r[3];
             String name = (String) r[4];
+            Integer peak = (Integer) r[5];
 
             if (songId == null || issueNumber == null || pos == null) continue;
 
-            Acc a = map.computeIfAbsent(songId, k -> new Acc(songId, artists, name));
+            Acc a = map.computeIfAbsent(songId, k -> new Acc(songId, artists, name, peak));
 
             if (a.debutIssueNumber == null) a.debutIssueNumber = issueNumber;
             a.issueNumbers.add(issueNumber);
@@ -71,6 +74,7 @@ public class ReportService {
             row.add(String.valueOf(a.songId));                    // [4]
             row.add(String.valueOf(a.debutIssueNumber));          // [5]
             row.add(String.valueOf(a.firstTop10IssueNumber));     // [6]
+            row.add(String.valueOf(a.peak));                                      // [7]
             out.add(row);
         }
 
@@ -86,4 +90,71 @@ public class ReportService {
         return out;
     }
 
+    public static List<List<String>> getLongestSemihits(int chartInfoId) {
+        List<Object[]> rows = PositionDAOImpl.getSongPositionsRowsAllTime(chartInfoId);
+
+        class Acc {
+            long songId;
+            String artists;
+            String name;
+            int weeks = 0;
+            Integer peak = null;
+
+            Acc(long songId, String artists, String name) {
+                this.songId = songId;
+                this.artists = artists;
+                this.name = name;
+            }
+        }
+
+        Map<Long, Acc> map = new HashMap<>();
+
+        for (Object[] r : rows) {
+            Long songId = (Long) r[0];
+            Integer pos = (Integer) r[2];
+            String artists = (String) r[3];
+            String name = (String) r[4];
+
+            if (songId == null || pos == null) continue;
+
+            Acc a = map.computeIfAbsent(songId, k -> new Acc(songId, artists, name));
+
+            a.weeks++;
+
+            if (a.peak == null || pos < a.peak) {
+                a.peak = pos;
+            }
+        }
+
+        List<List<String>> out = new ArrayList<>();
+
+        for (Acc a : map.values()) {
+            if (a.peak == null) continue;
+
+            if (a.peak <= 20) continue;
+
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(a.weeks));   // [0]
+            row.add(String.valueOf(a.peak));    // [1]
+            row.add(a.artists);                 // [2]
+            row.add(a.name);                    // [3]
+            row.add(String.valueOf(a.songId));  // [4]
+
+            out.add(row);
+        }
+
+        out.sort((x, y) -> {
+            int w1 = Integer.parseInt(x.get(0));
+            int w2 = Integer.parseInt(y.get(0));
+            if (w2 != w1) return w2 - w1;
+
+            int p1 = Integer.parseInt(x.get(1));
+            int p2 = Integer.parseInt(y.get(1));
+            return p1 - p2;
+        });
+
+        if (out.size() > 50) out.subList(50, out.size()).clear();
+
+        return out;
+    }
 }

@@ -67,6 +67,9 @@
             $('#longest-stallers').on('click', function () {
                 top.location.href = "/reports?report=longestStallers";
             });
+            $('#longest-semihits').on('click', function () {
+                top.location.href = "/reports?report=longestSemihits";
+            });
             $('#biggest-leaps').on('click', function () {
                 top.location.href = "/reports?report=biggestLeaps";
             });
@@ -115,6 +118,10 @@
         </div>
 
         <div name="reports">
+            <div class="report-card" id="effective-artists">
+                <h2>Effective artists</h2>
+                <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
+            </div>
             <div class="report-card" id="longest-songs">
                 <h2>Longest on chart</h2>
                 <p>Топ песен, которые провели в чарте больше всех недель</p>
@@ -130,6 +137,10 @@
             <div class="report-card" id="longest-stallers">
                 <h2>Longest stallers</h2>
                 <p>Песни, которые понадобилось время, чтобы понравиться больше. Рекордно долгие пути к топ-10.</p>
+            </div>
+            <div class="report-card" id="longest-semihits">
+                <h2>Longest Semihits</h2>
+                <p>Песни, которые так и не добрались до топ-20, но их сильная сторона это длительность пребывания в чарте.</p>
             </div>
             <div class="report-card" id="biggest-leaps">
                 <h2>Biggest Leaps</h2>
@@ -155,11 +166,6 @@
                 <h2>Top artists (period)</h2>
                 <p>Топовые артисты по взвешенному расчёту по позициям в чарте для всех их песен за выбранный период.</p>
             </div>
-            <div class="report-card" id="effective-artists">
-                <h2>Effective artists</h2>
-                <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
-            </div>
-
         </div>
     </div>
 </div>

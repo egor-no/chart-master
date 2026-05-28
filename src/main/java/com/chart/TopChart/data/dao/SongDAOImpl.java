@@ -264,10 +264,12 @@ public class SongDAOImpl {
         session.beginTransaction();
 
         Query query = session.createQuery(
-                "SELECT DISTINCT s.peak, s.artists " +
+                "SELECT s.id, s.peak, s.artists " +
                         "FROM Position p " +
                         "JOIN p.pk.song s " +
-                        "WHERE p.pk.chart.info.id = :ci");
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "GROUP BY s.id, s.peak, s.artists"
+        );
         query.setInteger("ci", chartInfoId);
 
         List<Object[]> rows = query.list();

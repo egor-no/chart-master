@@ -46,8 +46,8 @@ public class ArtistSongService {
         for (Object[] r : rows) {
             if (r == null || r.length < 2) continue;
 
-            Integer peakObj = (Integer) r[0];
-            String artistsRow = (String) r[1];
+            Integer peakObj = (Integer) r[1];
+            String artistsRow = (String) r[2];
             if (peakObj == null || artistsRow == null) continue;
 
             int peak = peakObj;

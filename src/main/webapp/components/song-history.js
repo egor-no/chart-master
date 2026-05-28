@@ -15,11 +15,13 @@ $(document).ready(function() {
         var songDiv =  $(this).closest('[name="song"]')
         if (songDiv.find('[name="position"]').length) {
             if (songDiv.find('[name="song-history"]').is(":visible")) {
-                songDiv.find('[name="song-history"]').slideUp(500);
-                songDiv.find('[name="mov-info"]').removeClass('history-mov');
-                songDiv.find('[name="i-report"]').removeClass('i-highlight');
-                songDiv.removeClass('history-open');
-                songDiv.removeClass('history-open-outsider');
+                songDiv.find('[name="song-history"]').slideUp(500, function () {
+                    songDiv.removeClass('history-open');
+                    songDiv.removeClass('history-open-outsider');
+                    songDiv.find('[name="mov-info"]').removeClass('history-mov');
+                    songDiv.find('[name="i-report"]').removeClass('i-highlight');
+                });
+
             } else {
                 songDiv.find('[name="song-history"]').slideDown(500);
                 songDiv.find('[name="mov-info"]').addClass('history-mov');

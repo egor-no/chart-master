@@ -91,6 +91,10 @@ public class ReportsServlet extends HttpServlet  {
             request.setAttribute("rows", ReportService.getLongestWaysToTop10(chartInfoId));
             request.getRequestDispatcher("reports/longest-stallers.jsp").forward(request, response);
 
+        } else if (report.equalsIgnoreCase("longestSemihits")) {
+            request.setAttribute("rows", ReportService.getLongestSemihits(chartInfoId));
+            request.getRequestDispatcher("reports/longest-semihits.jsp").forward(request, response);
+
         } else if (report.equalsIgnoreCase("biggestLeaps")) {
             request.setAttribute("rows", PositionDAOImpl.getBiggestJumpsUp(chartInfoId));
             request.getRequestDispatcher("reports/biggest-leaps.jsp").forward(request, response);

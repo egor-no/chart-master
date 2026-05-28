@@ -216,7 +216,7 @@ h1 {
     border-bottom: 1px #e8f7f0 solid;
     border-top: 1px #192428 solid;
     border-left: 1px #192428 solid;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
 #report-body .history-open {
@@ -923,7 +923,7 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
 #chart-table > [name="song"]:not(.history-open) > .song-row:not(.outsider-row) {
     background-color: #dce0e2;
     background-image:
-            radial-gradient(#d9d2be 1px, transparent 1px);
+            radial-gradient(#f1eed7 1px, transparent 1px);
     background-size: 8px 8px;
 
     border-top: 1px solid #ffffff;
@@ -936,4 +936,8 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
 
 .container #chart-table > [name="song"]:not(.history-open):hover > .song-row:not(.outsider-row) {
     background: #fcfbdd;
+}
+
+#chart-table .data-start {
+    margin-left: 10px;
 }
