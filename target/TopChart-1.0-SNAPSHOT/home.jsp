@@ -262,9 +262,7 @@
 
         </div>
 
-        <div class="home-footer muted">
-            Ⓒ egor_no 2025-2026
-        </div>
+        <jsp:include page="components/footer.jsp"/>
     </div>
 
 </div>

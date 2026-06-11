@@ -139,8 +139,66 @@
         .inactive-view button{
             pointer-events:none;
         }
+
+        .danger-only{
+            display:none !important;
+        }
+
+        .danger-mode .danger-only{
+            display:inline-flex !important;
+        }
+
+        .danger-mode .home-titlebar{
+            background:#8b0000;
+        }
+
+        .danger-mode {
+            background:#b9b0a1;
+        }
+
+        .danger-mode .home-page,
+        .danger-mode .home-box,
+        .danger-mode .chart-card{
+            background:#fff0f0;
+        }
+
+        .danger-mode .home-page-head,
+        .danger-mode .home-box-head{
+            color:#8b0000;
+        }
+
+        .danger-mode .danger-block{
+            background:#ffdcdc;
+        }
+
+        .danger-mode .chart-delete-form{
+            display:inline-flex !important;
+        }
+
+        .danger-toggle-actions {
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            align-items:center;
+        }
+
+        .chart-delete-form{
+            margin:0 0 0 6px;
+        }
     </style>
 </head>
+
+<script>
+    function enterDangerZone() {
+        document.body.classList.add('danger-mode');
+        document.getElementById('enterDangerBtn').style.display = 'none';
+    }
+
+    function exitDangerZone() {
+        document.body.classList.remove('danger-mode');
+        document.getElementById('enterDangerBtn').style.display = 'inline-block';
+    }
+</script>
 
 <body class="home-body">
 <div class="home-wrap">
@@ -307,7 +365,7 @@
 
                                             <form method="post"
                                                   action="${pageContext.request.contextPath}/chartInfo?action=delete"
-                                                  style="display:inline;"
+                                                  class="danger-only chart-delete-form"
                                                   onsubmit="return confirm('Delete this chart? All issues and chart positions will be removed. This cannot be undone.');">
                                                 <input type="hidden" name="ci" value="${card.ci.id}">
                                                 <button type="submit"
@@ -361,16 +419,28 @@
                 </div>
 
                 <c:if test="${isMine and profileUser.active}">
-                    <div class="home-page" style="margin-top:12px;">
+                    <div class="home-page danger-block" style="margin-top:12px;">
                         <div class="home-page-head">Danger zone</div>
                         <div class="home-page-body">
 
                             <div class="danger-note muted tiny" style="margin-bottom:10px;">
-                                Deactivation marks your profile as inactive but keeps your charts visible.
-                                Permanent deletion removes your profile and all your charts.
+                                Dangerous actions are hidden by default.
                             </div>
 
-                            <div class="danger-actions">
+                            <div class="danger-toggle-actions">
+                                <input id="enterDangerBtn"
+                                       type="button"
+                                       value="Enter danger zone"
+                                       onclick="enterDangerZone();"/>
+
+                                <input id="exitDangerBtn"
+                                       class="danger-only"
+                                       type="button"
+                                       value="Exit danger zone"
+                                       onclick="exitDangerZone();"/>
+                            </div>
+
+                            <div class="danger-actions danger-only" style="margin-top:12px;">
                                 <form method="post"
                                       action="${pageContext.request.contextPath}/profile?action=deactivate"
                                       onsubmit="return confirm('Deactivate your account?');">
@@ -392,9 +462,7 @@
 
         </div>
 
-        <div class="home-footer muted">
-            Ⓒ egor_no 2025-2026
-        </div>
+        <jsp:include page="components/footer.jsp"/>
     </div>
 </div>
 </body>
