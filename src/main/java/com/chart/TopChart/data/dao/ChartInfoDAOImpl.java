@@ -22,6 +22,56 @@ public class ChartInfoDAOImpl {
         return id;
     }
 
+    public static void deleteWithUnusedSongs(int chartInfoId, int userId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        try {
+            ChartInfo ci = (ChartInfo) session.createQuery(
+                    "FROM ChartInfo ci " +
+                            "LEFT JOIN FETCH ci.owner " +
+                            "WHERE ci.id = :id"
+            )
+                    .setInteger("id", chartInfoId)
+                    .uniqueResult();
+
+            if (ci == null || ci.getOwner() == null || ci.getOwner().getId() != userId) {
+                throw new RuntimeException("ChartInfo not found or not owned by user");
+            }
+
+            List<Long> songIds = session.createQuery(
+                    "SELECT DISTINCT p.pk.song.id " +
+                            "FROM Position p " +
+                            "WHERE p.pk.chart.info.id = :chartInfoId"
+            )
+                    .setInteger("chartInfoId", chartInfoId)
+                    .list();
+
+            session.delete(ci);
+            session.flush();
+
+            if (songIds != null && !songIds.isEmpty()) {
+                session.createQuery(
+                        "DELETE FROM Song s " +
+                                "WHERE s.id IN (:songIds) " +
+                                "AND NOT EXISTS (" +
+                                "   SELECT 1 FROM Position p " +
+                                "   WHERE p.pk.song.id = s.id" +
+                                ")"
+                )
+                        .setParameterList("songIds", songIds)
+                        .executeUpdate();
+            }
+
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
     public static List<ChartInfo> getAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

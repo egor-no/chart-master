@@ -275,7 +275,7 @@
                                     <c:if test="${isMine}">
                                         <!-- пока заглушка -->
                                         <input type="button" value="Add new chart"
-                                               onclick="alert('Soon: create new ChartInfo');" />
+                                               onclick="window.location.href='${pageContext.request.contextPath}/chartInfo?action=add';" />
                                         <input type="button" value="Edit profile"
                                                onclick="window.location.href='${pageContext.request.contextPath}/profile?action=edit';" />
                                     </c:if>
@@ -297,6 +297,27 @@
                                         <a href="/chart?ci=${card.ci.id}">
                                                 ${fn:escapeXml(card.ci.title)}
                                         </a>
+
+                                        <c:if test="${isMine}">
+                                            <a class="home-link"
+                                               href="${pageContext.request.contextPath}/chartInfo?action=edit&ci=${card.ci.id}"
+                                               title="Edit chart">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+
+                                            <form method="post"
+                                                  action="${pageContext.request.contextPath}/chartInfo?action=delete"
+                                                  style="display:inline;"
+                                                  onsubmit="return confirm('Delete this chart? All issues and chart positions will be removed. This cannot be undone.');">
+                                                <input type="hidden" name="ci" value="${card.ci.id}">
+                                                <button type="submit"
+                                                        class="home-link"
+                                                        title="Delete chart"
+                                                        style="border:0; background:none; padding:0; cursor:pointer;">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </c:if>
                                     </div>
                                     <div class="chart-card-meta muted">
                                         size: ${card.ci.size}
@@ -321,11 +342,15 @@
                                 </div>
 
                                 <div class="card-actions">
-                                    <a class="home-link" href="/chart?ci=${card.ci.id}">Open</a>
+                                    <c:if test="${card.lastIssues != null && card.lastIssues.size() > 0}">
+                                        <a class="home-link" href="/chart?ci=${card.ci.id}">Open</a>
+                                        <c:if test="${isMine}">
+                                            <span class="muted tiny">|</span>
+                                        </c:if>
+                                    </c:if>
 
                                     <c:if test="${isMine}">
-                                        <span class="muted tiny">|</span>
-                                        <a class="home-link" href="/chartadd">Add issue</a>
+                                        <a class="home-link" href="/chartadd?ci=${card.ci.id}">Add issue</a>
                                         <span class="muted tiny">(for this chart)</span>
                                     </c:if>
                                 </div>

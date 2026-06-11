@@ -9,7 +9,7 @@ import java.util.List;
 public class ChartInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idChartInfo")
     private int id;
 

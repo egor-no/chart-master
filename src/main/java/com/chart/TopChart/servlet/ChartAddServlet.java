@@ -34,7 +34,7 @@ public class ChartAddServlet extends HttpServlet {
             return;
         }
 
-        int chartInfoId = SessionUtil.requireChartInfoId(request);
+        int chartInfoId = SessionUtil.requireResolvedChartInfoId(request);
 
         String json = new Gson().toJson(SongDAOImpl.getAll(chartInfoId));
         request.setAttribute("songs", json);
@@ -61,7 +61,7 @@ public class ChartAddServlet extends HttpServlet {
         String artists[] = request.getParameterValues("artists[]");
         String name[] = request.getParameterValues("name[]");
 
-        int chartInfoId = SessionUtil.requireChartInfoId(request);
+        int chartInfoId = SessionUtil.requireResolvedChartInfoId(request);
         ChartService.formChart(chartInfoId, ids, name, artists);
 
         response.sendRedirect("/chart");

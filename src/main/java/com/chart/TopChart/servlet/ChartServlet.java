@@ -73,7 +73,7 @@ public class ChartServlet extends HttpServlet {
         }
 
         if (chart == null) {
-            response.sendError(404, "Chart not found");
+            response.sendRedirect("/chartadd?ci=" + chartInfoId + "&emptyChart=1");
             return;
         }
 

@@ -52,6 +52,18 @@
         height: 1px !important;
         overflow: hidden !important;
     }
+
+     .win95-note{
+         background:#fcfbdd;
+         border-top:2px solid #192428;
+         border-left:2px solid #192428;
+         border-right:2px solid #fff;
+         border-bottom:2px solid #fff;
+         padding:10px 12px;
+         margin:10px 0 14px 0;
+         font-size:13px;
+         line-height:1.4;
+     }
     </style>
     <script type = "text/javascript" >
 
@@ -149,6 +161,14 @@
             <jsp:param name="active" value="chartadd"/>
         </jsp:include>
     </div>
+
+    <c:if test="${param.emptyChart == '1'}">
+        <div class="win95-note">
+            This chart does not have any issues yet.<br/>
+            Create the first issue to open the chart page.
+        </div>
+    </c:if>
+
     <form method="POST" action="/chartadd">
         <div id="chart-create">
             <div class="song-row">
