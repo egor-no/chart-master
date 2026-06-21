@@ -49,6 +49,11 @@
         margin: 0;
         border: 0;
     }
+
+    #chart-create .duplicate-song{
+        background:#ffd6d6;
+        box-shadow: inset 3px 0 0 #cc0000;
+    }
     </style>
     <script type="text/javascript">
         function updateNum() {
@@ -72,6 +77,32 @@
             </c:if>
 
             let silentFill = false;
+
+            function getDuplicateSongRows(songId, $currentRow) {
+                songId = String(songId);
+
+                return $('#songs .song-row').filter(function () {
+                    const $row = $(this);
+
+                    if ($row.is($currentRow)) {
+                        return false;
+                    }
+
+                    return String($row.find('input[name="idSong[]"]').val()) === songId;
+                });
+            }
+
+            function hasDuplicateSong(songId, $currentRow) {
+                return getDuplicateSongRows(songId, $currentRow).length > 0;
+            }
+
+            function clearDuplicateMark($row) {
+                $row.find('[name="num"]').removeClass('duplicate-song');
+            }
+
+            function markDuplicate($row) {
+                $row.find('[name="num"]').addClass('duplicate-song');
+            }
 
             function clearMarks($row){
                 $row.find('[name="num"]').removeClass('new-song re-song');
@@ -113,13 +144,31 @@
                     silentFill = true;
 
                     const $row = $(this).closest('.song-row');
-                    $row.find('input[name="idSong[]"]').val(ui.item.value.id);
+                    const idSong = ui.item.value.id;
+
+                    if (hasDuplicateSong(idSong, $row)) {
+                        alert('Эта песня уже есть в чарте.');
+
+                        $row.find('input[name="idSong[]"]').val('');
+                        $row.find('[name="artists[]"]').val('');
+                        $row.find('[name="name[]"]').val('');
+
+                        clearMarks($row);
+                        markDuplicate($row);
+
+                        silentFill = false;
+                        return;
+                    }
+
+                    clearDuplicateMark($row);
+
+                    $row.find('input[name="idSong[]"]').val(idSong);
                     $row.find('[name="artists[]"]').val(ui.item.value.artists);
                     $row.find('[name="name[]"]').val(ui.item.value.name);
 
                     silentFill = false;
 
-                    markRow($row, ui.item.value.id);
+                    markRow($row, idSong);
                 }
             });
 
@@ -129,11 +178,64 @@
                 const $row = $(this).closest('.song-row');
                 $row.find('input[name="idSong[]"]').val('');
                 clearMarks($row);
+                clearDuplicateMark($row);
                 $row.find('[name="num"]').addClass('new-song');
             });
 
             $('#songs').sortable({ update: updateNum });
             $('#songs').disableSelection();
+
+            $('form').on('submit', function(e) {
+                const usedIds = new Set();
+                const usedNewSongs = new Set();
+
+                let duplicateFound = false;
+                let emptyFound = false;
+
+                $('#songs .song-row').each(function() {
+                    const $row = $(this);
+                    const id = $row.find('input[name="idSong[]"]').val();
+                    const artists = $row.find('input[name="artists[]"]').val().trim();
+                    const title = $row.find('input[name="name[]"]').val().trim();
+
+                    clearDuplicateMark($row);
+
+                    if (artists === '' || title === '') {
+                        emptyFound = true;
+                        markDuplicate($row);
+                        return;
+                    }
+
+                    if (id) {
+                        if (usedIds.has(id)) {
+                            markDuplicate($row);
+                            duplicateFound = true;
+                        } else {
+                            usedIds.add(id);
+                        }
+                    } else {
+                        const newSongKey = (artists + ' - ' + title).toLowerCase();
+
+                        if (usedNewSongs.has(newSongKey)) {
+                            markDuplicate($row);
+                            duplicateFound = true;
+                        } else {
+                            usedNewSongs.add(newSongKey);
+                        }
+                    }
+                });
+
+                if (emptyFound) {
+                    e.preventDefault();
+                    alert('Все позиции чарта должны быть заполнены.');
+                    return;
+                }
+
+                if (duplicateFound) {
+                    e.preventDefault();
+                    alert('В чарте есть повторяющиеся песни. Удали дубль перед сохранением.');
+                }
+            });
         });
     </script>
 </head>

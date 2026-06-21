@@ -148,6 +148,7 @@ public class ChartService {
 
             return true;
         } catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
     }
