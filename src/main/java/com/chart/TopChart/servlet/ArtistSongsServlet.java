@@ -20,6 +20,10 @@ public class ArtistSongsServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
         Integer chartInfoIdObj = SessionUtil.resolveChartInfoId(request);
         if (chartInfoIdObj == null) {
             response.sendRedirect("/");

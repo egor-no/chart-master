@@ -5,6 +5,37 @@
 
 <html>
 <head>
+    <style>
+        .report-filter-form {
+            margin: 10px 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .win95-select {
+            background: #eaeaea;
+            color: #282929;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #192428;
+            border-bottom: 2px solid #192428;
+            padding: 3px 24px 3px 6px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .win95-select:active,
+        .win95-select:focus {
+            border-top: 2px solid #192428;
+            border-left: 2px solid #192428;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+    </style>
+    
     <title>TOP40 - Effective artists</title>
     <jsp:include page="/components/head.jsp"/>
 
@@ -37,6 +68,18 @@
         <div class="report-description">
             <p>Самые эффективные артисты по количеству хитов. В первую очередь учитываются чарттопперы, потом топ10 хиты и потом общее количество хитов.</p>
         </div>
+
+        <form method="get" action="/reports" class="report-filter-form">
+            <input type="hidden" name="report" value="effectiveArtists">
+
+            <label for="sort">Sort by:</label>
+
+            <select id="sort" name="sort" class="win95-select" onchange="this.form.submit()">
+                <option value="no1" ${sort == 'no1' ? 'selected' : ''}>No 1s</option>
+                <option value="top10" ${sort == 'top10' ? 'selected' : ''}>Top 10s</option>
+                <option value="top40" ${sort == 'top40' ? 'selected' : ''}>Top 40s</option>
+            </select>
+        </form>
 
         <div id="report-list">
 

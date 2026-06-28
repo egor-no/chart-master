@@ -36,11 +36,11 @@ public class ArtistSongService {
         return res;
     }
 
-    public static List getTopArtistsBySongs(int chartInfoId) {
-        return buildTopArtistsBySongs(SongDAOImpl.getArtistRowsForSongStatsAllTime(chartInfoId));
+    public static List getTopArtistsBySongs(int chartInfoId, String sort) {
+        return buildTopArtistsBySongs(SongDAOImpl.getArtistRowsForSongStatsAllTime(chartInfoId), sort);
     }
 
-    private static List<List<String>> buildTopArtistsBySongs(List<Object[]> rows) {
+    private static List<List<String>> buildTopArtistsBySongs(List<Object[]> rows, String sort) {
         java.util.Map<String, long[]> map = new java.util.HashMap<>();
 
         for (Object[] r : rows) {
@@ -76,14 +76,27 @@ public class ArtistSongService {
             stats.add(row);
         }
 
+        final String sortMode = sort == null ? "no1" : sort;
+
         stats.sort((a, b) -> {
             long no1A = Long.parseLong(a.get(1)), no1B = Long.parseLong(b.get(1));
-            if (no1B != no1A) return Long.compare(no1B, no1A);
-
             long t10A = Long.parseLong(a.get(2)), t10B = Long.parseLong(b.get(2));
-            if (t10B != t10A) return Long.compare(t10B, t10A);
-
             long t40A = Long.parseLong(a.get(3)), t40B = Long.parseLong(b.get(3));
+
+            if ("top10".equalsIgnoreCase(sortMode)) {
+                if (t10B != t10A) return Long.compare(t10B, t10A);
+                if (no1B != no1A) return Long.compare(no1B, no1A);
+                return Long.compare(t40B, t40A);
+            }
+
+            if ("top40".equalsIgnoreCase(sortMode)) {
+                if (t40B != t40A) return Long.compare(t40B, t40A);
+                if (t10B != t10A) return Long.compare(t10B, t10A);
+                return Long.compare(no1B, no1A);
+            }
+
+            if (no1B != no1A) return Long.compare(no1B, no1A);
+            if (t10B != t10A) return Long.compare(t10B, t10A);
             return Long.compare(t40B, t40A);
         });
 

@@ -61,9 +61,14 @@ public class ReportsServlet extends HttpServlet  {
             request.getRequestDispatcher("reports/top-songs-date.jsp").forward(request, response);
 
         } else if(report.equalsIgnoreCase("effectiveArtists")) {
-            request.setAttribute("artists", ArtistSongService.getTopArtistsBySongs(chartInfoId));
-            request.getRequestDispatcher("reports/effective-artists.jsp").forward(request, response);
+            String sort = request.getParameter("sort");
+            if (sort == null || sort.isEmpty()) {
+                sort = "no1";
+            }
 
+            request.setAttribute("sort", sort);
+            request.setAttribute("artists", ArtistSongService.getTopArtistsBySongs(chartInfoId, sort));
+            request.getRequestDispatcher("reports/effective-artists.jsp").forward(request, response);
         } else if(report.equalsIgnoreCase("topArtists")) {
             request.setAttribute("artists", ArtistSongService.getTopArtists(chartInfoId));
             request.getRequestDispatcher("reports/top-artists.jsp").forward(request, response);
