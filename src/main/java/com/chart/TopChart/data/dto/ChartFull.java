@@ -12,6 +12,7 @@ public class ChartFull {
     private List<Long> woc;
     private List<Long> peaks;
     private List<ChartOutsider> outsiders;
+    private ChartStats stats;
 
     public ChartFull() {
     }
@@ -78,4 +79,8 @@ public class ChartFull {
     public void setOutsiders(List<ChartOutsider> outsiders) {
         this.outsiders = outsiders;
     }
+
+    public ChartStats getStats() { return stats; }
+
+    public void setStats(ChartStats stats) { this.stats = stats; }
 }

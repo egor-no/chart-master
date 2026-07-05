@@ -1,6 +1,43 @@
 <div id="chart-table">
     <div class="no-display" name="chart-number">${chart.issueNumber}</div>
     <%@include file="chart-navigation.jsp"%>
+    <div id="chart-status" class="collapsed">
+        <div class="status-title" tabindex="0">
+            <span class="status-icon">+</span>
+            <span>Status</span>
+        </div>
+
+        <div class="status-body">
+            <div class="status-message">
+                TOP40 database loaded successfully.
+            </div>
+
+            <div class="status-row">
+                <span>Songs</span>
+                <span>${fn:length(chart.positions)}</span>
+            </div>
+
+            <div class="status-row">
+                <span>Highest climb</span>
+                <span>+${chart.stats.highestClimb}</span>
+            </div>
+
+            <div class="status-row">
+                <span>Biggest fall</span>
+                <span>-${chart.stats.biggestFall}</span>
+            </div>
+
+            <div class="status-row">
+                <span>New entries</span>
+                <span>${chart.stats.newEntries}</span>
+            </div>
+
+            <div class="status-row">
+                <span>Re-entries</span>
+                <span>${chart.stats.reEntries}</span>
+            </div>
+        </div>
+    </div>
     <c:forEach items="${chart.positions}" var="position" varStatus="status">
         <div name="song">
             <div class="song-row">
@@ -100,6 +137,24 @@
 
 <script type = "text/javascript" >
     $(document).ready(function() {
+        $('#chart-status .status-title').on('click', function () {
+            var box = $('#chart-status');
+            box.toggleClass('collapsed');
+
+            if (box.hasClass('collapsed')) {
+                box.find('.status-icon').text('+');
+            } else {
+                box.find('.status-icon').text('-');
+            }
+        });
+
+        $('#chart-status .status-title').on('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                $(this).click();
+            }
+        });
+        
         $('[name="song"]').each(function () {
             if ($(this).find('[name="outsider"]').val() === 'true') {
                 return;

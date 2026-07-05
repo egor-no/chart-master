@@ -941,3 +941,88 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
 #chart-table .data-start {
     margin-left: 10px;
 }
+
+#chart-status{
+    margin:10px 0 12px 0;
+    background:#dce0e2;
+}
+
+.status-title{
+    background:#dce0e2;
+    color:#000;
+    font-weight:bold;
+    padding:4px 8px;
+    cursor:pointer;
+    user-select:none;
+
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+}
+
+.status-title:active{
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+.status-icon{
+    display:inline-block;
+    width:14px;
+    margin-right:4px;
+    text-align:center;
+}
+
+#chart-status:not(.collapsed){
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+}
+
+#chart-status:not(.collapsed) .status-title{
+    background:#000676;
+    color:#fff;
+    border:0;
+}
+
+#chart-status.collapsed .status-body{
+    display:none;
+}
+
+#chart-status:not(.collapsed) .status-body{
+    display:block;
+}
+
+.status-body{
+    padding:8px;
+    font-family:"Courier New", monospace;
+    font-size:13px;
+}
+
+.status-message{
+    margin-bottom:8px;
+}
+
+.status-row{
+    display:flex;
+}
+
+.status-row span:first-child{
+    flex:1;
+}
+
+.status-row span:first-child::after{
+    content:"................................................";
+    color:#666;
+    margin-left:4px;
+}
+
+.status-row span:last-child{
+    margin-left:8px;
+    background:#dce0e2;
+    position:relative;
+    padding-left:4px;
+}

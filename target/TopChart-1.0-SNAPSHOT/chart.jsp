@@ -23,6 +23,7 @@
             <input name="date" id="chartSearch" type="date" /><input type="submit" value="Искать" />
         </form>
     </div>
+
     <%@include file="components/chart-table.jsp"%>
 </div>
 

@@ -35,7 +35,7 @@
             border-bottom: 2px solid #fff;
         }
     </style>
-    
+
     <title>TOP40 - Effective artists</title>
     <jsp:include page="/components/head.jsp"/>
 
