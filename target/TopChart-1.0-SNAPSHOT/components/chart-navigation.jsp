@@ -12,8 +12,14 @@
     </div>
 
     <div class="flex1 flex-end">
+        <a href="/chartarchive" title="Chart archive" name="chart-archive-link">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+        </a>
+
         <c:if test="${loggedIn and isOwner and userId == 1}">
-            <a href="#" target="_blank" title="Export to WordPress" name="wp-export"><i class="fa fa-wordpress wp-icon" aria-hidden="true"></i></a>
+            <a href="#" target="_blank" title="Export to WordPress" name="wp-export">
+                <i class="fa fa-wordpress wp-icon" aria-hidden="true"></i>
+            </a>
         </c:if>
     </div>
 </div>
@@ -21,6 +27,7 @@
 <script type = "text/javascript" >
     $(document).ready(function() {
         $('[name="edit-chart-link"]').attr("href", "/chartedit?chartNumber=" + (Number($('[name="issue-number"]').val())));
+        $('[name="chart-archive-link"]').attr("href", "/chartarchive");
 
         if ($('[name="is-last"]').val() == 'true') {
             $('[name="nextChart"]').addClass('no-display');

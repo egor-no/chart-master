@@ -4,6 +4,7 @@ import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.ChartInfoDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
+import com.chart.TopChart.data.dto.ChartArchiveRow;
 import com.chart.TopChart.data.dto.ChartFull;
 import com.chart.TopChart.data.dto.ChartOutsider;
 import com.chart.TopChart.data.dto.ChartStats;
@@ -247,5 +248,41 @@ public class ChartService {
 
             PositionDAOImpl.save(position);
         }
+    }
+
+    public static List<ChartArchiveRow> getArchiveRows(int chartInfoId, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+
+        List<Chart> charts = ChartDAOImpl.getArchivePage(chartInfoId, offset, pageSize);
+        List<ChartArchiveRow> rows = new ArrayList<>();
+
+        for (Chart chart : charts) {
+            String top1 = "";
+            String top2 = "";
+            String top3 = "";
+
+            List<Position> positions = new ArrayList<>(chart.getPositions());
+            positions.sort(Comparator.comparingInt(Position::getPosition));
+
+            for (Position p : positions) {
+                String songText = p.getPk().getSong().getArtists()
+                        + " — "
+                        + p.getPk().getSong().getName();
+
+                if (p.getPosition() == 1) top1 = songText;
+                if (p.getPosition() == 2) top2 = songText;
+                if (p.getPosition() == 3) top3 = songText;
+            }
+
+            rows.add(new ChartArchiveRow(
+                    chart.getIssueNumber(),
+                    chart.getDate(),
+                    top1,
+                    top2,
+                    top3
+            ));
+        }
+
+        return rows;
     }
 }

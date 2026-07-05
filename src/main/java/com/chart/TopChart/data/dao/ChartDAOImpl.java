@@ -142,6 +142,50 @@ public class ChartDAOImpl {
         return res;
     }
 
+    public static long getChartsCount(int chartInfoId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery(
+                "SELECT COUNT(c.id) " +
+                        "FROM Chart c " +
+                        "WHERE c.info.id = :ci"
+        );
+        q.setInteger("ci", chartInfoId);
+
+        Long res = (Long) q.uniqueResult();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return res == null ? 0 : res;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Chart> getArchivePage(int chartInfoId, int offset, int limit) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery(
+                "SELECT DISTINCT c " +
+                        "FROM Chart c " +
+                        "LEFT JOIN FETCH c.positions p " +
+                        "LEFT JOIN FETCH p.pk.song " +
+                        "WHERE c.info.id = :ci " +
+                        "ORDER BY c.issueNumber DESC"
+        );
+        q.setInteger("ci", chartInfoId);
+        q.setFirstResult(offset);
+        q.setMaxResults(limit);
+
+        List<Chart> list = q.list();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return list;
+    }
+
     @SuppressWarnings("unchecked")
     public static List<HomeUpdateRow> getLatestIssuesForUpdates(int limit) {
         Session session = HibernateUtil.getSessionFactory().openSession();

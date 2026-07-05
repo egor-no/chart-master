@@ -1026,3 +1026,126 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     position:relative;
     padding-left:4px;
 }
+
+#archive-list{
+    background:#ffffff;
+    padding:10px 12px 14px 12px;
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px;
+}
+
+.archive-row{
+    background:#dce0e2;
+    background-image: radial-gradient(#f1eed7 1px, transparent 1px);
+    background-size: 8px 8px;
+
+    border-top:1px solid #ffffff;
+    border-left:1px solid #f4f4f4;
+    border-right:1px solid #8c8c8c;
+    border-bottom:1px solid #8c8c8c;
+
+    padding:8px;
+    min-height:95px;
+}
+
+.archive-pagination{
+    margin-top:10px;
+    background:#dce0e2;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+    padding:6px 8px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.archive-pages{
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.archive-pagination a,
+.archive-page-current{
+    min-width:22px;
+    height:20px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#dce0e2;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+
+    color:#0000a8;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:12px;
+    padding:0 4px;
+}
+
+.archive-pagination a:active,
+.archive-page-current{
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    color:#000;
+}
+
+.archive-row:hover{
+    background:#fcfbdd;
+}
+
+.archive-main{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.archive-main a{
+    color:#0000a8;
+    text-decoration:none;
+}
+
+.archive-main a:hover{
+    text-decoration:underline;
+}
+
+.archive-main span{
+    color:#76367a;
+}
+
+.archive-top3{
+    font-family:"Courier New", monospace;
+    font-size:13px;
+    line-height:1.4;
+}
+
+#chartNav .flex-end {
+    gap: 10px;
+}
+
+#chartNav .flex-end a {
+    color: #0000a8;
+    text-decoration: none;
+}
+
+#chartNav .flex-end a:hover {
+    color: #76367a;
+}

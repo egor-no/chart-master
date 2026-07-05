@@ -154,7 +154,7 @@
                 $(this).click();
             }
         });
-        
+
         $('[name="song"]').each(function () {
             if ($(this).find('[name="outsider"]').val() === 'true') {
                 return;

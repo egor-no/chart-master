@@ -94,6 +94,7 @@ public class AuthFilter implements Filter {
         if (path.equals("/artist")) return true;
         if (path.equals("/song")) return true;
         if (path.equals("/songhistory")) return true;
+        if (path.equals("/chartarchive")) return true;
 
         if (path.startsWith("/css/")) return true;
         if (path.startsWith("/icons/")) return true;
