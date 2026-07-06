@@ -7,6 +7,7 @@ public class ArtistSongRow {
     private Song song;
     private String firstEntryDate;
     private String firstEntryDateSortable;
+    private boolean currentlyCharting;
 
     public ArtistSongRow() {
     }
@@ -39,5 +40,13 @@ public class ArtistSongRow {
 
     public void setFirstEntryDateSortable(String firstEntryDateSortable) {
         this.firstEntryDateSortable = firstEntryDateSortable;
+    }
+
+    public boolean isCurrentlyCharting() {
+        return currentlyCharting;
+    }
+
+    public void setCurrentlyCharting(boolean currentlyCharting) {
+        this.currentlyCharting = currentlyCharting;
     }
 }

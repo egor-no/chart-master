@@ -23,6 +23,7 @@ public class HomeServlet extends HttpServlet {
 
         if (path.startsWith("/avatars/")
                 || path.startsWith("/css/")
+                || path.startsWith("/images/")
                 || path.startsWith("/js/")
                 || path.startsWith("/icons/")
                 || path.startsWith("/components/")) {

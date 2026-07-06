@@ -1,5 +1,7 @@
 package com.chart.TopChart.servlet;
 
+import com.chart.TopChart.data.dao.ChartDAOImpl;
+import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dao.SongDAOImpl;
 import com.chart.TopChart.data.dto.ArtistSongRow;
 import com.chart.TopChart.data.model.Song;
@@ -37,6 +39,21 @@ public class ArtistSongsServlet extends HttpServlet {
         List<Song> songs = new ArrayList<>();
         for (ArtistSongRow row : songRows) {
             songs.add(row.getSong());
+        }
+
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+
+        for (ArtistSongRow row : songRows) {
+            Song song = row.getSong();
+
+            boolean currentlyCharting = false;
+
+            if (lastIssueNumber != null && song != null) {
+                currentlyCharting =
+                        PositionDAOImpl.getPositionForSong(chartInfoId, song.getId(), lastIssueNumber) != null;
+            }
+
+            row.setCurrentlyCharting(currentlyCharting);
         }
 
         request.setAttribute("songRows", songRows);

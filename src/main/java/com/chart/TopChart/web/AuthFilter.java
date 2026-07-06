@@ -101,6 +101,7 @@ public class AuthFilter implements Filter {
         if (path.startsWith("/js/")) return true;
         if (path.startsWith("/components/")) return true;
         if (path.startsWith("/avatars/")) return true;
+        if (path.startsWith("/images/")) return true;
 
         return false;
     }

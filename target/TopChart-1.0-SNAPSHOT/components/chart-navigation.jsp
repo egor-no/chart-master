@@ -12,6 +12,10 @@
     </div>
 
     <div class="flex1 flex-end">
+        <a href="#" class="menu-icon" title="Share chart" name="share-chart">
+            <i class="fa fa-share" aria-hidden="true"></i>
+        </a>
+
         <a href="/chartarchive" title="Chart archive" name="chart-archive-link">
             <i class="fa fa-calendar" aria-hidden="true"></i>
         </a>

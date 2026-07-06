@@ -81,6 +81,28 @@ public class ChartServlet extends HttpServlet {
 
         request.setAttribute("chart", ChartService.getChartFull(chart));
         request.setAttribute("isLastChart", isLastChart);
+
+        String chartTitle = "TOP40";
+        String chartAuthorName = "somebody";
+
+        if (chart.getInfo() != null) {
+            if (chart.getInfo().getTitle() != null && !chart.getInfo().getTitle().isEmpty()) {
+                chartTitle = chart.getInfo().getTitle();
+            }
+
+            if (chart.getInfo().getOwner() != null) {
+                if (chart.getInfo().getOwner().getNickname() != null
+                        && !chart.getInfo().getOwner().getNickname().isEmpty()) {
+                    chartAuthorName = chart.getInfo().getOwner().getNickname();
+                } else {
+                    chartAuthorName = chart.getInfo().getOwner().getLogin();
+                }
+            }
+        }
+
+        request.setAttribute("chartTitle", chartTitle);
+        request.setAttribute("chartAuthorName", chartAuthorName);
+
         request.getRequestDispatcher("chart.jsp").forward(request, response);
         response.flushBuffer();
     }

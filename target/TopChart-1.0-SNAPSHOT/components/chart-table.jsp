@@ -129,11 +129,11 @@
             </div>
         </c:forEach>
     </c:if>
-    </tbody>
 </div>
 
 <%@include file="chart-run-template.jsp"%>
 <%@ include file="../components/artist-picker-modal.jsp" %>
+<%@include file="share-chart-card.jsp"%>
 
 <script type = "text/javascript" >
     $(document).ready(function() {

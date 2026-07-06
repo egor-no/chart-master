@@ -7,12 +7,14 @@
 <head>
     <title>TOP40 - Music Chart</title>
     <jsp:include page="components/head.jsp"/>
+    <style><%@include file="/css/share.css"%></style>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
     <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="container">
-    <h1>TOP40!</h1>
+    <h1>${chartTitle}</h1>
     <div class="nav">
         <jsp:include page="components/menu.jsp">
             <jsp:param name="active" value="chart"/>
