@@ -86,6 +86,41 @@ public class PositionDAOImpl {
         return results;
     }
 
+    public static int getWeeksAtNumberOne(int chartInfoId, long idSong) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT COUNT(*) " +
+                        "FROM Position p " +
+                        "WHERE p.pk.song.id = :idSong " +
+                        "AND p.pk.chart.info.id = :ci " +
+                        "AND p.position = 1"
+        );
+        query.setParameter("idSong", idSong);
+        query.setInteger("ci", chartInfoId);
+        Long result = (Long) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result == null ? 0 : result.intValue();
+    }
+
+    public static List<Long> getSongIdsForIssue(int chartInfoId, int issueNumber) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery(
+                "SELECT p.pk.song.id " +
+                        "FROM Position p " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.issueNumber = :issueNumber"
+        );
+        q.setInteger("ci", chartInfoId);
+        q.setInteger("issueNumber", issueNumber);
+        List<Long> ids = q.list();
+        session.getTransaction().commit();
+        session.close();
+        return ids;
+    }
+
     public static List<Position> getPositionsForSongByDate(int chartInfoId, long idSong, String date1, String date2) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -111,6 +146,26 @@ public class PositionDAOImpl {
         session.getTransaction().commit();
         session.close();
         return results;
+    }
+
+    public static Position getPositionByIssueAndPosition(int chartInfoId, int issueNumber, int position) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery(
+                "FROM Position p " +
+                        "LEFT JOIN FETCH p.pk.song " +
+                        "WHERE p.pk.chart.info.id = :ci " +
+                        "AND p.pk.chart.issueNumber = :issueNumber " +
+                        "AND p.position = :position"
+        );
+        q.setInteger("ci", chartInfoId);
+        q.setInteger("issueNumber", issueNumber);
+        q.setInteger("position", position);
+        Position result = (Position) q.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return result;
     }
 
     public static List<String> getArtistsByDate(int chartInfoId, String date1, String date2) {

@@ -40,6 +40,7 @@
 </div>
 
 <div id="share-card-wrapper">
+    <span name="weeks-at-no1" style="display:none;">${song.weeksAtNo1}</span>
 
     <div id="share-card-classic95" class="share-card">
         <div class="share-window">
@@ -200,7 +201,8 @@
                 song: row.find('.flex5 p').text().trim(),
                 movClassic: movClassic,
                 movMagazine: movMagazine,
-                movClass: movClass
+                movClass: movClass,
+                weeksAtNo1: row.find('[name="weeks-at-no1"]').text().trim()
             });
         });
 
@@ -246,12 +248,20 @@
 
         songs.forEach(function (item, index) {
             if (index === 0) {
+                var no1WeeksHtml = '';
+                if (item.weeksAtNo1 && Number(item.weeksAtNo1) > 1) {
+                    no1WeeksHtml =
+                        '<div class="magazine-no1-weeks">' +
+                        item.weeksAtNo1 + ' weeks at no. 1' +
+                        '</div>';
+                }
                 container.append(
                     '<div class="magazine-number-one">' +
                     '<div class="magazine-rank">#1</div>' +
                     '<div>' +
                     '<div class="magazine-main-artist">' + item.artist + '</div>' +
                     '<div class="magazine-main-song">' + item.song + '</div>' +
+                    no1WeeksHtml +
                     '</div>' +
                     '</div>'
                 );
@@ -279,12 +289,22 @@
             var vinylPos = side + trackNumber;
 
             if (index === 0) {
+                var no1WeeksHtml = '';
+
+                if (item.weeksAtNo1 && Number(item.weeksAtNo1) > 1) {
+                    no1WeeksHtml =
+                        '<div class="vinyl-no1-weeks">' +
+                        item.weeksAtNo1 + ' weeks at no. 1' +
+                        '</div>';
+                }
+
                 container.append(
                     '<div class="vinyl-number-one">' +
                     '<div class="vinyl-main-pos">' + vinylPos + '</div>' +
                     '<div>' +
                     '<div class="vinyl-main-artist">' + item.artist + '</div>' +
                     '<div class="vinyl-main-song">' + item.song + '</div>' +
+                    no1WeeksHtml +
                     '</div>' +
                     '</div>'
                 );

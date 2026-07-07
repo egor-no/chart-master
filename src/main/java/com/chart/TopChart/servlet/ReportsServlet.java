@@ -23,6 +23,7 @@ public class ReportsServlet extends HttpServlet  {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Integer chartInfoIdObj = SessionUtil.resolveChartInfoId(request);
+
         if (chartInfoIdObj == null) {
             response.sendRedirect("/");
             return;
@@ -35,14 +36,17 @@ public class ReportsServlet extends HttpServlet  {
 
         } else if (report.equalsIgnoreCase("longestSongs")) {
             request.setAttribute("songs", SongDAOImpl.getLongestSongs(chartInfoId));
+            request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/longest-songs.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("no1Songs")) {
             request.setAttribute("songs", SongDAOImpl.getLongestNo1Songs(chartInfoId));
+            request.setAttribute("currentNo1SongId", ReportService.getCurrentNo1SongId(chartInfoId));
             request.getRequestDispatcher("reports/no1-songs.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("topSongs")) {
             request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongs(chartInfoId));
+            request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/top-songs.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("topSongsDate")) {
@@ -58,6 +62,7 @@ public class ReportsServlet extends HttpServlet  {
                 request.setAttribute("date2", sDate2);
                 request.setAttribute("songs", SongDAOImpl.getBiggestScoreSongsByDate(chartInfoId, sDate1, sDate2));
             }
+            request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/top-songs-date.jsp").forward(request, response);
 
         } else if(report.equalsIgnoreCase("effectiveArtists")) {
@@ -94,10 +99,12 @@ public class ReportsServlet extends HttpServlet  {
 
         } else if (report.equalsIgnoreCase("longestStallers")) {
             request.setAttribute("rows", ReportService.getLongestWaysToTop10(chartInfoId));
+            request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/longest-stallers.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("longestSemihits")) {
             request.setAttribute("rows", ReportService.getLongestSemihits(chartInfoId));
+            request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/longest-semihits.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("biggestLeaps")) {

@@ -42,6 +42,9 @@
         <div name="song">
             <div class="song-row">
                 <input name="song-id" style="display:none;" type="text" value="${position.pk.song.id}" />
+                <c:if test="${status.first}">
+                    <span name="weeks-at-no1" style="display:none;">${weeksAtNo1}</span>
+                </c:if>
 
                 <div name="mov-info" class="flex-mov data-start">
                     <div name="mov"></div>

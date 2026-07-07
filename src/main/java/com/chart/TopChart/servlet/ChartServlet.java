@@ -1,6 +1,8 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.ChartDAOImpl;
+import com.chart.TopChart.data.dao.PositionDAOImpl;
+import com.chart.TopChart.data.dto.ChartFull;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ChartService;
 import com.chart.TopChart.web.SessionKeys;
@@ -79,8 +81,17 @@ public class ChartServlet extends HttpServlet {
 
         boolean isLastChart = (lastIssueNumber != null && chart.getIssueNumber().equals(lastIssueNumber));
 
-        request.setAttribute("chart", ChartService.getChartFull(chart));
+        ChartFull fullChart = ChartService.getChartFull(chart);
+        request.setAttribute("chart", fullChart);
         request.setAttribute("isLastChart", isLastChart);
+
+        int weeksAtNo1 = 0;
+        if (fullChart.getPositions() != null && !fullChart.getPositions().isEmpty()) {
+            long no1SongId = fullChart.getPositions().get(0).getPk().getSong().getId();
+            weeksAtNo1 = PositionDAOImpl.getWeeksAtNumberOne(chartInfoId, no1SongId);
+        }
+
+        request.setAttribute("weeksAtNo1", weeksAtNo1);
 
         String chartTitle = "TOP40";
         String chartAuthorName = "somebody";

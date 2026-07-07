@@ -69,7 +69,12 @@
                             </p>
                         </div>
                         <div class="flex5">
-                            <p>${song[5]}</p>
+                            <p>
+                                    ${song[5]}
+                                    <c:if test="${song[1] == currentNo1SongId}">
+                                        <span class="currently-charting">STILL no1</span>
+                                    </c:if>
+                            </p>
                         </div>
                         <div class="flex1 flex-end data-end">
                             <p>${song[3]}</p>

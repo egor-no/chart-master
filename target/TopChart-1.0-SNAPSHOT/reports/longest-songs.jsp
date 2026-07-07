@@ -69,7 +69,12 @@
                             </p>
                         </div>
                         <div class="flex5">
-                            <p>${song.name}</p>
+                            <p>
+                                    ${song.name}
+                                <c:if test="${currentlyChartingSongs[song.id]}">
+                                    <span class="currently-charting">CHARTING</span>
+                                </c:if>
+                            </p>
                         </div>
                         <div class="flex1 flex-end data-end">
                             <p>${song.weeks}</p>

@@ -1,6 +1,8 @@
 package com.chart.TopChart.service;
 
+import com.chart.TopChart.data.dao.ChartDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
+import com.chart.TopChart.data.model.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,5 +158,38 @@ public class ReportService {
         if (out.size() > 50) out.subList(50, out.size()).clear();
 
         return out;
+    }
+
+    public static Map<Long, Boolean> getCurrentlyChartingMap(int chartInfoId) {
+        Map<Long, Boolean> map = new HashMap<>();
+
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+        if (lastIssueNumber == null) {
+            return map;
+        }
+
+        List<Long> ids = PositionDAOImpl.getSongIdsForIssue(chartInfoId, lastIssueNumber);
+
+        for (Long id : ids) {
+            map.put(id, true);
+        }
+
+        return map;
+    }
+
+    public static Long getCurrentNo1SongId(int chartInfoId) {
+        Integer lastIssueNumber = ChartDAOImpl.getLastIssueNumber(chartInfoId);
+
+        if (lastIssueNumber == null) {
+            return null;
+        }
+
+        Position p = PositionDAOImpl.getPositionByIssueAndPosition(chartInfoId, lastIssueNumber, 1);
+
+        if (p == null || p.getPk() == null || p.getPk().getSong() == null) {
+            return null;
+        }
+
+        return p.getPk().getSong().getId();
     }
 }

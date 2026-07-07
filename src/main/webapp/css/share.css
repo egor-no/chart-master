@@ -120,6 +120,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    padding: 4px 12px 6px;
+    line-height: 1;
+    box-sizing: border-box;
 }
 
 .share-modal .share-titlebar {
@@ -267,6 +271,14 @@
     font-size: 72px;
     line-height: 72px;
     color: #111;
+}
+
+.magazine-no1-weeks {
+    margin-top: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .magazine-header p {
@@ -606,6 +618,15 @@
     font-style: italic;
 }
 
+.vinyl-no1-weeks {
+    margin-top: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,.68);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
 .vinyl-record {
     position: absolute;
 }
@@ -669,6 +690,17 @@
     margin-bottom: 18px;
     padding-bottom: 18px;
     border-bottom: 2px solid rgba(255,255,255,.75);
+}
+
+.vinyl-number-one > div {
+    min-width: 0;
+}
+
+.vinyl-main-artist,
+.vinyl-main-song {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vinyl-main-pos {
