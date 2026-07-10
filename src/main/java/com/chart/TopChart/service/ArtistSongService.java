@@ -40,11 +40,11 @@ public class ArtistSongService {
         return buildTopArtistsBySongs(SongDAOImpl.getArtistRowsForSongStatsAllTime(chartInfoId), sort);
     }
 
-    private static List<List<String>> buildTopArtistsBySongs(List<Object[]> rows, String sort) {
+    static List<List<String>> buildTopArtistsBySongs(List<Object[]> rows, String sort) {
         java.util.Map<String, long[]> map = new java.util.HashMap<>();
 
         for (Object[] r : rows) {
-            if (r == null || r.length < 2) continue;
+            if (r == null || r.length < 3) continue;
 
             Integer peakObj = (Integer) r[1];
             String artistsRow = (String) r[2];
@@ -112,7 +112,7 @@ public class ArtistSongService {
         return buildTopArtistsOnePass(PositionDAOImpl.getArtistRowsForStatsByDate(chartInfoId, d1, d2));
     }
 
-    private static List<List<String>> buildTopArtistsOnePass(List<Object[]> rows) {
+    static List<List<String>> buildTopArtistsOnePass(List<Object[]> rows) {
         java.util.Map<String, long[]> map = new java.util.HashMap<>();
 
         for (Object[] r : rows) {
