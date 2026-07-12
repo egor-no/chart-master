@@ -6,6 +6,8 @@
 <head>
     <title>TOP40 - Songs</title>
     <jsp:include page="components/head.jsp"/>
+    <style><%@include file="/css/share.css"%></style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
     <style>
     .artist-stat {
@@ -105,6 +107,7 @@
     </div>
     <c:set var="artistPickerEnabled" value="false" />
     <%@include file="components/song-list-search.jsp"%>
+    <%@include file="components/share-song-card.jsp"%>
 </div>
 </body>
 </html>

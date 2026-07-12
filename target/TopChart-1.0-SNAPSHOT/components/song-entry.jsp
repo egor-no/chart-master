@@ -16,36 +16,40 @@
                 </div>
             </c:if>
         </div>
-        <div class="flex1">
+        <div name="peak" class="flex1">
             <p>${song.peak}</p>
         </div>
         <div class="flex4">
             <p>
                 <c:choose>
                     <c:when test="${artistPickerEnabled}">
-                <span class="artist-link"
-                      data-artists="${song.artists}"
-                      title="Open artist page"
-                      tabindex="0">
-                        ${song.artists}
-                </span>
+                        <span class="artist-link"
+                              name="song-artist"
+                              data-artists="${song.artists}"
+                              title="Open artist page"
+                              tabindex="0">
+                                ${song.artists}
+                        </span>
                     </c:when>
+
                     <c:otherwise>
-                        <span>${song.artists}</span>
+                        <span name="song-artist">
+                                ${song.artists}
+                        </span>
                     </c:otherwise>
                 </c:choose>
             </p>
         </div>
         <div class="flex5">
             <p>
-                ${song.name}
+                <span name="song-title">${song.name}</span>
                 <c:if test="${row.currentlyCharting}">
                     <span class="currently-charting">CHARTING</span>
                 </c:if>
             </p>
         </div>
         <div class="flex1 flex-end data-end">
-            <p> ${song.weeks}</p>
+            <p name="woc">${song.weeks}</p>
         </div>
         <div class="flex1">
             <c:if test="${loggedIn and isOwner}">

@@ -20,6 +20,7 @@ public class SongServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int chartInfoId = SessionUtil.requireChartInfoId(request);
+        SessionUtil.ensureChartContext(request, chartInfoId);
 
         String searchPhrase = request.getParameter("search");
 

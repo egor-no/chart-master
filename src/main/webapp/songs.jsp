@@ -8,6 +8,8 @@
     <jsp:include page="components/head.jsp"/>
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
     <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
+    <style><%@include file="/css/share.css"%></style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             if ($('[name="searchPhrase"]').val() == '') {
@@ -50,6 +52,7 @@
     <c:set var="artistPickerEnabled" value="true" />
     <%@include file="components/song-list-search.jsp"%>
     <%@ include file="components/artist-picker-modal.jsp" %>
+    <%@include file="components/share-song-card.jsp"%>
 </div>
 </body>
 </html>

@@ -540,7 +540,7 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     margin: 8px 10px 14px 10px;
 }
 
-[name="song-history"] #song-stats{
+[name="song-history"] .song-stats{
     width: 420px;
     display: flex;
     justify-content: space-between;
@@ -556,22 +556,22 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     margin: 6px 0 0 0;
 }
 
-[name="song-history"] #song-stats{
+[name="song-history"] .song-stats{
     border-top:2px solid #192428;
     border-left:2px solid #192428;
     border-right:2px solid #fff;
     border-bottom:2px solid #fff;
 }
 
-.container [name="song-history"] #song-stats{
+.container [name="song-history"] .song-stats{
     background: #f3f3e7
 }
 
-.report [name="song-history"] #song-stats{
+.report [name="song-history"] .song-stats{
     background:#ffffff;
 }
 
-[name="song-history"] #song-stats .song-stat{
+[name="song-history"] .song-stats .song-stat{
     flex: 1;
     min-width: 0;
     display: flex;
@@ -588,7 +588,7 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     padding: 6px 6px 5px 6px;
 }
 
-[name="song-history"] #song-stats .song-stat h3{
+[name="song-history"] .song-stats .song-stat h3{
     margin: 0;
     font-size: 22px;
     line-height: 22px;
@@ -596,7 +596,7 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     color:#000676;
 }
 
-[name="song-history"] #song-stats .song-stat p{
+[name="song-history"] .song-stats .song-stat p{
     margin: 2px 0 0 0;
     font-size: 11px;
     color:#282929;
@@ -908,16 +908,29 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     border: 1px solid #8d94a0;
 }
 
-.history-open-outsider [name="song-history"] #song-stats {
+.history-open-outsider [name="song-history"] .song-stats {
     background: #d9dde7;
 }
 
-.history-open-outsider [name="song-history"] #song-stats .song-stat {
+.history-open-outsider [name="song-history"] .song-stats .song-stat {
     background: #e3e6ef;
 }
 
-.history-open-outsider [name="song-history"] #song-stats .song-stat h3 {
+.history-open-outsider [name="song-history"] .song-stats .song-stat h3 {
     color: #4f5a8a;
+}
+
+.song-history-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 12px 12px;
+}
+
+.song-share-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
 }
 
 #chart-table > [name="song"]:not(.history-open) > .song-row:not(.outsider-row) {

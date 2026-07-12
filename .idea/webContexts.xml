@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/chartadd.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/components/chart-navigation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/components" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/components/share-song-card.jsp" value="file://$PROJECT_DIR$/src/main/webapp/components" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/main.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/reports.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/reports/longest-stallers.jsp" value="file://$PROJECT_DIR$/src/main/webapp/reports" />

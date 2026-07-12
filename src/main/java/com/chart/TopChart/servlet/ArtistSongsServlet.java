@@ -32,6 +32,7 @@ public class ArtistSongsServlet extends HttpServlet {
             return;
         }
         int chartInfoId = chartInfoIdObj;
+        SessionUtil.ensureChartContext(request, chartInfoId);
 
         String artist = request.getParameter("artist");
         List<ArtistSongRow> songRows = SongDAOImpl.getArtistSongRows(chartInfoId, artist);

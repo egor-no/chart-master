@@ -6,6 +6,7 @@ import com.chart.TopChart.data.dto.ChartFull;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ChartService;
 import com.chart.TopChart.web.SessionKeys;
+import com.chart.TopChart.web.SessionUtil;
 
 
 import javax.servlet.ServletException;
@@ -21,30 +22,12 @@ public class ChartServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Integer chartInfoId = null;
-
-        String ciStr = request.getParameter("ci");
-        if (ciStr != null && !ciStr.isEmpty()) {
-            try {
-                chartInfoId = Integer.parseInt(ciStr);
-            } catch (Exception ignored) {}
-        }
-
-        if (chartInfoId == null) {
-            HttpSession s0 = request.getSession(false);
-            Object v = (s0 == null) ? null : s0.getAttribute(SessionKeys.CHART_INFO_ID);
-            if (v instanceof Integer) chartInfoId = (Integer) v;
-        }
+        Integer chartInfoId = SessionUtil.resolveChartInfoId(request);
 
         if (chartInfoId == null) {
             response.sendRedirect("/profile");
             return;
         }
-
-        HttpSession s = request.getSession(true);
-        s.setAttribute(SessionKeys.CHART_INFO_ID, chartInfoId);
-        s.removeAttribute(SessionKeys.OWNER_CI_ID);
-        s.removeAttribute(SessionKeys.OWNER_FLAG);
 
         Chart chart = null;
 
@@ -79,6 +62,10 @@ public class ChartServlet extends HttpServlet {
             return;
         }
 
+        if (chart.getInfo() != null) {
+            SessionUtil.saveChartContext(request, chart.getInfo());
+        }
+
         boolean isLastChart = (lastIssueNumber != null && chart.getIssueNumber().equals(lastIssueNumber));
 
         ChartFull fullChart = ChartService.getChartFull(chart);
@@ -93,28 +80,9 @@ public class ChartServlet extends HttpServlet {
 
         request.setAttribute("weeksAtNo1", weeksAtNo1);
 
-        String chartTitle = "TOP40";
-        String chartAuthorName = "somebody";
-
-        if (chart.getInfo() != null) {
-            if (chart.getInfo().getTitle() != null && !chart.getInfo().getTitle().isEmpty()) {
-                chartTitle = chart.getInfo().getTitle();
-            }
-
-            if (chart.getInfo().getOwner() != null) {
-                if (chart.getInfo().getOwner().getNickname() != null
-                        && !chart.getInfo().getOwner().getNickname().isEmpty()) {
-                    chartAuthorName = chart.getInfo().getOwner().getNickname();
-                } else {
-                    chartAuthorName = chart.getInfo().getOwner().getLogin();
-                }
-            }
-        }
-
-        request.setAttribute("chartTitle", chartTitle);
-        request.setAttribute("chartAuthorName", chartAuthorName);
+        request.setAttribute("chartTitle", SessionUtil.getChartTitle(request));
+        request.setAttribute("chartAuthorName", SessionUtil.getChartAuthorName(request));
 
         request.getRequestDispatcher("chart.jsp").forward(request, response);
-        response.flushBuffer();
     }
 }

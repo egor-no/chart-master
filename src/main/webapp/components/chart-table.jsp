@@ -1,5 +1,6 @@
 <div id="chart-table">
     <div class="no-display" name="chart-number">${chart.issueNumber}</div>
+    <div class="no-display" name="share-chart-date">${chart.date}</div>
     <%@include file="chart-navigation.jsp"%>
     <div id="chart-status" class="collapsed">
         <div class="status-title" tabindex="0">
@@ -59,6 +60,7 @@
                 <div class="flex4">
                     <p>
                         <span class="artist-link"
+                              name="song-artist"
                               data-artists="${position.pk.song.artists}"
                               title="Open artist page"
                               tabindex="0">
@@ -67,7 +69,7 @@
                     </p>
                 </div>
                 <div class="flex5">
-                    <p>${position.pk.song.name}</p>
+                    <p name="song-title">${position.pk.song.name}</p>
                 </div>
                 <div name="peak" class="flex1" title="peak">
                     <p>${chart.peaks[status.index]}</p>
@@ -106,17 +108,18 @@
 
                     <div class="flex4">
                         <p>
-                        <span class="artist-link"
-                              data-artists="${outsider.position.pk.song.artists}"
-                              title="Open artist page"
-                              tabindex="0">
-                                ${outsider.position.pk.song.artists}
-                        </span>
+                            <span class="artist-link"
+                                  name="song-artist"
+                                  data-artists="${outsider.position.pk.song.artists}"
+                                  title="Open artist page"
+                                  tabindex="0">
+                                    ${outsider.position.pk.song.artists}
+                            </span>
                         </p>
                     </div>
 
                     <div class="flex5">
-                        <p>${outsider.position.pk.song.name}</p>
+                        <p name="song-title">${outsider.position.pk.song.name}</p>
                     </div>
 
                     <div name="peak" class="flex1" title="peak">
@@ -137,6 +140,7 @@
 <%@include file="chart-run-template.jsp"%>
 <%@ include file="../components/artist-picker-modal.jsp" %>
 <%@include file="share-chart-card.jsp"%>
+<%@include file="share-song-card.jsp"%>
 
 <script type = "text/javascript" >
     $(document).ready(function() {
