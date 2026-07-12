@@ -44,44 +44,7 @@ public class ChartService {
         chartFull.setPeaks(peaks);
         chartFull.setWoc(woc);
 
-        ChartStats stats = new ChartStats();
-
-        int highestClimb = 0;
-        int biggestFall = 0;
-        int newEntries = 0;
-        int reEntries = 0;
-
-        for (int i = 0; i < chart.getPositions().size(); i++) {
-            Position p = chart.getPositions().get(i);
-
-            Integer lastWeek = p.getLastWeek();
-            int currentPosition = p.getPosition();
-            Long songWoc = woc.get(i);
-
-            if (lastWeek != null && lastWeek > 0) {
-                int movement = lastWeek - currentPosition;
-
-                if (movement > highestClimb) {
-                    highestClimb = movement;
-                }
-
-                if (movement < 0 && Math.abs(movement) > biggestFall) {
-                    biggestFall = Math.abs(movement);
-                }
-            } else {
-                if (songWoc != null && songWoc > 1) {
-                    reEntries++;
-                } else {
-                    newEntries++;
-                }
-            }
-        }
-
-        stats.setHighestClimb(highestClimb);
-        stats.setBiggestFall(biggestFall);
-        stats.setNewEntries(newEntries);
-        stats.setReEntries(reEntries);
-
+        ChartStats stats = calculateStats(chart.getPositions(), woc);
         chartFull.setStats(stats);
 
         List<Position> outsiderPositions = new ArrayList<>();
@@ -135,6 +98,48 @@ public class ChartService {
         chartFull.setOutsiders(outsiders);
 
         return chartFull;
+    }
+
+    static ChartStats calculateStats(List<Position> positions, List<Long> woc) {
+        ChartStats stats = new ChartStats();
+
+        int highestClimb = 0;
+        int biggestFall = 0;
+        int newEntries = 0;
+        int reEntries = 0;
+
+        for (int i = 0; i < positions.size(); i++) {
+            Position position = positions.get(i);
+
+            Integer lastWeek = position.getLastWeek();
+            int currentPosition = position.getPosition();
+            Long songWoc = woc.get(i);
+
+            if (lastWeek != null && lastWeek > 0) {
+                int movement = lastWeek - currentPosition;
+
+                if (movement > highestClimb) {
+                    highestClimb = movement;
+                }
+
+                if (movement < 0 && Math.abs(movement) > biggestFall) {
+                    biggestFall = Math.abs(movement);
+                }
+            } else {
+                if (songWoc != null && songWoc > 1) {
+                    reEntries++;
+                } else {
+                    newEntries++;
+                }
+            }
+        }
+
+        stats.setHighestClimb(highestClimb);
+        stats.setBiggestFall(biggestFall);
+        stats.setNewEntries(newEntries);
+        stats.setReEntries(reEntries);
+
+        return stats;
     }
 
     public static String getNewChartDate(int chartInfoId) {
