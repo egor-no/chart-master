@@ -64,145 +64,247 @@ $(document).ready(function() {
         }
 
         event.preventDefault();
-        var no1 = 0,
-            top10 = 0,
-            top20 = 0;
 
         var songDiv =  $(this).closest('[name="song"]')
-        if (songDiv.find('[name="position"]').length) {
-            if (songDiv.find('[name="song-history"]').is(":visible")) {
-                songDiv.find('[name="song-history"]').slideUp(500, function () {
-                    songDiv.removeClass('history-open');
-                    songDiv.removeClass('history-open-outsider');
-                    songDiv.find('[name="mov-info"]').removeClass('history-mov');
-                    songDiv.find('[name="i-report"]').removeClass('i-highlight');
-                });
 
-            } else {
-                songDiv.find('[name="song-history"]').slideDown(500);
-                songDiv.find('[name="mov-info"]').addClass('history-mov');
-                songDiv.find('[name="i-report"]').addClass('i-highlight');
-                songDiv.addClass('history-open');
-                if (songDiv.find('[name="outsider"]').val() === 'true') {
-                    songDiv.addClass('history-open-outsider');
-                }
-            }
-        } else {
-            var idSong = $(this).closest('[name="song"]').find('[name="song-id"]').val();
-            var chartNumber = '';
-            if (songDiv.find('[name="chart-number"]').length && songDiv.find('[name="chart-number"]').val() !== '') {
-                chartNumber = songDiv.find('[name="chart-number"]').val();
-            } else if ($(document).find('[name="chart-number"]').length) {
-                chartNumber = $(document).find('[name="chart-number"]').text();
-            }
-
-            var dateSearch = false;
-            var date1 = '';
-            var date2 = '';
-
-            if ($(document).find('[name="date1-data"]').length
-                && $(document).find('[name="date1-data"]').val() !== '') {
-
-                dateSearch = true;
-                date1 = $(document).find('[name="date1-data"]').val();
-
-                if ($(document).find('[name="date2-data"]').length) {
-                    date2 = $(document).find('[name="date2-data"]').val();
-                }
-            }
-
-            $.get("songhistory?idSong=" + idSong
-                + "&chartNumber=" + chartNumber
-                + "&dateSearch=" + dateSearch
-                + "&date1=" + date1
-                + "&date2=" + date2, function(songhistory) {
-                var peak = songhistory.peak;
-                var currentChart = songhistory.currentIssue;
-
-                var firstEntryDate = '';
-                if (songhistory.chartRuns.length > 0) {
-                    firstEntryDate = songhistory.chartRuns[0].firstChart.date;
-                }
-                songDiv.data('share-first-entry', firstEntryDate);
-
-                $.each(songhistory.chartRuns, function (index, chartRun) {
-                    var chartRunSize = chartRun.positions.length;
-                    var chartRunDiv = $(document).find('[name="chart-run-template"]').clone();
-                    chartRunDiv.attr('name', 'chart-run');
-
-                    if (chartRun.firstChart.date != chartRun.lastChart.date) {
-                        chartRunDiv.find('[name="chart-run-header"]').html(
-                            chartRunSize + " weeks: " + chartRun.firstChart.date + " - " + chartRun.lastChart.date
-                        );
-                        chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunTwo');
-                    } else {
-                        chartRunDiv.find('[name="chart-run-header"]').html(
-                            chartRunSize + " week: " + chartRun.firstChart.date
-                        );
-                        chartRunDiv.find('[name="chart-run-header"]').addClass('chartRunOne');
-                    }
-
-                    $.each(chartRun.positions, function(i, item) {
-                        var position = item.position;
-                        var issueNumber = item.issueNumber;
-                        var chartDateStr = item.date;
-                        let chartDate = new Date(chartDateStr);
-
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').html(position);
-
-                        if (position == peak) {
-                            chartRunDiv.find('[name="position"]:last').addClass('peak');
-                        } else {
-                            chartRunDiv.find('[name="position"]:last').removeClass('peak');
-                        }
-
-                        if (position == 1) {
-                            no1++;
-                        }
-                        if (position <= 10) {
-                            top10++;
-                        }
-                        if (position <= 20) {
-                            top20++;
-                        }
-
-                        if (issueNumber == currentChart) {
-                            chartRunDiv.find('[name="position"]:last').addClass('current');
-                        } else {
-                            chartRunDiv.find('[name="position"]:last').removeClass('current');
-                        }
-
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').on('click', function (event) {
-                            event.stopPropagation();
-                        });
-
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('href', '/chart?chartNumber=' + issueNumber);
-                        chartRunDiv.find('[name="position"]:last').find('[name="chartLink"]').attr('title', 'GOTO: Chart N' + issueNumber + " | " + formatDate(chartDate));
-
-                        var positionDiv = chartRunDiv.find('[name="position"]:last').clone();
-                        chartRunDiv.find('[name="positions"]').append(positionDiv);
-                    });
-
-                    chartRunDiv.find('[name="position"]:last').remove();
-
-                    songDiv.find('[name="song-history"]').append(chartRunDiv);
-                    chartRunDiv.css('display', 'block');
-                    songDiv.find('[name="song-history"]').slideDown(500);
-                    songDiv.find('[name="mov-info"]').addClass('history-mov');
-                    songDiv.find('[name="i-report"]').addClass('i-highlight');
-
-                    songDiv.find('[name="stats-weeks-no1s"]').text(no1);
-                    songDiv.find('[name="stats-weeks-top10s"]').text(top10);
-                    songDiv.find('[name="stats-weeks-top20s"]').text(top20);
-                    songDiv.addClass('history-open');
-
-                    if (songDiv.find('[name="outsider"]').val() === 'true') {
-                        songDiv.addClass('history-open-outsider');
-                    }
-                });
-            });
+        if (songDiv.data('history-loading') === true) {
+            return;
         }
+
+        if (songDiv.data('history-loaded') === true) {
+            toggleSongHistory(songDiv);
+            return;
+        }
+
+        loadSongHistory(songDiv);
     });
+
+    function loadSongHistory(songDiv) {
+        var idSong = songDiv.find('[name="song-id"]').val();
+
+        var chartNumber = '';
+
+        if (songDiv.find('[name="chart-number"]').length && songDiv.find('[name="chart-number"]').val() !== '') {
+            chartNumber = songDiv.find('[name="chart-number"]').val();
+        } else if ($(document).find('[name="chart-number"]').length) {
+            chartNumber = $(document)
+                .find('[name="chart-number"]')
+                .first().text().trim();
+        }
+
+        var dateSearch = false;
+        var date1 = '';
+        var date2 = '';
+
+        if ($(document).find('[name="date1-data"]').length && $(document).find('[name="date1-data"]').val() !== '') {
+            dateSearch = true;
+            date1 = $(document).find('[name="date1-data"]').val();
+
+            if ($(document).find('[name="date2-data"]').length) {
+                date2 = $(document).find('[name="date2-data"]').val();
+            }
+        }
+
+        songDiv.data('history-loading', true);
+        songDiv.addClass('history-loading');
+
+        $.get('songhistory', {
+            idSong: idSong,
+            chartNumber: chartNumber,
+            dateSearch: dateSearch,
+            date1: date1,
+            date2: date2
+        })
+            .done(function(songhistory) {
+                renderSongHistory(songDiv, songhistory);
+
+                songDiv.data('history-loaded', true);
+                openSongHistory(songDiv);
+            })
+            .fail(function(xhr) {
+                console.error(
+                    'Could not load song history',
+                    xhr.status,
+                    xhr.responseText
+                );
+            })
+            .always(function() {
+                songDiv.data('history-loading', false);
+                songDiv.removeClass('history-loading');
+            });
+    }
+
+    function renderSongHistory(songDiv, songhistory) {
+        var no1 = 0;
+        var top10 = 0;
+        var top20 = 0;
+
+        var peak = songhistory.peak;
+        var currentChart = songhistory.currentIssue;
+        var historyDiv = songDiv.find('[name="song-history"]');
+
+        historyDiv.find('[name="chart-run"]').remove();
+
+        var firstEntryDate = '';
+
+        if (songhistory.chartRuns.length > 0) {
+            firstEntryDate =
+                songhistory.chartRuns[0].firstChart.date;
+        }
+
+        songDiv.data('share-first-entry', firstEntryDate);
+
+        $.each(songhistory.chartRuns, function(index, chartRun) {
+            var chartRunSize = chartRun.positions.length;
+
+            var chartRunDiv = $(document)
+                .find('[name="chart-run-template"]')
+                .first()
+                .clone();
+
+            chartRunDiv.attr('name', 'chart-run');
+
+            if (chartRun.firstChart.date !== chartRun.lastChart.date) {
+                chartRunDiv
+                    .find('[name="chart-run-header"]')
+                    .html(
+                        chartRunSize +
+                        ' weeks: ' +
+                        chartRun.firstChart.date +
+                        ' - ' +
+                        chartRun.lastChart.date
+                    )
+                    .addClass('chartRunTwo');
+            } else {
+                chartRunDiv
+                    .find('[name="chart-run-header"]')
+                    .html(
+                        chartRunSize +
+                        ' week: ' +
+                        chartRun.firstChart.date
+                    )
+                    .addClass('chartRunOne');
+            }
+
+            $.each(chartRun.positions, function(i, item) {
+                var position = item.position;
+                var issueNumber = item.issueNumber;
+                var chartDate = new Date(item.date);
+
+                var positionTemplate =
+                    chartRunDiv.find('[name="position"]:last');
+
+                positionTemplate
+                    .find('[name="chartLink"]')
+                    .html(position);
+
+                positionTemplate.toggleClass(
+                    'peak',
+                    position === peak
+                );
+
+                positionTemplate.toggleClass(
+                    'current',
+                    issueNumber === currentChart
+                );
+
+                if (position === 1) {
+                    no1++;
+                }
+
+                if (position <= 10) {
+                    top10++;
+                }
+
+                if (position <= 20) {
+                    top20++;
+                }
+
+                positionTemplate
+                    .find('[name="chartLink"]')
+                    .attr(
+                        'href',
+                        '/chart?chartNumber=' + issueNumber
+                    )
+                    .attr(
+                        'title',
+                        'GOTO: Chart N' +
+                        issueNumber +
+                        ' | ' +
+                        formatDate(chartDate)
+                    );
+
+                var positionDiv = positionTemplate.clone();
+
+                chartRunDiv
+                    .find('[name="positions"]')
+                    .append(positionDiv);
+            });
+
+            chartRunDiv.find('[name="position"]:last').remove();
+
+            historyDiv.append(chartRunDiv);
+            chartRunDiv.css('display', 'block');
+        });
+
+        historyDiv.find('[name="chartLink"]').on('click', function(event) {
+            event.stopPropagation();
+        });
+
+        songDiv.find('[name="stats-weeks-no1s"]').text(no1);
+        songDiv.find('[name="stats-weeks-top10s"]').text(top10);
+        songDiv.find('[name="stats-weeks-top20s"]').text(top20);
+    }
+
+    function toggleSongHistory(songDiv) {
+        var historyDiv = songDiv.find('[name="song-history"]');
+
+        if (historyDiv.is(':visible')) {
+            closeSongHistory(songDiv);
+        } else {
+            openSongHistory(songDiv);
+        }
+    }
+
+    function openSongHistory(songDiv) {
+        songDiv
+            .find('[name="song-history"]')
+            .stop(true, true)
+            .slideDown(500);
+
+        songDiv
+            .find('[name="mov-info"]')
+            .addClass('history-mov');
+
+        songDiv
+            .find('[name="i-report"]')
+            .addClass('i-highlight');
+
+        songDiv.addClass('history-open');
+
+        if (songDiv.find('[name="outsider"]').val() === 'true') {
+            songDiv.addClass('history-open-outsider');
+        }
+    }
+
+    function closeSongHistory(songDiv) {
+        songDiv
+            .find('[name="song-history"]')
+            .stop(true, true)
+            .slideUp(500, function() {
+                songDiv.removeClass(
+                    'history-open history-open-outsider'
+                );
+
+                songDiv
+                    .find('[name="mov-info"]')
+                    .removeClass('history-mov');
+
+                songDiv
+                    .find('[name="i-report"]')
+                    .removeClass('i-highlight');
+            });
+    }
 
 });
 
