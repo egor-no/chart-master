@@ -805,6 +805,33 @@
     overflow: hidden;
 }
 
+.song-achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.song-achievements.no-display {
+    display: none;
+}
+
+.song-achievement {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.song-achievement-rebound {
+    font-weight: bold;
+}
+
+.song-position-label:empty {
+    display: none;
+}
+
 /* =========================
    CLASSIC 95
    ========================= */
@@ -857,7 +884,7 @@
 
 .song-classic-main {
     display: grid;
-    grid-template-columns: 160px 1fr 110px;
+    grid-template-columns: 160px 1fr 170px;
     gap: 24px;
     align-items: center;
     background: #eaeaea;
@@ -869,11 +896,23 @@
 }
 
 .song-classic-position {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     color: #76367a;
     font-family: "Times New Roman", serif;
     font-size: 82px;
     font-weight: bold;
     line-height: 1;
+}
+
+.song-classic-position .song-position-label {
+    margin-bottom: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: #444444;
 }
 
 .song-classic-track {
@@ -951,6 +990,32 @@
     color: #444444;
 }
 
+.song-classic-movement-column {
+    min-width: 0;
+    text-align: center;
+}
+
+.song-classic-achievements {
+    margin-top: 14px;
+    justify-content: center;
+    gap: 8px;
+}
+
+.song-classic-achievements .song-achievement {
+    width: 100%;
+    min-height: 34px;
+    padding: 6px 8px;
+    background: #fcfbdd;
+    color: #000000;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+
+    border-top: 3px solid #ffffff;
+    border-left: 3px solid #ffffff;
+    border-right: 3px solid #192428;
+    border-bottom: 3px solid #192428;
+}
+
 /* =========================
    MAGAZINE
    ========================= */
@@ -969,6 +1034,16 @@
     text-transform: uppercase;
     padding-bottom: 14px;
     border-bottom: 4px solid #111111;
+}
+
+.song-magazine-position-column .song-position-label {
+    min-height: 20px;
+    margin-bottom: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 2px;
+    font-weight: normal;
 }
 
 .song-magazine-meta {
@@ -1083,6 +1158,29 @@
     color: #111111;
 }
 
+.song-magazine-position-column {
+    min-width: 0;
+}
+
+.song-magazine-achievements {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.song-magazine-achievements .song-achievement {
+    max-width: 100%;
+    padding: 6px 10px;
+    border: 2px solid #111111;
+    color: #111111;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
 /* =========================
    WINAMP
    ========================= */
@@ -1125,7 +1223,7 @@
     border-right: 4px solid #5b5f74;
     border-bottom: 4px solid #5b5f74;
     display: grid;
-    grid-template-columns: 180px 1fr 140px;
+    grid-template-columns: 180px 1fr 170px;
     gap: 24px;
     align-items: center;
 }
@@ -1137,6 +1235,20 @@
     text-align: center;
 }
 
+.song-winamp-position {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.song-winamp-position .song-position-label {
+    margin-bottom: 5px;
+    color: #6ecbff;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 1px;
+}
+
 .song-winamp-track {
     min-width: 0;
 }
@@ -1145,9 +1257,10 @@
     font-size: 40px;
     line-height: 44px;
     color: #80ff5a;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
 }
 
 .song-winamp-title {
@@ -1155,9 +1268,10 @@
     font-size: 31px;
     line-height: 36px;
     color: #d6ff8a;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
 }
 
 .song-winamp-movement {
@@ -1233,6 +1347,49 @@
     font-size: 17px;
 }
 
+.song-winamp-movement-column {
+    min-width: 0;
+    text-align: center;
+}
+
+.song-winamp-achievements {
+    margin-top: 14px;
+    justify-content: center;
+    gap: 7px;
+}
+
+.song-winamp-achievements .song-achievement {
+    width: 100%;
+    padding: 7px 6px;
+    background: #050805;
+    border: 2px solid #2d4c2d;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+}
+
+.song-winamp-achievements
+.song-achievement-high-climber {
+    color: #80ff5a;
+}
+
+.song-winamp-achievements
+.song-achievement-free-falling {
+    color: #ff7a4a;
+}
+
+.song-winamp-achievements
+.song-achievement-new-peak,
+.song-winamp-achievements
+.song-achievement-re-peak {
+    color: #6ecbff;
+}
+
+.song-winamp-achievements
+.song-achievement-rebound {
+    color: #ffcc55;
+    border-color: #806b2d;
+}
+
 /* =========================
    VINYL
    ========================= */
@@ -1247,7 +1404,7 @@
 
 .song-vinyl-record {
     position: absolute;
-    left: -430px;
+    left: -520px;
     top: -120px;
     width: 1220px;
     height: 1220px;
@@ -1305,7 +1462,7 @@
 .song-vinyl-info {
     position: relative;
     z-index: 10;
-    width: 600px;
+    width: 700px;
     margin-left: auto;
     background: rgba(0, 0, 0, .44);
     padding: 32px;
@@ -1333,17 +1490,33 @@
 .song-vinyl-main {
     margin-top: 42px;
     display: grid;
-    grid-template-columns: 90px 1fr 80px;
+    grid-template-columns: 130px 1fr 80px;
     gap: 18px;
     align-items: center;
 }
 
 .song-vinyl-position {
     font-family: Arial, sans-serif;
-    font-size: 52px;
+    font-size: 60px;
     line-height: 1;
     font-weight: bold;
     color: #e0c27b;
+}
+
+.song-vinyl-position {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.song-vinyl-position-column .song-position-label {
+    min-height: 17px;
+    margin-bottom: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, .66);
 }
 
 .song-vinyl-track {
@@ -1351,23 +1524,25 @@
 }
 
 .song-vinyl-artist {
-    font-size: 38px;
-    line-height: 40px;
+    font-size: 44px;
+    line-height: 46px;
     font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
 }
 
 .song-vinyl-title {
     margin-top: 6px;
-    font-size: 29px;
-    line-height: 32px;
+    font-size: 33px;
+    line-height: 35px;
     font-style: italic;
     color: rgba(255, 255, 255, .82);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
 }
 
 .song-vinyl-movement {
@@ -1379,7 +1554,7 @@
 }
 
 .song-vinyl-stats {
-    margin-top: 42px;
+    margin-top: 48px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
@@ -1401,7 +1576,7 @@
 .song-vinyl-stat span {
     display: block;
     margin-top: 6px;
-    font-size: 18px;
+    font-size: 20px;
     color: rgba(255, 255, 255, .76);
 }
 
@@ -1415,4 +1590,33 @@
     font-family: Arial, sans-serif;
     font-size: 13px;
     color: rgba(255, 255, 255, .68);
+}
+
+.song-vinyl-position-column {
+    min-width: 0;
+}
+
+.song-vinyl-achievements {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+}
+
+.song-vinyl-achievements .song-achievement {
+    max-width: 100%;
+    padding: 6px 8px;
+    border: 1px solid rgba(224, 194, 123, .75);
+    color: #e0c27b;
+    background: rgba(0, 0, 0, .28);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: .5px;
+}
+
+.song-vinyl-achievements
+.song-achievement-rebound {
+    color: #f1d995;
+    border-color: #f1d995;
 }

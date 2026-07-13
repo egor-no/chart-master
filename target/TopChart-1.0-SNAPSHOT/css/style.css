@@ -1179,3 +1179,49 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
     font-weight:bold;
     text-transform:uppercase;
 }
+
+.chart-page-footer {
+    width: 800px;
+    height: 74px;
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.chart-page-footer-hatching {
+    width: 320px;
+
+    background:
+            repeating-linear-gradient(
+                    135deg,
+                    #b94f8f 0,
+                    #b94f8f 10px,
+                    transparent 10px,
+                    transparent 20px
+            );
+}
+
+.chart-page-footer-left {
+    display: flex;
+    align-items: stretch;
+}
+
+.chart-page-footer-fill-white {
+    width: 24px;
+    background: white;
+}
+
+.chart-page-footer-hatching-light {
+    width: 54px;
+
+    background:
+            repeating-linear-gradient(
+                    135deg,
+                    #ffffff 0,
+                    #ffffff 10px,
+                    transparent 10px,
+                    transparent 20px
+            );
+}

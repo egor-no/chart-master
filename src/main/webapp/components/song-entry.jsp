@@ -57,5 +57,6 @@
             </c:if>
         </div>
     </div>
+    <c:set var="showSongShare" value="true"/>
     <%@include file="song-history.jsp"%>
 </div>

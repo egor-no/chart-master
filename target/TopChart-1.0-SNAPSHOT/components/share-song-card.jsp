@@ -18,6 +18,8 @@
 
                 <div class="song-classic-main">
                     <div class="song-classic-position">
+                        <span class="song-position-label" name="share-song-position-label"></span>
+
                         <span name="share-song-position"></span>
                     </div>
 
@@ -31,8 +33,14 @@
                         </div>
                     </div>
 
-                    <div class="song-classic-movement"
-                         name="share-song-movement">
+                    <div class="song-classic-movement-column">
+                        <div class="song-classic-movement"
+                             name="share-song-movement">
+                        </div>
+
+                        <div class="song-achievements song-classic-achievements"
+                             name="share-song-achievements">
+                        </div>
                     </div>
                 </div>
 
@@ -93,8 +101,16 @@
         </div>
 
         <div class="song-magazine-main">
-            <div class="song-magazine-position">
-                <span name="share-song-position"></span>
+            <div class="song-magazine-position-column">
+                <span class="song-position-label" name="share-song-position-label"></span>
+
+                <div class="song-magazine-position">
+                    <span name="share-song-position"></span>
+                </div>
+
+                <div class="song-achievements song-magazine-achievements"
+                     name="share-song-achievements">
+                </div>
             </div>
 
             <div class="song-magazine-track">
@@ -160,8 +176,10 @@
             </div>
 
             <div class="song-winamp-display">
-                <div class="song-winamp-position"
-                     name="share-song-position">
+                <div class="song-winamp-position">
+                    <span class="song-position-label" name="share-song-position-label"></span>
+
+                    <span name="share-song-position"></span>
                 </div>
 
                 <div class="song-winamp-track">
@@ -174,8 +192,14 @@
                     </div>
                 </div>
 
-                <div class="song-winamp-movement"
-                     name="share-song-movement">
+                <div class="song-winamp-movement-column">
+                    <div class="song-winamp-movement"
+                         name="share-song-movement">
+                    </div>
+
+                    <div class="song-achievements song-winamp-achievements"
+                         name="share-song-achievements">
+                    </div>
                 </div>
             </div>
 
@@ -265,8 +289,15 @@
             </div>
 
             <div class="song-vinyl-main">
-                <div class="song-vinyl-position"
-                     name="share-song-position">
+                <div class="song-vinyl-position-column">
+                    <span class="song-position-label" name="share-song-position-label"></span>
+
+                    <div class="song-vinyl-position" name="share-song-position">
+                    </div>
+
+                    <div class="song-achievements song-vinyl-achievements"
+                         name="share-song-achievements">
+                    </div>
                 </div>
 
                 <div class="song-vinyl-track">

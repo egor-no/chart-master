@@ -5,7 +5,6 @@
 <html>
 <head>
     <title>TOP40 - Biggest leaps</title>
-    <link rel="icon" href="/icons/icon.png" type="image/x-icon">
     <jsp:include page="/components/head.jsp"/>
     <script type="text/javascript">
         <%@include file="/components/song-history.js"%>

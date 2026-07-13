@@ -14,14 +14,16 @@
         </div>
     </div>
 
-    <div class="song-history-actions">
-        <button type="button"
-                name="share-song"
-                class="song-share-button"
-                title="Share song">
-            <i class="fa fa-share" aria-hidden="true"></i>
-            Share song
-        </button>
-    </div>
+    <c:if test="${showSongShare == true}">
+        <div class="song-history-actions">
+            <button type="button"
+                    name="share-song"
+                    class="song-share-button"
+                    title="Share song">
+                <i class="fa fa-share" aria-hidden="true"></i>
+                Share song
+            </button>
+        </div>
+    </c:if>
 </div>
 

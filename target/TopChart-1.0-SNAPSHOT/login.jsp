@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>TOP40 - Login</title>
-    <link rel="icon" href="/icons/icon.png" type="image/x-icon">
+    <link rel="icon" href="/icons/favico.png" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style><%@include file="/css/style.css"%>

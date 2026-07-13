@@ -2,6 +2,7 @@
     <div class="no-display" name="chart-number">${chart.issueNumber}</div>
     <div class="no-display" name="share-chart-date">${chart.date}</div>
     <%@include file="chart-navigation.jsp"%>
+    <c:set var="showSongShare" value="true"/>
     <div id="chart-status" class="collapsed">
         <div class="status-title" tabindex="0">
             <span class="status-icon">+</span>
@@ -135,6 +136,14 @@
             </div>
         </c:forEach>
     </c:if>
+
+    <div class="chart-page-footer">
+        <div class="chart-page-footer-left">
+            <div class="chart-page-footer-fill-white"></div>
+            <div class="chart-page-footer-hatching-light"></div>
+        </div>
+        <div class="chart-page-footer-hatching"></div>
+    </div>
 </div>
 
 <%@include file="chart-run-template.jsp"%>

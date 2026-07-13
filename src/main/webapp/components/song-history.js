@@ -218,14 +218,19 @@ function getShareSongData(songDiv) {
     var row = songDiv.find('.song-row').first();
     var movInfo = row.find('[name="mov-info"]');
 
+    var movement = getShareSongMovement(movInfo);
+
+    var position = row.find('[name="pos"]').text().trim();
+    var issueNumber = $('[name="chart-number"]').first().text().trim();
+
     return {
         songId: row.find('[name="song-id"]').val() || '',
 
         artist: row.find('[name="song-artist"]').text().trim(),
         title: row.find('[name="song-title"]').text().trim(),
 
-        position: row.find('[name="pos"]').text().trim(),
-        movement: getShareSongMovement(movInfo),
+        position: position,
+        movement: movement,
 
         peak: row.find('[name="peak"] p').text().trim(),
         weeksTop40: row.find('[name="woc"]').text().trim(),
@@ -237,11 +242,165 @@ function getShareSongData(songDiv) {
         chartAuthor: '${sessionScope.chartAuthorName}',
 
         chartDate: $('[name="share-chart-date"]').first().text().trim(),
-        issueNumber: $('[name="chart-number"]').first().text().trim(),
-        firstEntryDate: songDiv.data('share-first-entry') || ''
+        issueNumber: issueNumber,
+        firstEntryDate: songDiv.data('share-first-entry') || '',
+
+        achievements: getShareSongAchievements(songDiv, position, issueNumber, movInfo)
     };
 }
 
+function getShareSongAchievements(songDiv, currentPositionValue, currentIssueValue, movInfo) {
+    var currentPosition = parseInt(currentPositionValue, 10);
+    var currentIssue = parseInt(currentIssueValue, 10);
+
+    var movementValue = parseInt(
+        movInfo.find('[name="mov-val"]').text().trim(),
+        10
+    );
+
+    if (isNaN(currentPosition) || isNaN(currentIssue)) {
+        return [];
+    }
+
+    var historyEntries = getShareSongHistoryEntries(songDiv);
+
+    var previousEntries = historyEntries
+        .filter(function (entry) {
+            return entry.issue < currentIssue;
+        })
+        .sort(function (a, b) {
+            return a.issue - b.issue;
+        });
+
+    if (currentPosition <= 20 && isShareSongRebound(previousEntries, currentIssue)) {
+        return [{
+            code: 'rebound',
+            label: 'REBOUND'
+        }];
+    }
+
+    if (movInfo.hasClass('up') && !isNaN(movementValue) && movementValue > 20) {
+        return [{
+            code: 'high-climber',
+            label: 'HIGH CLIMBER'
+        }];
+    }
+
+    if (movInfo.hasClass('down') && !isNaN(movementValue) && movementValue > 20) {
+        return [{
+            code: 'free-falling',
+            label: 'FREE FALLING'
+        }];
+    }
+
+    if (!previousEntries.length) {
+        return [];
+    }
+
+    var previousPeak = Math.min.apply(
+        null,
+        previousEntries.map(function (entry) {
+            return entry.position;
+        })
+    );
+
+    if (currentPosition < previousPeak) {
+        return [{
+            code: 'new-peak',
+            label: 'NEW PEAK'
+        }];
+    }
+
+    if (currentPosition === previousPeak && (movInfo.hasClass('up') || movInfo.hasClass('re'))) {
+        return [{
+            code: 're-peak',
+            label: 'RE-PEAK'
+        }];
+    }
+
+    return [];
+}
+
+function getShareSongHistoryEntries(songDiv) {
+    var entries = [];
+
+    songDiv
+        .find('[name="song-history"] [name="chartLink"]')
+        .each(function () {
+            var link = $(this);
+
+            var position = parseInt(
+                link.text().trim(),
+                10
+            );
+
+            var issue = getChartIssueFromLink(link);
+
+            if (isNaN(position) || isNaN(issue)) {
+                return;
+            }
+
+            entries.push({
+                issue: issue,
+                position: position
+            });
+        });
+
+    return entries;
+}
+
+function isShareSongRebound(previousEntries, currentIssue) {
+    var previousTop20Entries = previousEntries.filter(function (entry) {
+        return entry.position <= 20;
+    });
+
+    if (!previousTop20Entries.length) {
+        return false;
+    }
+
+    var lastTop20Entry = previousTop20Entries.reduce(
+        function (latestEntry, entry) {
+            if (
+                !latestEntry ||
+                entry.issue > latestEntry.issue
+            ) {
+                return entry;
+            }
+
+            return latestEntry;
+        },
+        null
+    );
+
+    var fullIssuesOutsideTop20 =
+        currentIssue - lastTop20Entry.issue - 1;
+
+    if (fullIssuesOutsideTop20 < 8) {
+        return false;
+    }
+
+    var returnedEarlier = previousEntries.some(function (entry) {
+        return (
+            entry.issue > lastTop20Entry.issue &&
+            entry.issue < currentIssue &&
+            entry.position <= 20
+        );
+    });
+
+    return !returnedEarlier;
+}
+
+function getChartIssueFromLink(link) {
+    var href = link.attr('href') || '';
+
+    var match = href.match(/[?&]chartNumber=(\d+)/);
+
+    if (!match) {
+        return NaN;
+    }
+
+    return parseInt(match[1], 10);
+}
 function getShareSongMovement(movInfo) {
     if (!movInfo || !movInfo.length) {
         return {
@@ -311,11 +470,18 @@ function fillSongCard(card, data, template) {
     card.find('[name="share-song-artist"]').text(data.artist);
     card.find('[name="share-song-title"]').text(data.title);
 
-    var positionText = data.position
-        ? '#' + data.position
-        : '';
+    var hasCurrentPosition = Boolean(data.position);
+    var displayedPosition = hasCurrentPosition
+        ? data.position
+        : data.peak;
 
-    card.find('[name="share-song-position"]').text(positionText);
+    card.find('[name="share-song-position"]').text(
+        displayedPosition ? '#' + displayedPosition : ''
+    );
+
+    card.find('[name="share-song-position-label"]').text(
+        hasCurrentPosition ? '' : 'PEAK'
+    );
 
     var movementElement =
         card.find('[name="share-song-movement"]');
@@ -360,6 +526,8 @@ function fillSongCard(card, data, template) {
     }
     card.find('[name="share-song-meta-text"]').text(metaText);
 
+    fillSongAchievements(card, data.achievements || []);
+
     var hasCurrentChartContext = Boolean(data.chartDate || data.issueNumber || data.position);
     var hasAnyDate = Boolean(data.chartDate || data.firstEntryDate);
 
@@ -372,6 +540,29 @@ function fillSongCard(card, data, template) {
         'without-date',
         !hasAnyDate
     );
+}
+
+function fillSongAchievements(card, achievements) {
+    var container = card.find(
+        '[name="share-song-achievements"]'
+    );
+
+    container.empty();
+
+    if (!achievements || !achievements.length) {
+        container.addClass('no-display');
+        return;
+    }
+
+    $.each(achievements, function (index, achievement) {
+        $('<span>')
+            .addClass('song-achievement')
+            .addClass('song-achievement-' + achievement.code)
+            .text(achievement.label)
+            .appendTo(container);
+    });
+
+    container.removeClass('no-display');
 }
 
 function buildSongShareCard(template, data) {
