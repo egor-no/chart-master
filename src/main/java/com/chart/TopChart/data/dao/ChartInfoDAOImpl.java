@@ -99,13 +99,34 @@ public class ChartInfoDAOImpl {
     public static ChartInfo getById(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM ChartInfo " +
-                "WHERE id = :id");
+        Query query = session.createQuery("FROM ChartInfo ci " +
+                "LEFT JOIN FETCH ci.owner " +
+                "WHERE ci.id = :id");
         query.setInteger("id", id);
         ChartInfo result = (ChartInfo) query.uniqueResult();
         session.getTransaction().commit();
         session.close();
         return result;
+    }
+
+    public static boolean isOwner(int chartInfoId, int userId) {
+        try (Session session = HibernateUtil
+                .getSessionFactory()
+                .openSession()) {
+
+            Long count = session.createQuery(
+                    "select count(ci.id) " +
+                            "from ChartInfo ci " +
+                            "where ci.id = :chartInfoId " +
+                            "and ci.owner.id = :userId",
+                    Long.class
+            )
+                    .setParameter("chartInfoId", chartInfoId)
+                    .setParameter("userId", userId)
+                    .uniqueResult();
+
+            return count != null && count > 0;
+        }
     }
 
     public static List<HomeChartInfoRow> getAllForHome() {
@@ -136,7 +157,7 @@ public class ChartInfoDAOImpl {
         session.beginTransaction();
 
         Query q = session.createQuery(
-                "SELECT ci.id, ci.title, o.nickname, ci.createdAt " +
+                "SELECT ci.id, ci.title, o.id, o.nickname, ci.createdAt " +
                         "FROM ChartInfo ci " +
                         "JOIN ci.owner o " +
                         "ORDER BY ci.createdAt DESC"
@@ -152,10 +173,11 @@ public class ChartInfoDAOImpl {
         for (Object[] r : rows) {
             Integer ciId = (Integer) r[0];
             String title = (String) r[1];
-            String ownerNick = (String) r[2];
-            LocalDateTime createdAt = (LocalDateTime) r[3];
+            Integer ownerId = (Integer) r[2];
+            String ownerNick = (String) r[3];
+            LocalDateTime createdAt = (LocalDateTime) r[4];
 
-            out.add(HomeUpdateRow.chartInfo(ciId, title, ownerNick, createdAt));
+            out.add(HomeUpdateRow.chartInfo(ciId, title, ownerId, ownerNick, createdAt));
         }
         return out;
     }

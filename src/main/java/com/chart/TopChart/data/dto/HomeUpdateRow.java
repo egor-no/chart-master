@@ -12,6 +12,7 @@ public class HomeUpdateRow {
 
     private final Integer userId;
     private final String userNickname;
+    private final Integer ownerId;
 
     private final Integer chartInfoId;
     private final String chartInfoTitle;
@@ -25,7 +26,7 @@ public class HomeUpdateRow {
                           Integer userId, String userNickname,
                           Integer chartInfoId, String chartInfoTitle,
                           Integer issueNumber, String chartDate,
-                          String ownerNickname,
+                          Integer ownerId, String ownerNickname,
                           String createdAtStr) {
 
         this.type = type;
@@ -36,6 +37,7 @@ public class HomeUpdateRow {
         this.chartInfoTitle = chartInfoTitle;
         this.issueNumber = issueNumber;
         this.chartDate = chartDate;
+        this.ownerId = ownerId;
         this.ownerNickname = ownerNickname;
         this.createdAtStr = createdAtStr;
     }
@@ -44,21 +46,53 @@ public class HomeUpdateRow {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static HomeUpdateRow user(int userId, String nickname, LocalDateTime createdAt) {
-        String s = (createdAt == null) ? "" : createdAt.format(DT);
-        return new HomeUpdateRow(Type.USER, createdAt,
-                userId, nickname, null, null, null, null, null, s);
+        String s = createdAt == null ? "" : createdAt.format(DT);
+        return new HomeUpdateRow(
+                Type.USER,
+                createdAt,
+                userId,
+                nickname,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                s
+        );
     }
 
-    public static HomeUpdateRow chartInfo(int ciId, String title, String ownerNickname, LocalDateTime createdAt) {
-        String s = (createdAt == null) ? "" : createdAt.format(DT);
-        return new HomeUpdateRow(Type.CHART_INFO, createdAt,
-                null, null, ciId, title, null, null, ownerNickname, s);
+    public static HomeUpdateRow chartInfo(int ciId, String title, int ownerId, String ownerNickname, LocalDateTime createdAt) {
+        String s = createdAt == null ? "" : createdAt.format(DT);
+        return new HomeUpdateRow(
+                Type.CHART_INFO,
+                createdAt,
+                null,
+                null,
+                ciId,
+                title,
+                null,
+                null,
+                ownerId,
+                ownerNickname,
+                s
+        );
     }
 
-    public static HomeUpdateRow issue(int ciId, String ciTitle, String ownerNickname,
-                                      Integer issueNumber, String chartDate, LocalDateTime sortTime) {
-        return new HomeUpdateRow(Type.CHART_ISSUE, sortTime,
-                null, null, ciId, ciTitle, issueNumber, chartDate, ownerNickname, null);
+    public static HomeUpdateRow issue(int ciId, String ciTitle, int ownerId, String ownerNickname, Integer issueNumber, String chartDate, LocalDateTime sortTime) {
+        return new HomeUpdateRow(
+                Type.CHART_ISSUE,
+                sortTime,
+                null,
+                null,
+                ciId,
+                ciTitle,
+                issueNumber,
+                chartDate,
+                ownerId,
+                ownerNickname,
+                null
+        );
     }
 
     public Type getType() { return type; }
@@ -75,5 +109,5 @@ public class HomeUpdateRow {
 
     public String getOwnerNickname() { return ownerNickname; }
     public String getCreatedAtStr() { return createdAtStr; }
-
+    public Integer getOwnerId() { return ownerId; }
 }

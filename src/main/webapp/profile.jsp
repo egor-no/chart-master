@@ -185,6 +185,12 @@
         .chart-delete-form{
             margin:0 0 0 6px;
         }
+
+        .chart-title-disabled {
+            color: #666;
+            font-weight: bold;
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -352,9 +358,25 @@
                             <div class="chart-card">
                                 <div class="chart-card-head">
                                     <div class="chart-card-title">
-                                        <a href="/chart?ci=${card.ci.id}">
-                                                ${fn:escapeXml(card.ci.title)}
-                                        </a>
+                                        <c:choose>
+                                            <c:when test="${card.lastIssues != null && card.lastIssues.size() > 0}">
+                                                <a href="${pageContext.request.contextPath}/chart?ci=${card.ci.id}">
+                                                        ${fn:escapeXml(card.ci.title)}
+                                                </a>
+                                            </c:when>
+
+                                            <c:when test="${isMine}">
+                                                <a href="${pageContext.request.contextPath}/chartadd?ci=${card.ci.id}&emptyChart=1">
+                                                        ${fn:escapeXml(card.ci.title)}
+                                                </a>
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                <span class="chart-title-disabled">
+                                                        ${fn:escapeXml(card.ci.title)}
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
 
                                         <c:if test="${isMine}">
                                             <a class="home-link"

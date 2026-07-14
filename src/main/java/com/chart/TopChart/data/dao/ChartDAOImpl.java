@@ -192,7 +192,7 @@ public class ChartDAOImpl {
         session.beginTransaction();
 
         Query q = session.createQuery(
-                "SELECT ci.id, ci.title, o.nickname, c.issueNumber, c.date " +
+                "SELECT ci.id, ci.title, o.id, o.nickname, c.issueNumber, c.date " +
                         "FROM Chart c " +
                         "JOIN c.info ci " +
                         "JOIN ci.owner o " +
@@ -209,9 +209,10 @@ public class ChartDAOImpl {
         for (Object[] r : rows) {
             Integer ciId = (Integer) r[0];
             String ciTitle = (String) r[1];
-            String ownerNick = (String) r[2];
-            Integer issueNumber = (Integer) r[3];
-            String chartDate = (String) r[4];
+            Integer ownerId = (Integer) r[2];
+            String ownerNick = (String) r[3];
+            Integer issueNumber = (Integer) r[4];
+            String chartDate = (String) r[5];
 
             LocalDateTime sortTime;
             try {
@@ -220,8 +221,7 @@ public class ChartDAOImpl {
                 sortTime = LocalDateTime.MIN;
             }
 
-            out.add(HomeUpdateRow.issue(ciId, ciTitle, ownerNick, issueNumber, chartDate, sortTime));
-        }
+            out.add(HomeUpdateRow.issue(ciId, ciTitle, ownerId, ownerNick, issueNumber, chartDate, sortTime));        }
         return out;
     }
 

@@ -131,10 +131,22 @@
                     <div class="home-box-head">Charts (featured)</div>
                     <div class="home-box-body">
                         <c:forEach items="${chartInfos}" var="ci" begin="0" end="9">
-                            <a class="side-link" href="/chart?ci=${ci.id}">
-                                    ${fn:escapeXml(ci.title)}
-                                <span class="muted">(${ci.issuesCount})</span>
-                            </a>
+                            <c:choose>
+                                <c:when test="${ci.issuesCount > 0}">
+                                    <a class="side-link"
+                                       href="${pageContext.request.contextPath}/chart?ci=${ci.id}">
+                                            ${fn:escapeXml(ci.title)}
+                                        <span class="muted">(${ci.issuesCount})</span>
+                                    </a>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <span class="side-link-disabled">
+                                        ${fn:escapeXml(ci.title)}
+                                        <span class="muted">(${ci.issuesCount})</span>
+                                    </span>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                         <div class="tiny muted" style="margin-top:8px;">
                             Full directory later...
@@ -212,10 +224,9 @@
                                                 <span class="muted tiny">#${u.issueNumber}</span>
                                             </c:when>
                                             <c:when test="${u.type == 'CHART_INFO'}">
-                                                <a class="home-link"
-                                                   href="/chart?ci=${u.chartInfoId}">
+                                                <span>
                                                         ${fn:escapeXml(u.chartInfoTitle)}
-                                                </a>
+                                                </span>
                                             </c:when>
                                             <c:otherwise>
                                                 <span class="muted">—</span>
@@ -228,12 +239,17 @@
                                         </c:if>
                                         <c:choose>
                                             <c:when test="${u.type == 'USER'}">
-                                                <a class="home-link" href="/profile?u=${u.userId}">
+                                                <a class="home-link"
+                                                   href="${pageContext.request.contextPath}/profile?u=${u.userId}">
                                                         ${fn:escapeXml(u.userNickname)}
                                                 </a>
                                             </c:when>
+
                                             <c:otherwise>
-                                                ${fn:escapeXml(u.ownerNickname)}
+                                                <a class="home-link"
+                                                   href="${pageContext.request.contextPath}/profile?u=${u.ownerId}">
+                                                        ${fn:escapeXml(u.ownerNickname)}
+                                                </a>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>

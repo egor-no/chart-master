@@ -273,3 +273,9 @@
     align-items: center;
     justify-content: center;
 }
+
+.side-link-disabled {
+    display: block;
+    color: #666;
+    cursor: default;
+}

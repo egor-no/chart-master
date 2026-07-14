@@ -1,11 +1,11 @@
 package com.chart.TopChart.servlet;
 
 import com.chart.TopChart.data.dao.ChartDAOImpl;
+import com.chart.TopChart.data.dao.ChartInfoDAOImpl;
 import com.chart.TopChart.data.dao.PositionDAOImpl;
 import com.chart.TopChart.data.dto.ChartFull;
 import com.chart.TopChart.data.model.Chart;
 import com.chart.TopChart.service.ChartService;
-import com.chart.TopChart.web.SessionKeys;
 import com.chart.TopChart.web.SessionUtil;
 
 
@@ -14,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "chart", value = "/chart")
@@ -58,7 +57,15 @@ public class ChartServlet extends HttpServlet {
         }
 
         if (chart == null) {
-            response.sendRedirect("/chartadd?ci=" + chartInfoId + "&emptyChart=1");
+            Integer userId = SessionUtil.getUserId(request);
+            boolean isOwner = userId != null && ChartInfoDAOImpl.isOwner(chartInfoId, userId);
+            if (isOwner) {
+                response.sendRedirect(request.getContextPath()
+                        + "/chartadd?ci=" + chartInfoId + "&emptyChart=1");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/");
+            }
+
             return;
         }
 
