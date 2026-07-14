@@ -359,6 +359,38 @@
         </div>
 
         <div class="share-modal-body">
+            <div class="share-template-preview">
+                <div class="share-preview-card preview-classic95"
+                     name="share-song-template-preview">
+
+                    <img class="share-preview-vinyl-image"
+                         src="${pageContext.request.contextPath}/images/share/vinyl.png"
+                         alt=""
+                         draggable="false">
+
+                    <div class="share-preview-classic-window">
+                        <div class="share-preview-classic-titlebar"
+                             name="share-preview-title">
+                            SONGINFO.EXE
+                        </div>
+
+                        <div class="share-preview-classic-content">
+                            <div class="share-preview-rank">#1</div>
+
+                            <div class="share-preview-track">
+                                <strong>ARTIST</strong>
+                                <span>Song title</span>
+                            </div>
+
+                            <div class="share-preview-movement"
+                                 name="share-preview-movement">
+                                +12
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="share-template-grid">
                 <label class="share-template-option">
                     <input type="radio"

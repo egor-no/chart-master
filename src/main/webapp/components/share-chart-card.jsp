@@ -6,6 +6,55 @@
         </div>
 
         <div class="share-modal-body">
+            <div class="share-template-preview">
+                <div class="share-preview-card chart-preview-card preview-classic95"
+                     name="share-chart-template-preview">
+
+                    <img class="share-preview-vinyl-image"
+                         src="${pageContext.request.contextPath}/images/share/vinyl.png"
+                         alt=""
+                         draggable="false">
+
+                    <div class="share-preview-classic-window">
+                        <div class="share-preview-classic-titlebar"
+                             name="share-chart-preview-title">
+                            TOP40.EXE
+                        </div>
+
+                        <div class="chart-preview-header">
+                            <strong>TOP40 CHART</strong>
+                            <span>Issue #123</span>
+                        </div>
+
+                        <div class="chart-preview-list">
+                            <div class="chart-preview-row">
+                                <span>1</span>
+                                <span>+3</span>
+                                <strong>ARTIST &mdash; Song title</strong>
+                            </div>
+
+                            <div class="chart-preview-row">
+                                <span>2</span>
+                                <span>NEW</span>
+                                <strong>ARTIST &mdash; Song title</strong>
+                            </div>
+
+                            <div class="chart-preview-row">
+                                <span>3</span>
+                                <span>-1</span>
+                                <strong>ARTIST &mdash; Song title</strong>
+                            </div>
+
+                            <div class="chart-preview-row">
+                                <span>4</span>
+                                <span>=</span>
+                                <strong>ARTIST &mdash; Song title</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="share-template-grid">
                 <label class="share-template-option">
                     <input type="radio" name="share-template" value="classic95" checked>
@@ -364,8 +413,20 @@
     $(document).ready(function () {
         $('[name="share-chart"]').on('click', function (e) {
             e.preventDefault();
+
+            var selectedTemplate =
+                $('[name="share-template"]:checked').val();
+
+            updateChartTemplatePreview(selectedTemplate);
+
             $('#share-modal').removeClass('no-display');
         });
+
+        $(document).on('change', '[name="share-template"]',
+            function () {
+                updateChartTemplatePreview($(this).val());
+            }
+        );
 
         $('[name="share-close"]').on('click', function () {
             $('#share-modal').addClass('no-display');
@@ -421,5 +482,40 @@
             ':' +
             String(sec).padStart(2, '0')
         );
+    }
+
+    function updateChartTemplatePreview(template) {
+        var preview = $('[name="share-chart-template-preview"]');
+        var title = preview.find('[name="share-chart-preview-title"]');
+
+        preview.removeClass(
+            'preview-classic95 ' +
+            'preview-magazine ' +
+            'preview-winamp ' +
+            'preview-vinyl'
+        );
+
+        preview.addClass('preview-' + template);
+
+        switch (template) {
+            case 'classic95':
+                title.text('TOP40.EXE');
+                break;
+
+            case 'magazine':
+                title.text('TOP40 CHART');
+                break;
+
+            case 'winamp':
+                title.text('TOP40 PLAYLIST');
+                break;
+
+            case 'vinyl':
+                title.text('VINYL COLLECTION');
+                break;
+
+            default:
+                title.text('');
+        }
     }
 </script>

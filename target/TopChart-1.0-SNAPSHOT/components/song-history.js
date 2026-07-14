@@ -24,6 +24,11 @@ $(document).ready(function() {
 
         currentShareSongData = getShareSongData(songDiv);
 
+        var selectedTemplate =
+            $('[name="share-song-template"]:checked').val();
+
+        updateSongTemplatePreview(selectedTemplate);
+
         $('#share-song-modal').removeClass('no-display');
     });
 
@@ -306,7 +311,56 @@ $(document).ready(function() {
             });
     }
 
+    $(document).on(
+        'change',
+        '[name="share-song-template"]',
+        function () {
+            updateSongTemplatePreview($(this).val());
+        }
+    );
+
 });
+
+function updateSongTemplatePreview(template) {
+    var preview = $('[name="share-song-template-preview"]');
+    var title = preview.find('[name="share-preview-title"]');
+    var movement = preview.find('[name="share-preview-movement"]');
+
+    preview.removeClass(
+        'preview-classic95 ' +
+        'preview-magazine ' +
+        'preview-winamp ' +
+        'preview-vinyl'
+    );
+
+    preview.addClass('preview-' + template);
+
+    switch (template) {
+        case 'classic95':
+            title.text('SONGINFO.EXE');
+            movement.text('+12');
+            break;
+
+        case 'magazine':
+            title.text('SONG SPOTLIGHT');
+            movement.text('+12');
+            break;
+
+        case 'winamp':
+            title.text('TOP40 SONG PLAYER');
+            movement.text('+12');
+            break;
+
+        case 'vinyl':
+            title.text('VINYL SINGLE');
+            movement.text('+12');
+            break;
+
+        default:
+            title.text('');
+            movement.text('');
+    }
+}
 
 function formatDate(date) {
     let year = date.getFullYear();
