@@ -1,6 +1,6 @@
 # TOP40 Chart Manager
 
-TOP40 Chart Manager is a Java web application for creating, managing and analyzing personal music charts. Users can publish weekly chart editions, browse song histories, track artist statistics and generate analytical reports based on chart performance.
+TOP40 Chart Manager is a Java web application for creating, managing and analyzing personal music charts. Publish weekly chart editions, browse song histories, track artist statistics, generate analytical reports, and export PNG cards to share your charts with other music enthusiasts on social media.
 
 ---
 
@@ -37,7 +37,7 @@ TOP40 Chart Manager is a Java web application for creating, managing and analyzi
 - Song and artist search
 - Built-in analytical reports
 - User accounts with separate chart collections
-- Export chart data for publication
+- Export charts and song cards as stylized PNG images
 - Retro Windows 95 inspired interface
 
 ---
@@ -91,6 +91,19 @@ Generate detailed statistics including:
 - Highest scoring songs
 - Date-based reports
 
+### 🖼️ Share Cards
+
+Generate high-quality PNG images for sharing top10 or individual songs.
+
+Four unique export styles are available:
+
+- Classic95 — inspired by classic Windows 95 applications
+- Magazine — clean editorial magazine layout
+- Winamp — nostalgic late-90s media player design
+- Vinyl — collectible vinyl single artwork
+
+Charts and songs can be exported directly from the browser with a single click and then shared on your socials. 
+
 ---
 
 ## 📸 Screenshots
@@ -102,6 +115,14 @@ Generate detailed statistics including:
 ### Song History
 
 ![Song History](docs/screenshots/song-history-in-chart.jpg)
+
+### Share Songs
+
+![Share Songs](docs/screenshots/share-song.JPG)
+
+### Additional PNG Card Styles
+
+![PNG Card Styles](docs/screenshots/chart-share-styles.jpg)
 
 ### Reports
 
