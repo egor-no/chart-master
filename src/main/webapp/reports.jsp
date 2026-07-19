@@ -124,7 +124,7 @@
             </div>
             <div class="report-card" id="longest-songs">
                 <h2>Longest on chart</h2>
-                <p>Топ песен, которые провели в чарте больше всех недель</p>
+                <p>Топ песен, которые провели больше всего недель в чарте, или в его частях: топ20 или топ10</p>
             </div>
             <div class="report-card" id="no1-songs">
                 <h2>Longest no1s</h2>
@@ -140,7 +140,7 @@
             </div>
             <div class="report-card" id="longest-semihits">
                 <h2>Longest Semihits</h2>
-                <p>Песни, которые так и не добрались до топ-20, но их сильная сторона это длительность пребывания в чарте.</p>
+                <p>Песни, которые так и не добрались до топ-20 или топ-10, но их сильная сторона это длительность пребывания в чарте.</p>
             </div>
             <div class="report-card" id="biggest-leaps">
                 <h2>Biggest Leaps</h2>

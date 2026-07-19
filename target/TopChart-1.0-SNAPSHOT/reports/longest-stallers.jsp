@@ -81,7 +81,6 @@
                                     <span class="currently-charting">CHARTING</span>
                                 </c:if>
                             </p>
-\\
                         </div>
                         <div class="flex1 flex-end data-end">
                             <p>${r[1]}</p>

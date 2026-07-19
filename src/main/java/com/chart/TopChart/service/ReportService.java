@@ -92,7 +92,7 @@ public class ReportService {
         return out;
     }
 
-    public static List<List<String>> getLongestSemihits(int chartInfoId) {
+    public static List<List<String>> getLongestSemihits(int chartInfoId, int peakLimit) {
         List<Object[]> rows = PositionDAOImpl.getSongPositionsRowsAllTime(chartInfoId);
 
         class Acc {
@@ -119,7 +119,10 @@ public class ReportService {
 
             if (songId == null || pos == null) continue;
 
-            Acc a = map.computeIfAbsent(songId, k -> new Acc(songId, artists, name));
+            Acc a = map.computeIfAbsent(
+                    songId,
+                    k -> new Acc(songId, artists, name)
+            );
 
             a.weeks++;
 
@@ -133,11 +136,12 @@ public class ReportService {
         for (Acc a : map.values()) {
             if (a.peak == null) continue;
 
-            if (a.peak <= 20) continue;
+            // Песня добралась до выбранного сегмента — исключаем её
+            if (a.peak <= peakLimit) continue;
 
             List<String> row = new ArrayList<>();
-            row.add(String.valueOf(a.weeks));   // [0]
-            row.add(String.valueOf(a.peak));    // [1]
+            row.add(String.valueOf(a.weeks));   // [0] недели в чарте
+            row.add(String.valueOf(a.peak));    // [1] пик
             row.add(a.artists);                 // [2]
             row.add(a.name);                    // [3]
             row.add(String.valueOf(a.songId));  // [4]
@@ -146,16 +150,22 @@ public class ReportService {
         }
 
         out.sort((x, y) -> {
-            int w1 = Integer.parseInt(x.get(0));
-            int w2 = Integer.parseInt(y.get(0));
-            if (w2 != w1) return w2 - w1;
+            int weeks1 = Integer.parseInt(x.get(0));
+            int weeks2 = Integer.parseInt(y.get(0));
 
-            int p1 = Integer.parseInt(x.get(1));
-            int p2 = Integer.parseInt(y.get(1));
-            return p1 - p2;
+            if (weeks2 != weeks1) {
+                return Integer.compare(weeks2, weeks1);
+            }
+
+            int peak1 = Integer.parseInt(x.get(1));
+            int peak2 = Integer.parseInt(y.get(1));
+
+            return Integer.compare(peak1, peak2);
         });
 
-        if (out.size() > 50) out.subList(50, out.size()).clear();
+        if (out.size() > 50) {
+            out.subList(50, out.size()).clear();
+        }
 
         return out;
     }

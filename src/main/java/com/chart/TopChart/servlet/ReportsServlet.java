@@ -35,10 +35,21 @@ public class ReportsServlet extends HttpServlet  {
             request.getRequestDispatcher("reports.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("longestSongs")) {
-            request.setAttribute("songs", SongDAOImpl.getLongestSongs(chartInfoId));
+            String range = request.getParameter("range");
+            if (!"top10".equalsIgnoreCase(range) && !"top20".equalsIgnoreCase(range) && !"top40".equalsIgnoreCase(range)) {
+                range = "top40";
+            }
+            int positionLimit;
+            switch (range.toLowerCase()) {
+                case "top10": positionLimit = 10;break;
+                case "top20": positionLimit = 20;break;
+                default: positionLimit = 40;break;
+            }
+
+            request.setAttribute("range", range);
+            request.setAttribute("songs", SongDAOImpl.getLongestSongs(chartInfoId, positionLimit));
             request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/longest-songs.jsp").forward(request, response);
-
         } else if (report.equalsIgnoreCase("no1Songs")) {
             request.setAttribute("songs", SongDAOImpl.getLongestNo1Songs(chartInfoId));
             request.setAttribute("currentNo1SongId", ReportService.getCurrentNo1SongId(chartInfoId));
@@ -103,10 +114,15 @@ public class ReportsServlet extends HttpServlet  {
             request.getRequestDispatcher("reports/longest-stallers.jsp").forward(request, response);
 
         } else if (report.equalsIgnoreCase("longestSemihits")) {
-            request.setAttribute("rows", ReportService.getLongestSemihits(chartInfoId));
+            String missed = request.getParameter("missed");
+            if (!"top10".equalsIgnoreCase(missed) && !"top20".equalsIgnoreCase(missed)) {
+                missed = "top20";
+            }
+            int peakLimit = "top10".equalsIgnoreCase(missed) ? 10 : 20;
+            request.setAttribute("missed", missed);
+            request.setAttribute("rows", ReportService.getLongestSemihits(chartInfoId, peakLimit));
             request.setAttribute("currentlyChartingSongs", ReportService.getCurrentlyChartingMap(chartInfoId));
             request.getRequestDispatcher("reports/longest-semihits.jsp").forward(request, response);
-
         } else if (report.equalsIgnoreCase("biggestLeaps")) {
             request.setAttribute("rows", PositionDAOImpl.getBiggestJumpsUp(chartInfoId));
             request.getRequestDispatcher("reports/biggest-leaps.jsp").forward(request, response);

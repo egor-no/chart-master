@@ -7,6 +7,37 @@
 <head>
     <title>TOP40 - Longest semihits</title>
     <jsp:include page="/components/head.jsp"/>
+    <style>
+        .report-filter-form {
+            margin: 10px 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .win95-select {
+            background: #eaeaea;
+            color: #282929;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #192428;
+            border-bottom: 2px solid #192428;
+            padding: 3px 24px 3px 6px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .win95-select:active,
+        .win95-select:focus {
+            border-top: 2px solid #192428;
+            border-left: 2px solid #192428;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+    </style>
+
     <script type="text/javascript"><%@include file="/components/song-history.js"%></script>
     <script type="text/javascript"><%@include file="/components/artistPicker.js"%></script>
     <script type="text/javascript">
@@ -30,9 +61,37 @@
             <h2>Longest Semihits</h2>
         </div>
         <div class="report-description">
-            <p>Песни, которые так и не добрались до топ-20, но их сильная сторона это длительность пребывания в чарте.</p>
+            <p>
+                Песни, которые так и не добрались
+                <c:choose>
+                    <c:when test="${missed == 'top10'}">
+                        до топ-10, но всё равно провели в чарте достаточно долго. Лидеры среди тех, кто не добрался до десятки.
+                    </c:when>
+                    <c:otherwise>
+                        до топ-20, но всё равно провели в чарте достаточно долго. Лидеры среди тех, кто не добрался до верхней половины.
+                    </c:otherwise>
+                </c:choose>
+            </p>
         </div>
+        <form method="get" action="/reports" class="report-filter-form">
+            <input type="hidden" name="report" value="longestSemihits">
 
+            <label for="missed">Failed to reach:</label>
+
+            <select id="missed"
+                    name="missed"
+                    class="win95-select"
+                    onchange="this.form.submit()">
+
+                <option value="top20" ${missed == 'top20' ? 'selected' : ''}>
+                    Top 20
+                </option>
+
+                <option value="top10" ${missed == 'top10' ? 'selected' : ''}>
+                    Top 10
+                </option>
+            </select>
+        </form>
         <div id="report-list">
             <div class="song-row">
                 <div class="flex1">
@@ -70,7 +129,7 @@
                         <div class="flex5">
                             <p>
                                     ${r[3]}
-                                <c:if test="${currentlyChartingSongs[song.id]}">
+                                <c:if test="${currentlyChartingSongs[r[4]]}">
                                     <span class="currently-charting">CHARTING</span>
                                 </c:if>
                             </p>

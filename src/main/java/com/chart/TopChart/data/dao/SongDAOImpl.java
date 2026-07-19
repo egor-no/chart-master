@@ -80,23 +80,37 @@ public class SongDAOImpl {
         return mapArtistSongRows(rows);
     }
 
-    public static List<Song> getLongestSongs(int chartInfoId) {
+    public static List<Object[]> getLongestSongs(int chartInfoId, int positionLimit) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        try {
+            Query query = session.createQuery(
+                    "SELECT COUNT(p.position) as segmentWeeks, " +
+                            "s.id, " +
+                            "s.peak, " +
+                            "s.weeks, " +
+                            "s.artists, " +
+                            "s.name " +
+                            "FROM Position p " +
+                            "JOIN p.pk.song s " +
+                            "WHERE p.pk.chart.info.id = :ci " +
+                            "AND p.position <= :positionLimit " +
+                            "GROUP BY s.id, s.peak, s.weeks, s.artists, s.name " +
+                            "ORDER BY segmentWeeks DESC, s.peak ASC, s.weeks DESC"
+            );
 
-        Query query = session.createQuery(
-                "SELECT DISTINCT s " +
-                        "FROM Position p " +
-                        "JOIN p.pk.song s " +
-                        "WHERE p.pk.chart.info.id = :ci " +
-                        "ORDER BY s.weeks DESC, s.peak ASC");
-        query.setInteger("ci", chartInfoId);
-        query.setMaxResults(50);
-
-        List<Song> list = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
+            query.setInteger("ci", chartInfoId);
+            query.setInteger("positionLimit", positionLimit);
+            query.setMaxResults(50);
+            List<Object[]> list = query.list();
+            session.getTransaction().commit();
+            return list;
+        } catch (RuntimeException e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     public static List getLongestNo1Songs(int chartInfoId) {
