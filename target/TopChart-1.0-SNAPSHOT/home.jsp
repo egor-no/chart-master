@@ -109,7 +109,7 @@
                 </div>
 
                 <!-- "Top users" (олдскул: просто первые N из списка) -->
-                <div class="home-box">
+                <div class="home-box users-featured-box">
                     <div class="home-box-head">Users (featured)</div>
                     <div class="home-box-body">
                         <c:forEach items="${users}" var="u" begin="0" end="7">
@@ -128,7 +128,7 @@
                 </div>
 
                 <!-- "Top chart infos" (олдскул: первые N) -->
-                <div class="home-box">
+                <div class="home-box charts-featured-box">
                     <div class="home-box-head">Charts (featured)</div>
                     <div class="home-box-body">
                         <c:forEach items="${chartInfos}" var="ci" begin="0" end="9">

@@ -1225,3 +1225,779 @@ input[type="submit"]:active, button:active, input[type="button"]:active {
                     transparent 20px
             );
 }
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
+.login-box{
+    width:520px;
+}
+
+.login-menu-title{
+    margin-bottom:5px;
+}
+
+.login-sub-header{
+    border:0;
+    padding:0;
+    margin-bottom:8px;
+}
+
+.login-title{
+    margin:0 0 8px 0;
+    color:#000;
+    font-size:16px;
+}
+
+.login-row{
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.login-row label{
+    width:120px;
+    font-weight:bold;
+}
+
+.login-row input[type="text"],
+.login-row input[type="password"]{
+    width:320px;
+}
+
+.login-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:12px;
+}
+
+.error-box{
+    margin:10px 0 0 0;
+    padding:8px 10px;
+
+    background:#fcfbdd;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+.error-box b{
+    color:#d80000;
+}
+
+.success-box{
+    margin:10px 0 0 0;
+    padding:8px 10px;
+
+    background:#e6ffea;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+.success-box b{
+    color:#0a7a2f;
+}
+
+.hint{
+    margin-top:6px;
+    color:#282929;
+    font-size:12px;
+}
+
+/* =========================================================
+   ARTIST SONGS PAGE
+   ========================================================= */
+
+.artist-stats-border{
+    width:620px;
+    border:0;
+    padding:0;
+    margin:6px 0 12px 0;
+}
+
+.artist-stats{
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content:space-evenly;
+
+    width:620px;
+
+    gap:10px;
+    padding:8px 10px;
+
+    background:#dce0e2;
+
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+}
+
+.artist-stat{
+    display:flex;
+    flex-flow:column;
+    align-items:center;
+
+    flex:1;
+
+    padding:6px 8px;
+
+    background:#eaeaea;
+
+    border-top:1px solid #fff;
+    border-left:1px solid #fff;
+    border-right:1px solid #192428;
+    border-bottom:1px solid #192428;
+}
+
+.artist-stat h3{
+    margin:0;
+
+    font-family:"Arial Black";
+    font-size:26px;
+    line-height:26px;
+
+    color:#000676;
+}
+
+.artist-stat p{
+    margin:3px 0 0;
+
+    color:#282929;
+    font-size:12px;
+}
+
+/* =========================================================
+   ADD NEW CHART PAGE
+   ========================================================= */
+
+#chart-create [name="num"]{
+    width:40px;
+    justify-content:center;
+    align-items:center;
+    display:flex;
+    font-weight:bold;
+    color:#282929;
+}
+
+#chart-create .song-row{
+    margin-bottom:3px;
+}
+
+#chart-create .new-song{
+    background:#fcfbdd;
+    box-shadow:inset 3px 0 0 #0000CC;
+}
+
+#chart-create .re-song{
+    background:#f6f6ff;
+    box-shadow:inset 3px 0 0 #76367a;
+}
+
+#chart-create .duplicate-song{
+    background:#ffd6d6;
+    box-shadow:inset 3px 0 0 #cc0000;
+}
+
+.chart-create-note{
+    background:#fcfbdd;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+
+    padding:10px 12px;
+    margin:10px 0 14px 0;
+
+    font-size:13px;
+    line-height:1.4;
+}
+
+.chart-create-separator{
+    width:30px;
+    text-align:center;
+}
+
+.chart-create-input{
+    width:100%;
+}
+
+.chart-create-actions{
+    text-align:center;
+}
+
+.chart-create-actions input{
+    margin-top:10px;
+}
+
+.ui-autocomplete{
+    max-width:520px;
+    width:auto !important;
+    box-sizing:border-box;
+    overflow-x:hidden;
+    z-index:9999;
+}
+
+.ui-autocomplete .ui-menu-item-wrapper{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ui-helper-hidden-accessible{
+    position:absolute !important;
+    left:-9999px !important;
+    width:1px !important;
+    height:1px !important;
+    overflow:hidden !important;
+}
+
+/* =========================================================
+   CHART INFO FORM
+   ========================================================= */
+
+.chart-info-main{
+    width:100%;
+}
+
+.profile-form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.profile-form-row{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.profile-label{
+    font-size:12px;
+    color:#334;
+}
+
+.profile-input,
+.profile-textarea{
+    width:100%;
+    padding:6px 8px;
+
+    background:#ffffff;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+
+    font-family:inherit;
+    font-size:13px;
+
+    box-sizing:border-box;
+}
+
+.profile-textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.profile-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:8px;
+}
+
+/* =========================================================
+   PROFILE DEACTIVATED
+   ========================================================= */
+
+.deactivate-main{
+    width:100%;
+}
+
+.center-box{
+    text-align:center;
+    padding:20px;
+}
+
+.big-text{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.actions{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.actions form{
+    margin:0;
+}
+
+.actions input[type="submit"],
+.actions input[type="button"]{
+    min-width:140px;
+    box-sizing:border-box;
+}
+
+/* =========================
+   PROFILE PAGE
+   ========================= */
+
+.profile-header{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+}
+
+.profile-avatar{
+    width:110px;
+    height:110px;
+    background:#ffffff;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:12px;
+}
+
+.profile-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:8px;
+}
+
+.chart-cards{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.chart-card{
+    background:#ffffff;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+
+    padding:10px 12px;
+}
+
+.chart-card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+
+    border-bottom:1px solid #192428;
+
+    padding-bottom:6px;
+    margin-bottom:8px;
+}
+
+.chart-card-title a{
+    color:#0000a8;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.chart-card-title a:hover{
+    text-decoration:underline;
+}
+
+.chart-card-meta{
+    font-size:12px;
+}
+
+.dates-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:6px;
+}
+
+.date-pill{
+    background:#dce0e2;
+
+    border-top:1px solid #fff;
+    border-left:1px solid #fff;
+    border-right:1px solid #192428;
+    border-bottom:1px solid #192428;
+
+    padding:2px 6px;
+    font-size:12px;
+}
+
+.card-actions{
+    margin-top:8px;
+
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.date-pill-link{
+    display:inline-block;
+    color:#0000a8;
+    text-decoration:none;
+}
+
+.date-pill-link:hover{
+    text-decoration:underline;
+}
+
+.date-pill-link:visited{
+    color:#76367a;
+}
+
+.danger-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.danger-actions form{
+    margin:0;
+}
+
+.danger-note{
+    line-height:1.4;
+}
+
+.inactive-badge{
+    color:#7a5a00;
+    font-size:12px;
+    margin-left:6px;
+}
+
+.inactive-warning{
+    background:#fcfbdd;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+
+    padding:10px 12px;
+    margin-bottom:12px;
+}
+
+.inactive-view{
+    opacity:0.55;
+    filter:grayscale(100%);
+}
+
+.inactive-view a,
+.inactive-view input,
+.inactive-view button{
+    pointer-events:none;
+}
+
+.danger-only{
+    display:none !important;
+}
+
+.danger-mode .danger-only{
+    display:inline-flex !important;
+}
+
+.danger-mode .home-titlebar{
+    background:#8b0000;
+}
+
+.danger-mode{
+    background:#b9b0a1;
+}
+
+.danger-mode .home-page,
+.danger-mode .home-box,
+.danger-mode .chart-card{
+    background:#fff0f0;
+}
+
+.danger-mode .home-page-head,
+.danger-mode .home-box-head{
+    color:#8b0000;
+}
+
+.danger-mode .danger-block{
+    background:#ffdcdc;
+}
+
+.danger-mode .chart-delete-form{
+    display:inline-flex !important;
+}
+
+.danger-toggle-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.chart-delete-form{
+    margin:0 0 0 6px;
+}
+
+.chart-title-disabled{
+    color:#666;
+    font-weight:bold;
+    cursor:default;
+}
+
+.profile-form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.profile-form-row{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.profile-label{
+    font-size:12px;
+    color:#334;
+}
+
+.profile-input,
+.profile-textarea{
+    width:100%;
+    padding:6px 8px;
+    background:#ffffff;
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    font-family:inherit;
+    font-size:13px;
+    box-sizing:border-box;
+}
+
+.profile-textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.error-text{
+    color:#8b0000;
+    font-size:12px;
+}
+
+.charts-edit-note{
+    background:#ffffff;
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    padding:10px 12px;
+}
+
+/* =========================
+   REPORTS INDEX
+   ========================= */
+
+.report-card{
+    width:330px;
+    height:auto;
+    background:#dce0e2;
+
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+
+    padding:8px 10px;
+    margin-bottom:10px;
+
+    cursor:pointer;
+}
+
+.report-card h2{
+    margin:0 0 6px 0;
+    font-size:16px;
+    color:#000;
+    border:0;
+}
+
+.report-card p{
+    margin:0;
+    font-size:12px;
+    color:#222;
+}
+
+.report-card:hover{
+    outline:1px dotted #000;
+    outline-offset:-3px;
+}
+
+.report-card:active{
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+.report-card:focus{
+    outline:1px dotted #000;
+    outline-offset:-3px;
+}
+
+[name="reports"]{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+/* =========================
+   REPORT FILTERS
+   ========================= */
+
+.report-filter-form{
+    margin:10px 0 14px 0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+}
+
+.win95-select{
+    background:#eaeaea;
+    color:#282929;
+
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+
+    padding:3px 24px 3px 6px;
+
+    font-family:Arial, sans-serif;
+    font-size:13px;
+    outline:none;
+}
+
+.win95-select:active,
+.win95-select:focus{
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+/* =========================
+   SHARE MODAL — WIN95
+   ========================= */
+
+.share-modal{
+    background:rgba(0,0,0,.25);
+}
+
+.share-modal-window{
+    background:#dce0e2;
+
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+}
+
+.share-modal .share-titlebar{
+    height:24px;
+    padding:2px 4px 2px 8px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-sizing:border-box;
+    background:#000676;
+    color:#fff;
+
+    font-family:Arial, sans-serif;
+    font-size:13px;
+    font-weight:bold;
+    line-height:1;
+}
+
+.share-modal .share-titlebar button{
+    min-width:22px;
+    height:20px;
+    padding:0;
+    line-height:16px;
+}
+
+.share-template-option{
+    background:#dce0e2;
+
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #192428;
+    border-bottom:2px solid #192428;
+}
+
+.share-template-option:hover{
+    outline:1px dotted #000;
+    outline-offset:-4px;
+}
+
+.share-template-option:has(input:checked){
+    background:#fcfbdd;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}
+
+.share-template-title{
+    margin:0 0 6px;
+    color:#000;
+    font-family:Arial, sans-serif;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.share-template-desc{
+    margin:0;
+    color:#222;
+    font-family:Arial, sans-serif;
+    font-size:12px;
+}
+
+.share-template-option:has(input:checked)
+.share-template-title::before{
+    content:"\2714 ";
+}
+
+.share-template-preview{
+    background:#b8bcbc;
+
+    border-top:2px solid #192428;
+    border-left:2px solid #192428;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+}

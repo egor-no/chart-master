@@ -3,56 +3,6 @@
 <head>
     <title>Title</title>
     <jsp:include page="components/head.jsp"/>
-    <style>
-    .report-card{
-        width: 330px;
-        height: auto;
-        background: #dce0e2;
-        border-top: 2px solid #fff;
-        border-left: 2px solid #fff;
-        border-right: 2px solid #192428;
-        border-bottom: 2px solid #192428;
-        padding: 8px 10px;
-        margin-bottom: 10px;
-        cursor: pointer;
-    }
-
-    .report-card h2{
-        margin:0 0 6px 0;
-        font-size: 16px;
-        color:#000;
-        border:0;
-    }
-
-    .report-card p{
-        margin:0;
-        font-size: 12px;
-        color:#222;
-    }
-
-    .report-card:hover{
-        outline: 1px dotted #000;
-        outline-offset: -3px;
-    }
-
-    .report-card:active{
-        border-top: 2px solid #192428;
-        border-left: 2px solid #192428;
-        border-right: 2px solid #fff;
-        border-bottom: 2px solid #fff;
-    }
-
-    .report-card:focus{
-        outline: 1px dotted #000;
-        outline-offset: -3px;
-    }
-
-    [name="reports"]{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    </style>
     <script type = "text/javascript" >
         $(document).ready(function() {
             $('#longest-songs').on('click', function () {

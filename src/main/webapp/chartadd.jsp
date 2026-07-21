@@ -7,69 +7,7 @@
     <title>TOP40 - Add new chart</title>
     <jsp:include page="components/head.jsp"/>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-    #chart-create [name="num"]{
-        width: 40px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        font-weight: bold;
-        color:#282929;
-    }
 
-    #chart-create .song-row{
-        margin-bottom: 3px;
-    }
-
-    #chart-create .new-song{
-        background:#fcfbdd;
-        box-shadow: inset 3px 0 0 #0000CC;
-    }
-
-    #chart-create .re-song{
-        background:#f6f6ff;
-        box-shadow: inset 3px 0 0 #76367a;
-    }
-
-    .ui-autocomplete {
-        max-width: 520px;
-        width: auto !important;
-        box-sizing: border-box;
-        overflow-x: hidden;
-        z-index: 9999;
-    }
-
-    .ui-autocomplete .ui-menu-item-wrapper {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .ui-helper-hidden-accessible {
-        position: absolute !important;
-        left: -9999px !important;
-        width: 1px !important;
-        height: 1px !important;
-        overflow: hidden !important;
-    }
-
-     .win95-note{
-         background:#fcfbdd;
-         border-top:2px solid #192428;
-         border-left:2px solid #192428;
-         border-right:2px solid #fff;
-         border-bottom:2px solid #fff;
-         padding:10px 12px;
-         margin:10px 0 14px 0;
-         font-size:13px;
-         line-height:1.4;
-     }
-
-    #chart-create .duplicate-song{
-        background:#ffd6d6;
-        box-shadow: inset 3px 0 0 #cc0000;
-    }
-    </style>
     <script type = "text/javascript" >
 
         function updateNum() {
@@ -260,45 +198,66 @@
     </div>
 
     <c:if test="${param.emptyChart == '1'}">
-        <div class="win95-note">
+        <div class="chart-create-note">
             This chart does not have any issues yet.<br/>
             Create the first issue to open the chart page.
         </div>
     </c:if>
 
-    <form method="POST" action="/chartadd">
+    <form method="POST"
+          action="${pageContext.request.contextPath}/chartadd">
+
         <div id="chart-create">
-            <div class="song-row">
+            <div class="song-row chart-create-header">
                 <div class="flex1 title">
                     No
                 </div>
+
                 <div class="flex9 title">
                     Artists
                 </div>
-                <div style="text-align:center; width: 30px;">
-                </div>
+
+                <div class="chart-create-separator"></div>
+
                 <div class="flex9 title">
                     Title
                 </div>
             </div>
+
             <div id="songs">
                 <c:forEach begin="1" end="40" var="val">
-                    <div id="song-row-draggable" class="song-row">
+                    <div class="song-row song-row-draggable">
                         <input type="hidden" name="idSong[]" />
                         <input type="hidden" name="prevInChart[]" value="0" />
                         <input type="hidden" name="prevWoc[]" value="0" />
-                        <div class="flex1 i-counter" name="num"><c:out value="${val}"/></div>
-                        <div class="flex9"><input style="width:100%;" name="artists[]" type="text" /></div>
-                        <div style="text-align:center; width: 30px;"> - </div>
-                        <div class="flex9"><input style="width:100%;" name="name[]" type="text" /></div>
+
+                        <div class="flex1 i-counter"
+                             name="num">
+                            <c:out value="${val}"/>
+                        </div>
+
+                        <div class="flex9">
+                            <input class="chart-create-input"
+                                   name="artists[]"
+                                   type="text" />
+                        </div>
+
+                        <div class="chart-create-separator">
+                            -
+                        </div>
+
+                        <div class="flex9">
+                            <input class="chart-create-input"
+                                   name="name[]"
+                                   type="text" />
+                        </div>
                     </div>
                 </c:forEach>
             </div>
 
-            <div style="text-align: center;">
-                <input style="margin-top:10px;" type="submit" value="Сохранить" />
+            <div class="chart-create-actions">
+                <input type="submit" value="Сохранить" />
             </div>
-
         </div>
     </form>
 </div>

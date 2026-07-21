@@ -7,36 +7,6 @@
     <jsp:include page="components/head.jsp"/>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/css/theme-${currentTheme}-home.css">
-
-    <style>
-        .center-box{
-            text-align:center;
-            padding:20px;
-        }
-
-        .big-text{
-            font-size:16px;
-            margin-bottom:10px;
-        }
-
-        .actions{
-            margin-top:15px;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:10px;
-        }
-
-        .actions form{
-            margin:0;
-        }
-
-        .actions input[type="submit"],
-        .actions input[type="button"]{
-            min-width:140px;
-            box-sizing:border-box;
-        }
-    </style>
 </head>
 
 <body class="home-body">
@@ -51,8 +21,7 @@
         </div>
 
         <div class="home-layout">
-            <div class="home-main" style="width:100%;">
-
+            <div class="home-main deactivate-main">
                 <div class="home-page">
                     <div class="home-page-head">
                         Status
@@ -73,8 +42,9 @@
                                 <input type="submit" value="Activate again"/>
                             </form>
 
-                            <input type="button" value="Home"
-                                   onclick="window.location.href='/'"/>
+                            <input type="button"
+                                   value="Home"
+                                   onclick="window.location.href='${pageContext.request.contextPath}/'"/>
 
                         </div>
 

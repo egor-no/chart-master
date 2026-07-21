@@ -8,53 +8,6 @@
     <jsp:include page="components/head.jsp"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-    #chart-create [name="num"]{
-        width: 40px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        font-weight: bold;
-        color:#282929;
-    }
-    #chart-create .song-row{ margin-bottom: 3px; }
-
-    #chart-create .new-song{
-        background:#fcfbdd;
-        box-shadow: inset 3px 0 0 #0000CC;
-    }
-    #chart-create .re-song{
-        background:#f6f6ff;
-        box-shadow: inset 3px 0 0 #76367a;
-    }
-
-    .ui-autocomplete {
-        max-width: 520px;
-        width: auto !important;
-        box-sizing: border-box;
-        overflow-x: hidden;
-        z-index: 9999;
-        font-size: 12px;
-    }
-
-    .ui-autocomplete .ui-menu-item-wrapper {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .ui-state-active{
-        background:#000676;
-        color:#fff;
-        margin: 0;
-        border: 0;
-    }
-
-    #chart-create .duplicate-song{
-        background:#ffd6d6;
-        box-shadow: inset 3px 0 0 #cc0000;
-    }
-    </style>
     <script type="text/javascript">
         function updateNum() {
             var num = 1;
@@ -247,42 +200,82 @@
             <jsp:param name="active" value="none"/>
         </jsp:include>
     </div>
-    <form method="POST" action="/chartedit">
-        <input name="chartNumber" type="text" value="${chart.issueNumber}" style="display: none;" />
+    <form method="POST"
+          action="${pageContext.request.contextPath}/chartedit">
+
+        <input name="chartNumber"
+               type="hidden"
+               value="${chart.issueNumber}" />
+
         <div id="chart-create">
-            <div class="song-row">
+
+            <div class="song-row chart-create-header">
                 <div class="flex1 title">
                     No
                 </div>
+
                 <div class="flex9 title">
                     Artists
                 </div>
-                <div style="text-align:center; width: 30px;">
-                </div>
+
+                <div class="chart-create-separator"></div>
+
                 <div class="flex9 title">
                     Title
                 </div>
             </div>
+
             <div id="songs">
                 <c:set var="num" value="1" />
-                <c:forEach items="${chart.positions}" var="position" >
-                    <div id="song-row-draggable" class="song-row">
-                        <input type="hidden" name="idSong[]" value="${position.pk.song.id}" />
-                        <input type="hidden" name="prevInChart[]" value="0" />
-                        <input type="hidden" name="prevWoc[]" value="0" />
 
-                        <div class="flex1 i-counter" name="num"><c:out value="${num}"/></div>
-                        <div class="flex9"><input style="width:100%;" name="artists[]" type="text" value="${position.pk.song.artists}"/></div>
-                        <div style="text-align:center; width: 30px;"> - </div>
-                        <div class="flex9"><input style="width:100%;" name="name[]" type="text" value="${position.pk.song.name}"/></div>
+                <c:forEach items="${chart.positions}" var="position">
+                    <div class="song-row song-row-draggable">
+
+                        <input type="hidden"
+                               name="idSong[]"
+                               value="${position.pk.song.id}" />
+
+                        <input type="hidden"
+                               name="prevInChart[]"
+                               value="0" />
+
+                        <input type="hidden"
+                               name="prevWoc[]"
+                               value="0" />
+
+                        <div class="flex1 i-counter"
+                             name="num">
+                            <c:out value="${num}"/>
+                        </div>
+
+                        <div class="flex9">
+                            <input class="chart-create-input"
+                                   name="artists[]"
+                                   type="text"
+                                   value="${position.pk.song.artists}" />
+                        </div>
+
+                        <div class="chart-create-separator">
+                            -
+                        </div>
+
+                        <div class="flex9">
+                            <input class="chart-create-input"
+                                   name="name[]"
+                                   type="text"
+                                   value="${position.pk.song.name}" />
+                        </div>
+
                     </div>
-                    <c:set var="num" value="${num+1}" />
+
+                    <c:set var="num" value="${num + 1}" />
                 </c:forEach>
             </div>
 
-            <div style="text-align: center;">
-                <input style="margin-top:10px;" type="submit" value="Сохранить" />
+            <div class="chart-create-actions">
+                <input type="submit" value="Сохранить" />
             </div>
+
         </div>
     </form>
 </div>

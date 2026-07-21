@@ -12,7 +12,7 @@
 
     <div class="nav">
         <jsp:include page="components/menu.jsp">
-            <jsp:param name="active" value="chart"/>
+            <jsp:param name="active" value="archive"/>
         </jsp:include>
     </div>
 
