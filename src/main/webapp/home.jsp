@@ -34,7 +34,8 @@
 <head>
     <title>TopChart — Portal</title>
     <jsp:include page="components/head.jsp"/>
-    <style><%@include file="/css/home.css"%></style>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/theme-${currentTheme}-home.css">
     <script type="text/javascript">
         $(document).ready(function() {
             $('#updates-table .upd-row').each(function () {
@@ -153,6 +154,8 @@
                         </div>
                     </div>
                 </div>
+
+                <jsp:include page="components/theme-switcher.jsp"/>
 
             </div>
 

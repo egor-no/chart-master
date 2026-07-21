@@ -9,4 +9,5 @@ public final class SessionKeys {
     public static final String CHART_AUTHOR_NAME = "chartAuthorName";
     public static final String OWNER_CI_ID = "ownerCiId";
     public static final String OWNER_FLAG  = "ownerFlag";
+    public static final String THEME = "theme";
 }

@@ -6,7 +6,8 @@
 <head>
     <title>TopChart — Edit Profile</title>
     <jsp:include page="components/head.jsp"/>
-    <style><%@include file="/css/home.css"%></style>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/theme-${currentTheme}-home.css">
     <style>
         .profile-header{
             display:flex;
@@ -124,6 +125,9 @@
                         </div>
                     </div>
                 </div>
+
+                <jsp:include page="components/theme-switcher.jsp"/>
+
             </div>
 
             <div class="home-main">

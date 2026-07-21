@@ -5,7 +5,8 @@
 <head>
     <title>TopChart — Profile</title>
     <jsp:include page="components/head.jsp"/>
-    <style><%@include file="/css/home.css"%></style>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/theme-${currentTheme}-home.css">
     <style>
         .profile-header{
             display:flex;
@@ -266,6 +267,9 @@
                         </div>
                     </div>
                 </div>
+                <c:if test="${isMine}">
+                    <jsp:include page="components/theme-switcher.jsp"/>
+                </c:if>
             </div>
 
             <div class="home-main">

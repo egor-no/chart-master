@@ -6,7 +6,8 @@
 <head>
     <title>TopChart — ${empty chartInfo ? 'Add chart' : 'Edit chart'}</title>
     <jsp:include page="components/head.jsp"/>
-    <style><%@include file="/css/home.css"%></style>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/css/theme-${currentTheme}-home.css">
     <style>
         .profile-form{
             display:flex;

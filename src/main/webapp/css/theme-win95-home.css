@@ -279,3 +279,37 @@
     color: #666;
     cursor: default;
 }
+
+.theme-caption{
+    margin-bottom:12px;
+    color:#282929;
+    font-size:12px;
+}
+
+.theme-options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.theme-option{
+    display:block;
+    color:#0000a8;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.theme-option:hover{
+    text-decoration:underline;
+}
+
+.theme-option.active{
+    font-weight:bold;
+    color:#0000a8;      /* остаётся синим, а не чёрным */
+}
+
+.theme-option-marker{
+    display:inline-block;
+    width:16px;
+    text-align:center;
+}
