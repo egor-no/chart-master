@@ -22,20 +22,6 @@
 
             let silentFill = false;
 
-            function clearDuplicateMark($row) {
-                $row.find('[name="num"]').removeClass('duplicate-song');
-            }
-
-            function markDuplicate($row) {
-                $row.find('[name="num"]').addClass('duplicate-song');
-            }
-
-            function clearMarks($row){
-                $row.find('[name="num"]').removeClass('new-song re-song');
-                $row.find('input[name="prevInChart[]"]').val('0');
-                $row.find('input[name="prevWoc[]"]').val('0');
-            }
-
             function markRow($row, songId){
                 clearMarks($row);
 
@@ -77,7 +63,7 @@
                         name: $row.find('[name="name[]"]').val()
                     };
 
-                    if (checkDuplicateSong(idSong, $row, $activeInput, oldValues)) {
+                    if (checkDuplicateSong(idSong, $row, $activeInput, oldValues, true)) {
                         silentFill = false;
                         return;
                     }
@@ -120,57 +106,7 @@
             });
             $('#songs').disableSelection();
 
-            $('form').on('submit', function(e) {
-                const usedIds = new Set();
-                const usedNewSongs = new Set();
-
-                let duplicateFound = false;
-                let emptyFound = false;
-
-                $('#songs .song-row').each(function() {
-                    const $row = $(this);
-                    const id = $row.find('input[name="idSong[]"]').val();
-                    const artists = $row.find('input[name="artists[]"]').val().trim();
-                    const title = $row.find('input[name="name[]"]').val().trim();
-
-                    clearDuplicateMark($row);
-
-                    if (artists === '' || title === '') {
-                        emptyFound = true;
-                        markDuplicate($row);
-                        return;
-                    }
-
-                    if (id) {
-                        if (usedIds.has(id)) {
-                            markDuplicate($row);
-                            duplicateFound = true;
-                        } else {
-                            usedIds.add(id);
-                        }
-                    } else {
-                        const newSongKey = (artists + ' - ' + title).toLowerCase();
-
-                        if (usedNewSongs.has(newSongKey)) {
-                            markDuplicate($row);
-                            duplicateFound = true;
-                        } else {
-                            usedNewSongs.add(newSongKey);
-                        }
-                    }
-                });
-
-                if (emptyFound) {
-                    e.preventDefault();
-                    alert('Все позиции чарта должны быть заполнены.');
-                    return;
-                }
-
-                if (duplicateFound) {
-                    e.preventDefault();
-                    alert('В чарте есть повторяющиеся песни. Удали дубль перед сохранением.');
-                }
-            });
+            initChartFormValidation();
         });
     </script>
 </head>
