@@ -6,16 +6,11 @@
 <head>
     <title>TOP40 - Edit your last chart</title>
     <jsp:include page="components/head.jsp"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="${pageContext.request.contextPath}/components/chart-editor.js"></script>
+    <style><%@include file="/css/share.css"%></style>
+
     <script type="text/javascript">
-        function updateNum() {
-            var num = 1;
-            $('#songs .song-row').each(function() {
-                $(this).find('[name="num"]').html(num);
-                num++;
-            });
-        }
 
         $(document).ready(function() {
 
@@ -30,24 +25,6 @@
             </c:if>
 
             let silentFill = false;
-
-            function getDuplicateSongRows(songId, $currentRow) {
-                songId = String(songId);
-
-                return $('#songs .song-row').filter(function () {
-                    const $row = $(this);
-
-                    if ($row.is($currentRow)) {
-                        return false;
-                    }
-
-                    return String($row.find('input[name="idSong[]"]').val()) === songId;
-                });
-            }
-
-            function hasDuplicateSong(songId, $currentRow) {
-                return getDuplicateSongRows(songId, $currentRow).length > 0;
-            }
 
             function clearDuplicateMark($row) {
                 $row.find('[name="num"]').removeClass('duplicate-song');
@@ -97,18 +74,16 @@
                     silentFill = true;
 
                     const $row = $(this).closest('.song-row');
+                    const $activeInput = $(this);
                     const idSong = ui.item.value.id;
 
-                    if (hasDuplicateSong(idSong, $row)) {
-                        alert('Эта песня уже есть в чарте.');
+                    const oldValues = {
+                        id: $row.find('input[name="idSong[]"]').val(),
+                        artists: $row.find('[name="artists[]"]').val(),
+                        name: $row.find('[name="name[]"]').val()
+                    };
 
-                        $row.find('input[name="idSong[]"]').val('');
-                        $row.find('[name="artists[]"]').val('');
-                        $row.find('[name="name[]"]').val('');
-
-                        clearMarks($row);
-                        markDuplicate($row);
-
+                    if (checkDuplicateSong(idSong, $row, $activeInput, oldValues)) {
                         silentFill = false;
                         return;
                     }
@@ -122,6 +97,7 @@
                     silentFill = false;
 
                     markRow($row, idSong);
+                    checkArtistLimit(ui.item.value.artists, $row, oldValues);
                 }
             });
 
@@ -129,10 +105,35 @@
                 if (silentFill) return;
 
                 const $row = $(this).closest('.song-row');
+
                 $row.find('input[name="idSong[]"]').val('');
                 clearMarks($row);
                 clearDuplicateMark($row);
                 $row.find('[name="num"]').addClass('new-song');
+
+                if ($(this).attr('name') === 'artists[]') {
+                    const artists = $(this).val().trim();
+
+                    if ($(this).attr('name') === 'artists[]') {
+                        const artists = $(this).val().trim();
+
+                        if (artists !== '') {
+                            checkArtistLimit(artists, $row, $row.data('oldValues'));
+                        }
+                    }
+                }
+            });
+
+            $('[name="artists[]"], [name="name[]"]').on('focus', function() {
+                const $row = $(this).closest('.song-row');
+
+                if (!$row.data('oldValues')) {
+                    $row.data('oldValues', {
+                        id: $row.find('input[name="idSong[]"]').val(),
+                        artists: $row.find('[name="artists[]"]').val(),
+                        name: $row.find('[name="name[]"]').val()
+                    });
+                }
             });
 
             $('#songs').sortable({ update: updateNum });
@@ -279,5 +280,7 @@
         </div>
     </form>
 </div>
+<jsp:include page="components/artist-limit-modal.jsp"/>
+<jsp:include page="components/duplicate-song-modal.jsp"/>
 </body>
 </html>
