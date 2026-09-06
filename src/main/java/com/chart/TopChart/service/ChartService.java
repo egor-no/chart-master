@@ -159,40 +159,95 @@ public class ChartService {
         return DateUtil.formatDateForSQL(cal.getTime());
     }
 
-    public static boolean deleteChart(int issueNumber, int chartInfoId) {
-        if (issueNumber != ChartDAOImpl.getLastIssueNumber(chartInfoId)) return false;
+    public static boolean deleteChart(int issueNumber, int chartInfoId, String[] newChartSongIds) {
+
+        if (issueNumber != ChartDAOImpl.getLastIssueNumber(chartInfoId)) {
+            return false;
+        }
 
         try {
             Chart chart = ChartDAOImpl.getByIssueNumber(chartInfoId, issueNumber);
-            if (chart == null || chart.getPositions() == null) return false;
+            if (chart == null || chart.getPositions() == null) {
+                return false;
+            }
 
             Set<Long> songIds = new HashSet<>();
             for (Position p : chart.getPositions()) {
-                if (p != null && p.getPk() != null && p.getPk().getSong() != null) {
+                if (p != null
+                        && p.getPk() != null
+                        && p.getPk().getSong() != null) {
+
                     songIds.add(p.getPk().getSong().getId());
                 }
             }
 
-            ChartDAOImpl.delete(chartInfoId, issueNumber);
-
-            for (Long songId : songIds) {
-                List<Position> remaining = PositionDAOImpl.getPositionsForSong(chartInfoId, songId);
-
-                Song song = SongDAOImpl.getById(songId);
-                if (song == null) continue;
-                song.setWeeks(remaining.size());
-                if (remaining.isEmpty()) {
-                    song.setPeak(41);
-                } else {
-                    int minPos = Integer.MAX_VALUE;
-                    for (Position rp : remaining) {
-                        if (rp.getPosition() < minPos) minPos = rp.getPosition();
+            // ID песен, которые остались в новой версии чарта
+            Set<Long> keptSongIds = new HashSet<>();
+            if (newChartSongIds != null) {
+                for (String idStr : newChartSongIds) {
+                    if (idStr == null || idStr.trim().isEmpty()) {
+                        continue;
                     }
-                    song.setPeak(minPos);
+                    try {
+                        keptSongIds.add(Long.parseLong(idStr));
+                    } catch (NumberFormatException ignored) {
+                        // пустой/новый Song без существующего id
+                    }
                 }
-                SongDAOImpl.update(song);
             }
 
+            // удаляем старую версию чарта
+            ChartDAOImpl.delete(chartInfoId, issueNumber);
+            for (Long songId : songIds) {
+                List<Position> remaining = PositionDAOImpl.getPositionsForSong(chartInfoId, songId);
+                Song song = SongDAOImpl.getById(songId);
+                if (song == null) {
+                    continue;
+                }
+
+                /*
+                 * У песни больше вообще нет попаданий в чарты.
+                 */
+                if (remaining.isEmpty()) {
+
+                    /*
+                     * Она осталась в редактируемом чарте.
+                     *
+                     * Пока оставляем Song живой.
+                     * formChart() через несколько строк снова
+                     * создаст ей Position и увеличит weeks с 0 до 1.
+                     */
+                    if (keptSongIds.contains(songId)) {
+                        song.setWeeks(0);
+                        song.setPeak(41);
+                        SongDAOImpl.update(song);
+                    }
+
+                    /*
+                     * Песня исчезла и из истории, и из новой
+                     * версии чарта -> удаляем её полностью.
+                     */
+                    else {
+                        SongDAOImpl.delete(songId);
+                    }
+
+                    continue;
+                }
+
+                /*
+                 * У песни остались старые попадания,
+                 * поэтому просто пересчитываем статистику.
+                 */
+                song.setWeeks(remaining.size());
+                int minPos = Integer.MAX_VALUE;
+                for (Position rp : remaining) {
+                    if (rp.getPosition() < minPos) {
+                        minPos = rp.getPosition();
+                    }
+                }
+                song.setPeak(minPos);
+                SongDAOImpl.update(song);
+            }
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();

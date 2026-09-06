@@ -52,6 +52,7 @@ public class ChartEditServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         Integer chartNumber = Integer.parseInt(request.getParameter("chartNumber"));
+
         try {
             AuthUtil.requireOwnedChart(request, chartNumber);
         } catch (AuthUtil.ForbiddenException ex) {
@@ -60,15 +61,17 @@ public class ChartEditServlet extends HttpServlet {
                     true);
             return;
         }
-        int chartInfoId = SessionUtil.requireChartInfoId(request);
-        if (ChartService.deleteChart(chartNumber, chartInfoId)) {
-            String ids[] = request.getParameterValues("idSong[]");
-            String artists[] = request.getParameterValues("artists[]");
-            String name[] = request.getParameterValues("name[]");
 
+        int chartInfoId = SessionUtil.requireChartInfoId(request);
+
+        String[] ids = request.getParameterValues("idSong[]");
+        String[] artists = request.getParameterValues("artists[]");
+        String[] name = request.getParameterValues("name[]");
+
+        if (ChartService.deleteChart(chartNumber, chartInfoId, ids)) {
             ChartService.formChart(chartInfoId, ids, name, artists);
         } else {
-            System.out.println("******************** not deleted charNumber " + chartNumber);
+            System.out.println("******************** not deleted chartNumber " + chartNumber);
         }
 
         response.sendRedirect("/chart");

@@ -329,12 +329,12 @@ public class SongDAOImpl {
         session.close();
     }
 
-    public static void delete(int id){
+    public static void delete(long id){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query=session.createQuery("FROM Song " +
                 "WHERE id = :id");
-        query.setInteger("id",id);
+        query.setLong("id",id);
         Song result = (Song) query.uniqueResult();
         session.delete(result);
         session.getTransaction().commit();
