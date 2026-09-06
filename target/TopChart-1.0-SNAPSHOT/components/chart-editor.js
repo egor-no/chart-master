@@ -50,6 +50,88 @@ function checkDuplicateSong(songId, $row, $activeInput, oldValues,  reopenAutoco
     return true;
 }
 
+function normalizeSongText(value) {
+    return (value || '')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .toLowerCase();
+}
+
+function findExistingSong(artists, title, songs) {
+    const normalizedArtists = normalizeSongText(artists);
+    const normalizedTitle = normalizeSongText(title);
+
+    return songs.find(function(song) {
+        return normalizeSongText(song.artists) === normalizedArtists
+            && normalizeSongText(song.name) === normalizedTitle;
+    });
+}
+
+function checkExistingSong($row, songs, markRow) {
+    const id = $row.find('input[name="idSong[]"]').val();
+
+    if (id) {
+        return;
+    }
+
+    const artists = $row.find('[name="artists[]"]').val().trim();
+    const title = $row.find('[name="name[]"]').val().trim();
+
+    if (!artists || !title) {
+        return;
+    }
+
+    const songKey = normalizeSongText(artists) + '|' + normalizeSongText(title);
+
+    if ($row.data('createNewSongKey') === songKey) {
+        return;
+    }
+
+    const existingSong = findExistingSong(
+        artists,
+        title,
+        songs
+    );
+
+    if (!existingSong) {
+        return;
+    }
+
+    showExistingSongModal(
+        existingSong,
+        function() {
+            $row.removeData('createNewSongKey');
+            $row.find('input[name="idSong[]"]').val(existingSong.id);
+            $row.find('[name="artists[]"]').val(existingSong.artists);
+            $row.find('[name="name[]"]').val(existingSong.name);
+            $row.find('[name="num"]').removeClass('new-song');
+            if (markRow) {
+                markRow($row, existingSong.id);
+            }
+
+            if (hasDuplicateSong(existingSong.id, $row)) {
+                $row.find('[name="num"]').addClass('duplicate-song');
+                showDuplicateSongModal(function() {
+                    $row.find('input[name="idSong[]"]').val('');
+                    $row.find('[name="artists[]"]').val(artists);
+                    $row.find('[name="name[]"]').val(title);
+                    $row.find('[name="num"]').addClass('new-song');
+                });
+                return;
+            }
+        },
+
+        // CREATE NEW
+        function() {
+            $row.data('createNewSongKey', songKey);
+
+            $row.find('input[name="idSong[]"]').val('');
+            $row.find('[name="num"]').addClass('new-song');
+        }
+    );
+}
+
+
 function clearDuplicateMark($row) {
     $row.find('[name="num"]').removeClass('duplicate-song');
 }

@@ -94,6 +94,7 @@
                 if (silentFill) return;
 
                 const $row = $(this).closest('.song-row');
+                $row.removeData('createNewSongKey');
 
                 $row.find('input[name="idSong[]"]').val('');
                 clearMarks($row);
@@ -128,6 +129,18 @@
                         name: $row.find('[name="name[]"]').val()
                     });
                 }
+            });
+
+            $('[name="artists[]"], [name="name[]"]').on('blur', function() {
+                const $row = $(this).closest('.song-row');
+
+                setTimeout(function() {
+                    checkExistingSong(
+                        $row,
+                        songs,
+                        markRow
+                    );
+                }, 100);
             });
 
             $('#songs').sortable({ update: updateNum });
@@ -226,5 +239,6 @@
 </div>
 <jsp:include page="components/artist-limit-modal.jsp"/>
 <jsp:include page="components/duplicate-song-modal.jsp"/>
+<jsp:include page="components/existing-song-modal.jsp"/>
 </body>
 </html>
